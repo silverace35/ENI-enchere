@@ -8,10 +8,10 @@
 </head>
 <body>
 	<nav>	
-		<a href="index.jsp">ENI-Enchères</a>
+		<a href="profil.jsp">ENI-Enchères</a>
 	</nav>
 	
-	<form action="<%=request.getContextPath()%>/ServletAjoutUtilisateur" method="POST">
+	<form action="<%=request.getContextPath()%>/ServletConnexion" method="POST">
 		<label for="identifiant">Identifiant</label>
 		<input id="identifiant" name="identifiant" type="text">
 		
