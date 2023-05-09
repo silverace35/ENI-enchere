@@ -1,0 +1,131 @@
+nav ul {
+	width: 20%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+nav a {
+	color: var(--white);
+	text-decoration: none;
+	transition: all 200ms;
+}
+
+nav a:hover {
+	text-decoration : underline;
+	color: var(--yellow);
+}
+
+h2 {
+    font-size: 3rem;
+    text-align: center;
+    color: var(--white);
+    padding-bottom: 30px;
+}
+
+form {
+    display: flex;
+    background: var(--white);
+    justify-content: space-around;
+    align-items: center;
+    width: 70%;
+    margin: 0 auto;
+    height: 100px;
+    border-radius: 50px;
+    padding: 30px 15px;
+}
+
+input[type="search"] {
+	border-radius: 30px;
+	padding: 10px;
+	border: none;
+	width: 100%;
+	outline: none;
+}
+
+.search-container {
+	width: 35%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: row;
+}
+
+label {
+	color: var(--grey);
+	font-size: 0.7rem;
+	padding-bottom: 3px;
+}
+
+.select-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	width: 16%;
+}
+
+select {
+	background-color: transparent;
+	border: none;
+	outline: none;
+}
+
+.icon {
+	height: 25px;
+	padding-right: 5px;
+}
+
+/* tablette */
+@media screen and (max-width: 900px) {
+	nav ul {
+		width: 30%;
+	}
+	
+	form {
+		width: 90%;
+	}
+}
+
+/* mobile */
+@media screen and (max-width: 600px) {
+	nav ul {
+		width: 50%;
+		flex-direction: column;
+		text-align: end;
+	}
+	
+	form {
+		flex-direction : column;
+		min-height: 30vh;
+		justify-content: space-around;
+		padding: 20px;
+	}
+	
+	
+	.select-container {
+		width: 100%;
+		flex-direction: row;
+	}
+	
+	button {
+		width: 100%;
+	}
+	
+	.search-container {
+		width: 100%;
+		flex-direction: row;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -24,7 +24,7 @@
 	<p><%=u.getCredit() %></p>
 	<p><%=u.getAdministrateur() %></p>
 	
-	<a href="/UpdateProfil">Modifier</a>
+	<a class="link" href="/UpdateProfil">Modifier</a>
 	
 </body>
 </html>

@@ -28,7 +28,7 @@ public class ServletConnexion extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher rd = request.getRequestDispatcher("/connexion.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/connexion.jsp");
 		rd.forward(request, response);
 	}
 
@@ -40,8 +40,6 @@ public class ServletConnexion extends HttpServlet {
 			// identifiant peut soit etre le pseudo soit le mail
 			String idUser = request.getParameter("identifiant");
 	        String pwdUser = request.getParameter("motDePasse");
-	        System.out.println("id : " + idUser);
-	        System.out.println("mot de passe : " + pwdUser);
 	        //TODO : gerer les erreurs d'entrées utilisateur
 	        //TODO : lors de l'afffichage de la page profil.jsp : si ne s'est pas deja connecté
 	        // => redirection vers index.jsp
