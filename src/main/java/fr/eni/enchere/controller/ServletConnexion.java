@@ -49,7 +49,7 @@ public class ServletConnexion extends HttpServlet {
 	            //TODO utiliser la BLL pour vérifier la validité des identifiants
 	        	//SI VALID : httpSession.setAttribute("IdUser", idUser);
 	            // TODO : créer cookie pour se souvenir de moi
-	            RequestDispatcher rd = request.getRequestDispatcher("/profil.jsp");
+	            RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/profil.jsp");
 	    		rd.forward(request, response);
 	        } else {
 	        	throw new Exception("Identifiant ou mot de passe invalide");

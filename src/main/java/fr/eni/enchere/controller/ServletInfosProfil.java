@@ -34,7 +34,7 @@ public class ServletInfosProfil extends HttpServlet {
 		
 		Utilisateur utilisateur = null;
 		
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/profilUtilisateur.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/profilUtilisateur.jsp");
 		
 		//Je verifie que la session n'est pas null
 		if (session != null) {
