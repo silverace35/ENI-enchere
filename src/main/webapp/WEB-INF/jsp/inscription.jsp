@@ -21,59 +21,59 @@
 	            placeholder="Obligatoire" />
             </div>
             <div>
-            	<label for="pseudo">Nom : </label>
+            	<label for="nom">Nom : </label>
 	            <input type="text" id="nom" name="nom" minlength="2" maxlength="30" required 
 	            placeholder="Obligatoire" />
             </div>
             <div>
-            	<label for="pseudo">Prénom : </label>
+            	<label for="prenom">Prénom : </label>
 	            <input type="text" id="prenom" name="prenom" minlength="2" maxlength="30" required 
 	            placeholder="Obligatoire" />
             </div>
             <div>
-            	<label for="pseudo">Email : </label>
+            	<label for="email">Email : </label>
 	            <input type="text" id="email" name="email" minlength="6" maxlength="50" required 
 	            placeholder="Obligatoire" />
             </div>
             <div>
-            	<label for="pseudo">Téléphone : </label>
-	            <input type="text" id="telephone" name="telephone" minlength="10" maxlength="15" required 
+            	<label for="tel">Téléphone : </label>
+	            <input type="text" id="tel" name="tel" minlength="10" maxlength="15" required 
 	            placeholder="Obligatoire" />
             </div>
              <div>
              	
-             	<label for="pseudo">Rue : </label>
+             	<label for="rue">Rue : </label>
 	            <input type="text" id="rue" name="rue" minlength="10" maxlength="30" required 
 	            placeholder="Obligatoire" />
             </div>
             <div>
-            	<label for="pseudo">Code Postal : </label>
-	            <input type="text" id="code_postal" name="code_postal" minlength="5" maxlength="10" required 
+            	<label for="codePostal">Code Postal : </label>
+	            <input type="text" id="codePostal" name="codePostal" minlength="5" maxlength="10" required 
 	            placeholder="Obligatoire" />
             </div>
             <div>
-            	<label for="pseudo">Ville : </label>
+            	<label for="ville">Ville : </label>
 	            <input type="text" id="ville" name="ville" minlength="2" maxlength="50" required 
 	            placeholder="Obligatoire" />
             </div>
             <div>
-            	<label for="pseudo">Mot de passe : </label>
-	            <input type="password" id="mdp" name="mdp" minlength="8" maxlength="30" required 
+            	<label for="motDePasse">Mot de passe : </label>
+	            <input type="password" id="motDePasse" name="motDePasse" minlength="8" maxlength="30" required 
 	            placeholder="Obligatoire" />
             </div>
             <div>
-            	<label for="pseudo">Confirmation : </label>
-	            <input type="password" id="mdp_confirm" name="mdp_confirm" minlength="8" maxlength="30" required 
+            	<label for="confMotDePasse">Confirmation : </label>
+	            <input type="password" id="confMotDePasse" name="confMotDePasse" minlength="8" maxlength="30" required 
 	            placeholder="Obligatoire" />
             </div>
             <Button class="" type="submit">Créer
 				</button>
         </form>
             	
-				
+			<form class="" action="ServletConnexion" method="GET">
 				<Button class="" type="">Annuler
 				</button>
-            
+             </form>
 
 </body>
 </html>

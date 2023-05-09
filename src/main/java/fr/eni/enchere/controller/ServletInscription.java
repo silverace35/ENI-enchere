@@ -43,8 +43,6 @@ public class ServletInscription extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO FAIRE TOUS LES TESTS FORMAT MAIL ETC.
-		// TODO Remplir les champs si l'insertion n'est pas ok
 
 		request.setCharacterEncoding("UTF-8");
 		UtilisateurManager mgr = new UtilisateurManager();
@@ -53,32 +51,38 @@ public class ServletInscription extends HttpServlet {
 		String nom = request.getParameter("nom");
 		String prenom = request.getParameter("prenom");
 		String email = request.getParameter("email");
-		String telephone = request.getParameter("telephone");
+		String tel = request.getParameter("tel");
 		String rue = request.getParameter("rue");
-		String codepostal = request.getParameter("code_postal");
+		String codePostal = request.getParameter("codePostal");
 		String ville = request.getParameter("ville");
-		String mdp = request.getParameter("mdp");
-		String mdpConfirm = request.getParameter("mdp_confirm");
+		String pwdUser = request.getParameter("motDePasse");
+		String confpwdUser = request.getParameter("confMotDePasse");
 		
-		if (mdp.equals(mdpConfirm)) {
+		
+		if (validerChamps() && pwdUser.equals(confpwdUser)) {
 		
 			try {
-				Utilisateur u = mgr.insert(pseudo, nom, prenom, email, telephone, rue, codepostal, ville, mdp, 100);
+				Utilisateur u = mgr.insert(pseudo, nom, prenom, email, tel, rue, codePostal, ville, confpwdUser, 100);
 				System.out.println(u);
 				request.setAttribute("utilisateur", u);
 				RequestDispatcher rd = request.getRequestDispatcher("ServletProfil");
-				// Affichage effectif par délégation
 				rd.forward(request, response);
 				
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		
 		} else {
+			//TODO highlight erreurs champs & remettre les champs bons
 			
 		}
 			
 	}
+	
+	//TODO valider tous les champs NOT NULL & REGEX
+	public boolean validerChamps() {
+		return true;
+	}
+	
 
 }
