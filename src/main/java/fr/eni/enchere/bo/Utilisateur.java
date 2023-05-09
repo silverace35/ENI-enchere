@@ -14,7 +14,7 @@ public class Utilisateur implements Serializable {
 	private String email;
 	private String telephone;
 	private String rue;
-	private Integer codePostal;
+	private String codePostal;
 	private String ville;
 	private String motDePasse;
 	private Integer credit;
@@ -24,7 +24,7 @@ public class Utilisateur implements Serializable {
 	}
 
 	public Utilisateur(Integer noUtilisateur, String pseudo, String nom, String prenom, String email, String telephone,
-			String rue, Integer codePostal, String ville, String motDePasse, Integer credit, Boolean administrateur) {
+			String rue, String codePostal, String ville, String motDePasse, Integer credit, Boolean administrateur) {
 		super();
 		this.noUtilisateur = noUtilisateur;
 		this.pseudo = pseudo;
@@ -41,7 +41,7 @@ public class Utilisateur implements Serializable {
 	}
 
 	public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone, String rue,
-			Integer codePostal, String ville, String motDePasse, Integer credit, Boolean administrateur) {
+			String codePostal, String ville, String motDePasse, Integer credit, Boolean administrateur) {
 		super();
 		this.pseudo = pseudo;
 		this.nom = nom;
@@ -54,14 +54,6 @@ public class Utilisateur implements Serializable {
 		this.motDePasse = motDePasse;
 		this.credit = credit;
 		this.administrateur = administrateur;
-	}
-
-	public Utilisateur(String pseudo, String email, String motDePasse) {
-		super();
-		this.pseudo = pseudo;
-		this.email = email;
-		this.motDePasse = motDePasse;
-		this.credit = 0;
 	}
 
 	public Integer getNoUtilisateur() {
@@ -120,11 +112,11 @@ public class Utilisateur implements Serializable {
 		this.rue = rue;
 	}
 
-	public Integer getCodePostal() {
+	public String getCodePostal() {
 		return codePostal;
 	}
 
-	public void setCodePostal(Integer codePostal) {
+	public void setCodePostal(String codePostal) {
 		this.codePostal = codePostal;
 	}
 
