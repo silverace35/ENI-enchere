@@ -10,6 +10,7 @@
 <title>Profil | ENI-enchere</title>
 </head>
 <body>
+<%@ include file="navigation.jsp" %>
 <h1>Profil de l'utilisateur</h1>
 	<%
 	Utilisateur u = (Utilisateur) request.getAttribute("utilisateur");
@@ -27,7 +28,7 @@
 	<p><%=u.getCredit()%></p>
 	<p><%=u.getAdministrateur()%></p>
 
-	<a class="link" href="/ServletModifierProfil">Modifier</a>
+	<a class="secondary-link" href="/ENI-enchere/ServletModifierProfil">Modifier</a>
 
 </body>
 </html>

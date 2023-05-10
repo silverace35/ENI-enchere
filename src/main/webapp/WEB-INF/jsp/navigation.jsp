@@ -12,7 +12,7 @@
 			%>
 			<li><a href="#">Enchères</a></li>
 			<li><a href="#">Vendre un article</a></li>
-			<li><a href="/InfosProfil">Mon profil</a></li>
+			<li><a href="/ENI-enchere/InfosProfil">Mon profil</a></li>
 			<li><a href="/ENI-enchere/ServletDeconnexion">Déconnexion</a></li> 
 			<% } else if (cookies != null){
 				
@@ -23,7 +23,7 @@
 						%>
 						<li><a href="#">Enchères</a></li>
 						<li><a href="#">Vendre un article</a></li>
-						<li><a href="/InfosProfil">Mon profil</a></li>
+						<li><a href="/ENI-enchere/InfosProfil">Mon profil</a></li>
 						<li><a href="/ENI-enchere/ServletDeconnexion">Déconnexion</a></li>
 				<% 	}
 				}

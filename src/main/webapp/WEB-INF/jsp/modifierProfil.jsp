@@ -19,7 +19,7 @@
 		<main>
 			<h2>Modifier mes informations</h2>
 
-			<form action="ServletModifierProfil" method="POST">
+			<form action="/ENI-enchere/ServletModifierProfil" method="POST">
 				<input type="hidden" name="noUtilisateur" value= "${utilisateur.getNoUtilisateur()}" />
 				<input type="hidden" name="credit" value= "${utilisateur.getCredit()}" />
 				<input type="hidden" name="administrateur" value= "${utilisateur.getAdministrateur()}" />
@@ -110,7 +110,14 @@
 				<div class="line"></div>
 			</div>
 
-			<a class="secondary-link" href="ServletIndex">Supprimer mon compte</a>
+			<a class="secondary-link" href="/ENI-enchere">Supprimer mon compte</a>
+			
+			<div class="line-container">
+				<div class="line"></div>
+				<p>ou</p>
+				<div class="line"></div>
+			</div>
+			<a class="secondary-link" href="/ENI-enchere/InfosProfil">Retour</a>
 		</main>
 
 	</body>

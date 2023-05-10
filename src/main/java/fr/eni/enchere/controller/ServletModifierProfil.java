@@ -31,32 +31,36 @@ public class ServletModifierProfil extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		UtilisateurManager mgr = new UtilisateurManager();
-		Utilisateur utilisateur = null;
-		try {
-			//int noUtilisateur = Integer.valueOf((String)session.getAttribute("noUtilisateur"));
-			int noUtilisateur = 5;
-			utilisateur = mgr.getUtilisateurByNoUtilisateur(noUtilisateur);
-			System.out.println("utilisateur : "+utilisateur.toString());
-			System.out.println(utilisateur.getPseudo());
-			request.setAttribute("pseudo", utilisateur.getPseudo());
-			request.setAttribute("nom", utilisateur.getNom());
-			request.setAttribute("prenom", utilisateur.getPrenom());
-			request.setAttribute("email", utilisateur.getEmail());
-			request.setAttribute("tel", utilisateur.getTelephone());
-			request.setAttribute("rue", utilisateur.getRue());
-			request.setAttribute("codePostal", utilisateur.getCodePostal());
-			request.setAttribute("ville", utilisateur.getVille());
+		if (request.getSession().getAttribute("noUtilisateur") == null) {
+			response.sendRedirect("/ENI-enchere");
+		} else {
+			HttpSession session = request.getSession();
+			UtilisateurManager mgr = new UtilisateurManager();
+			Utilisateur utilisateur = null;
+			try {
+				//int noUtilisateur = Integer.valueOf((String)session.getAttribute("noUtilisateur"));
+				int noUtilisateur = 5;
+				utilisateur = mgr.getUtilisateurByNoUtilisateur(noUtilisateur);
+				System.out.println("utilisateur : "+utilisateur.toString());
+				System.out.println(utilisateur.getPseudo());
+				request.setAttribute("pseudo", utilisateur.getPseudo());
+				request.setAttribute("nom", utilisateur.getNom());
+				request.setAttribute("prenom", utilisateur.getPrenom());
+				request.setAttribute("email", utilisateur.getEmail());
+				request.setAttribute("tel", utilisateur.getTelephone());
+				request.setAttribute("rue", utilisateur.getRue());
+				request.setAttribute("codePostal", utilisateur.getCodePostal());
+				request.setAttribute("ville", utilisateur.getVille());
+				
+				request.setAttribute("utilisateur", utilisateur);
 			
-			request.setAttribute("utilisateur", utilisateur);
-		
-		} catch (Exception e) {
+			} catch (Exception e) {
+				
+			}
 			
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/modifierProfil.jsp");
+			rd.forward(request, response);
 		}
-		
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/modifierProfil.jsp");
-		rd.forward(request, response);
 	}
 
 	/**
@@ -89,8 +93,7 @@ public class ServletModifierProfil extends HttpServlet {
 	        	System.out.println(utilisateur.toString());
 	        	mgr.updateUtilisateur(utilisateur);
 	        	
-	            RequestDispatcher rd = request.getRequestDispatcher("/profil.jsp");
-	    		rd.forward(request, response);
+	        	response.sendRedirect("/ENI-enchere");
 	        } else {
 	        	throw new Exception("Certains champs sont invalides");
 	        }
