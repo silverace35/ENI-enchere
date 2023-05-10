@@ -53,7 +53,7 @@ public class ServletConnexion extends HttpServlet {
 	        if (idUser != null && pwdUser != null) {
 	        	u = mgr.validerPwd(idUser, pwdUser);
 	        	if (u!=null) {
-	        		if("true".equals(souvenir)) {
+	        		if("on".equals(souvenir)) {
 	        			Cookie userCookie = new Cookie("cookieLogin", u.getNoUtilisateur().toString());
 	        			userCookie.setMaxAge(60*60*24*365); //cookie d'une durée de 1 an
 	        			response.addCookie(userCookie);

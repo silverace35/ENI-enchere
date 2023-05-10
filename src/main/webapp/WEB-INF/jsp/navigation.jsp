@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <nav>
 	<h1>
-		<a href="index.jsp">ENI-Enchères</a>
+		<a href="/ENI-enchere">ENI-Enchères</a>
 	</h1>
 	<ul>
 		<% 
@@ -12,17 +12,18 @@
 			%>
 			<li><a href="#">Enchères</a></li>
 			<li><a href="#">Vendre un article</a></li>
-			<li><a href="/ENI-enchere/InfosProfil">Mon profil</a></li>
+			<li><a href="/InfosProfil">Mon profil</a></li>
 			<li><a href="/ENI-enchere/ServletDeconnexion">Déconnexion</a></li> 
 			<% } else if (cookies != null){
 				
 				for (Cookie cookie : cookies) { 
 					if (cookie.getName().equals("cookieLogin")) {
 						cookieLoginExist = true;
+						session.setAttribute("noUtilisateur", cookie.getValue());
 						%>
 						<li><a href="#">Enchères</a></li>
 						<li><a href="#">Vendre un article</a></li>
-						<li><a href="/ENI-enchere/InfosProfil">Mon profil</a></li>
+						<li><a href="/InfosProfil">Mon profil</a></li>
 						<li><a href="/ENI-enchere/ServletDeconnexion">Déconnexion</a></li>
 				<% 	}
 				}

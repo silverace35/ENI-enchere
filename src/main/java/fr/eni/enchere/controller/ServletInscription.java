@@ -65,7 +65,7 @@ public class ServletInscription extends HttpServlet {
 				Utilisateur u = mgr.insert(pseudo, nom, prenom, email, tel, rue, codePostal, ville, confpwdUser, 100);
 				System.out.println(u);
 				request.setAttribute("utilisateur", u);
-				RequestDispatcher rd = request.getRequestDispatcher("ServletProfil");
+				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/index.jsp");
 				rd.forward(request, response);
 				
 			} catch (Exception e) {
