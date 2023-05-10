@@ -30,14 +30,15 @@ public class ServletDeconnexion extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		Cookie[] cookies = request.getCookies();
-		session.invalidate();
 		
 		for(Cookie cookie:cookies)
 		{
 			if (cookie.getName().equals("cookieLogin")) {
-				cookie.setMaxAge(0);
+	            cookie.setMaxAge(0);
+	            response.addCookie(cookie);
 			}
 		}
+		session.invalidate();
 		
 		response.sendRedirect("/ENI-enchere");
 	}

@@ -35,7 +35,7 @@ public class ServletSupression extends HttpServlet {
 		Cookie[] cookies = request.getCookies();
 		
 		if (session.getAttribute("noUtilisateur") != null) {
-			mgr.deleteUtilisateur(Integer.valueOf((String)session.getAttribute("noUtilisateur")));
+			mgr.deleteUtilisateur((int)session.getAttribute("noUtilisateur"));
 			for(Cookie cookie:cookies)
 			{
 				if (cookie.getName().equals("cookieLogin")) {
