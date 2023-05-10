@@ -84,7 +84,7 @@
 				<div class="line"></div>
 			</div>
 
-			<a class="secondary-link" href="ServletIndex">Annuler</a>
+			<a class="secondary-link" href="/ENI-enchere">Annuler</a>
 		</main>
 
 	</body>
