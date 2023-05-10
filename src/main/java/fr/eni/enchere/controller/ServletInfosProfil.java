@@ -42,7 +42,7 @@ public class ServletInfosProfil extends HttpServlet {
 			//Je verifie que le numero utilisateur est bien renseigner en session
 			if (session.getAttribute("noUtilisateur") != null) {
 				
-				utilisateur = mgr.getUtilisateurByNoUtilisateur((Integer)session.getAttribute("noUtilisateur"));
+				utilisateur = mgr.getUtilisateurByNoUtilisateur((int)session.getAttribute("noUtilisateur"));
 			}
 		}
 		if (utilisateur != null) {

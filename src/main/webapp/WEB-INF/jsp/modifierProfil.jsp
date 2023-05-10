@@ -17,7 +17,7 @@
 		Utilisateur u = (Utilisateur) request.getAttribute("utilisateur");
 	%>
 		<nav>
-			<h1><a href="ServletProfil">ENI-Enchères</a></h1>
+			<h1><a href="/ENI-enchere">ENI-Enchères</a></h1>
 			<ul></ul>
 		</nav>
 
