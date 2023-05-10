@@ -93,21 +93,23 @@ public class ServletInscription extends HttpServlet {
 			String email, String tel, String rue, String codePostal, String ville, String pwdUser, String confPwdUser) {
 			boolean result = true;
 			final String patternString = 	"^[\\w]{2,30}$";
-			final String patternString50 = 	"^[\\w]{2,50}$";
+			final String patternNom = 	"^[a-zA-Z]{2,30}$";
+			final String patternVille = 	"^[a-zA-Z]{2,50}$";
+			final String patternRue = 	"^[a-z A-Z]{2,30}$";
 			final String patternEmail = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
 			final String patternTel = "(^\\+{1}+[3]{2}+[0-9]{9}$)|(^0{1}+[0-9]{9}$)";
-			final String patternCP ="";
+			final String patternCP ="^[0-9]{5}$";
 			final String patternMDP = "^[\\w]{8,30}$";
 			
 			
 				lstParam.add(valider(patternString, pseudo, "Caractères alphanumériques requis."));
-				lstParam.add(valider(patternString, nom, "Caractères alphanumériques requis."));
-				lstParam.add(valider(patternString, prenom, "Caractères alphanumériques requis."));
+				lstParam.add(valider(patternNom, nom, "Caractères alphanumériques requis."));
+				lstParam.add(valider(patternNom, prenom, "Caractères alphanumériques requis."));
 				lstParam.add(valider(patternEmail, email, "Type de format possible xxxx-xxxx@xxxx.xxx."));
 				lstParam.add(valider(patternTel, tel, "+33123123112 ou 0110203040"));
-				lstParam.add(valider(patternString, rue, "Caractères alphanumériques requis."));
+				lstParam.add(valider(patternRue, rue, "Caractères alphanumériques requis."));
 				lstParam.add(valider(patternString, codePostal, "Code postal incorrect."));
-				lstParam.add(valider(patternString50, ville, "Caractères alphanumériques requis."));
+				lstParam.add(valider(patternVille, ville, "Caractères alphanumériques requis."));
 				lstParam.add(valider(patternMDP, pwdUser, "Format de mot de passe incorrect."));
 				lstParam.add(valider(patternMDP, confPwdUser, "Format de mot de passe incorrect."));
 				
