@@ -46,7 +46,7 @@
                 	<li></li>
                 </ul>
     
-                <button type="submit">Rechercher une enchère</button>
+                <button class="form-btn" type="submit">Rechercher une enchère</button>
             </form>
 
         </main>
