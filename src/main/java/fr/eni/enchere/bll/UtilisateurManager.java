@@ -3,6 +3,7 @@ package fr.eni.enchere.bll;
 import fr.eni.enchere.bo.Utilisateur;
 import fr.eni.enchere.dal.DAOUtilisateur;
 import fr.eni.enchere.dal.FactoryDAO;
+import fr.eni.enchere.dal.exceptions.BusinessException;
 
 public class UtilisateurManager {
 	private DAOUtilisateur daoUtilisateur;
@@ -43,6 +44,16 @@ public class UtilisateurManager {
 			e.printStackTrace();
 		}
 		return u;
+	}
+
+	public void deleteUtilisateur(int noUtilisateur) {
+		// TODO Auto-generated method stub
+		try {
+			this.daoUtilisateur.delete(noUtilisateur) ;
+		} catch (Exception e) {
+			
+		}
+			
 	}
 	
 }

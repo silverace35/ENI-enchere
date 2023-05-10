@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import fr.eni.enchere.bll.UtilisateurManager;
+import fr.eni.enchere.dal.UtilisateurDAOJdbcImpl;
+
 /**
  * Servlet implementation class ServletSupression
  */
@@ -27,8 +30,9 @@ public class ServletSupression extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
+		UtilisateurManager mgr = new UtilisateurManager();
 		if (session.getAttribute("noUtilisateur") != null) {
-			//bll.deleteUtilisateur(session.getAttribute("noUtilisateur"));
+			mgr.deleteUtilisateur(Integer.valueOf((String)session.getAttribute("noUtilisateur")));
 		}
 		response.sendRedirect("/ENI-enchere");
 	}
