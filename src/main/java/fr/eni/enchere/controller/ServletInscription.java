@@ -1,6 +1,10 @@
 package fr.eni.enchere.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -32,11 +36,13 @@ public class ServletInscription extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/inscription.jsp");
-		rd.forward(request, response);
-		
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		if (request.getSession().getAttribute("noUtilisateur") != null) {
+			response.sendRedirect("/ENI-enchere");
+		} else {
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/inscription.jsp");
+			rd.forward(request, response);
+			response.getWriter().append("Served at: ").append(request.getContextPath());
+		}
 	}
 
 	/**
@@ -56,13 +62,14 @@ public class ServletInscription extends HttpServlet {
 		String codePostal = request.getParameter("codePostal");
 		String ville = request.getParameter("ville");
 		String pwdUser = request.getParameter("motDePasse");
-		String confpwdUser = request.getParameter("confMotDePasse");
+		String confPwdUser = request.getParameter("confMotDePasse");
 		
+		List<String> lstParam = new ArrayList<>();
 		
-		if (validerChamps() && pwdUser.equals(confpwdUser)) {
+		if (validerChamps(lstParam, pseudo, nom, prenom, email, tel, rue, codePostal, ville, pwdUser, confPwdUser) && pwdUser.equals(confPwdUser)) {
 		
 			try {
-				Utilisateur u = mgr.insert(pseudo, nom, prenom, email, tel, rue, codePostal, ville, confpwdUser, 100);
+				Utilisateur u = mgr.insert(pseudo, nom, prenom, email, tel, rue, codePostal, ville, confPwdUser, 100);
 				System.out.println(u);
 				request.setAttribute("utilisateur", u);
 				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/index.jsp");
@@ -74,15 +81,56 @@ public class ServletInscription extends HttpServlet {
 		
 		} else {
 			//TODO highlight erreurs champs & remettre les champs bons
-			
+			request.setAttribute("lstParam", lstParam);
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/inscription.jsp");
+			rd.forward(request, response);
 		}
 			
 	}
 	
 	//TODO valider tous les champs NOT NULL & REGEX
-	public boolean validerChamps() {
-		return true;
+	public boolean validerChamps(List<String> lstParam, String pseudo, String nom, String prenom, 
+			String email, String tel, String rue, String codePostal, String ville, String pwdUser, String confPwdUser) {
+			boolean result = true;
+			final String patternString = 	"^[\\w]{2,30}$";
+			final String patternString50 = 	"^[\\w]{2,50}$";
+			final String patternEmail = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
+			final String patternTel = "(^\\+{1}+[3]{2}+[0-9]{9}$)|(^0{1}+[0-9]{9}$)";
+			final String patternCP ="";
+			final String patternMDP = "^[\\w]{8,30}$";
+			
+			
+				lstParam.add(valider(patternString, pseudo, "Caractères alphanumériques requis."));
+				lstParam.add(valider(patternString, nom, "Caractères alphanumériques requis."));
+				lstParam.add(valider(patternString, prenom, "Caractères alphanumériques requis."));
+				lstParam.add(valider(patternEmail, email, "Type de format possible xxxx-xxxx@xxxx.xxx."));
+				lstParam.add(valider(patternTel, tel, "+33123123112 ou 0110203040"));
+				lstParam.add(valider(patternString, rue, "Caractères alphanumériques requis."));
+				lstParam.add(valider(patternString, codePostal, "Code postal incorrect."));
+				lstParam.add(valider(patternString50, ville, "Caractères alphanumériques requis."));
+				lstParam.add(valider(patternMDP, pwdUser, "Format de mot de passe incorrect."));
+				lstParam.add(valider(patternMDP, confPwdUser, "Format de mot de passe incorrect."));
+				
+			for(String s:lstParam)	 {
+				if (!"true".equals(s)) {
+					result = false;
+				}
+			}
+			
+		return result;
 	}
 	
+	public String valider(String pat, String text, String message) {
+		Pattern pattern = Pattern.compile(pat);
+		Matcher matcher = pattern.matcher(text);
+		String result;
+		if (matcher.matches() ) {
+			result = "true";
+		} else {
+			result = message;
+		}
+		return result;
+	}
+
 
 }

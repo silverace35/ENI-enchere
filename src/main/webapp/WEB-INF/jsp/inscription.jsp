@@ -1,4 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@page import="java.util.List"%>
+
 	<!DOCTYPE html>
 	<html>
 
@@ -19,59 +22,81 @@
 			<h2>Créer un compte</h2>
 
 			<form class="" action="ServletInscription" method="POST">
+						<%List<String> lstPara =(List<String>)request.getAttribute("lstParam");%>		
 				<div class="fields">
-					<div class="field">			
+					<div class="field">	
 						<label for="pseudo">Pseudo : </label>
-						<input type="text" id="pseudo" name="pseudo" minlength="2" maxlength="30" required/>
+						<input type="text" id="pseudo" name="pseudo" minlength="2" maxlength="30" required
+						value= "<%=lstPara==null?"":lstPara.get(0)=="true"?request.getParameter("pseudo"):lstPara.get(0)%>"
+						/>
+					
 					</div>
-	
+	<!-- (("true").equals(lstParam.get(0))?request.getParameter("pseudo"):lstParam.get(0)) -->
 					<div class="field">
 						<label for="nom">Nom : </label>
-						<input type="text" id="nom" name="nom" minlength="2" maxlength="30" required/>				
+						<input type="text" id="nom" name="nom" minlength="2" maxlength="30" required
+						value= "<%=lstPara==null?"":lstPara.get(1)=="true"?request.getParameter("nom"):lstPara.get(1)%>"
+						/>		
 					</div>
 				</div>
 				<div class="fields">
 					<div class="field">
 						<label for="prenom">Prénom : </label>
-						<input type="text" id="prenom" name="prenom" minlength="2" maxlength="30" required/>
+						<input type="text" id="prenom" name="prenom" minlength="2" maxlength="30" required
+						value= "<%=lstPara==null?"":lstPara.get(2)=="true"?request.getParameter("prenom"):lstPara.get(2)%>"
+						/>
 					</div>
 					
 					<div class="field">
 						<label for="email">Email : </label>
-						<input type="text" id="email" name="email" minlength="6" maxlength="50" required/>
+						<input type="text" id="email" name="email" minlength="6" maxlength="50" required
+						value= "<%=lstPara==null?"":lstPara.get(3)=="true"?request.getParameter("email"):lstPara.get(3)%>"
+						/>
 					</div>
 				</div>
 				
 				<div class="fields">
 					<div class="field">
 						<label for="tel">Téléphone : </label>
-						<input type="text" id="tel" name="tel" minlength="10" maxlength="15" required/>
+						<input type="text" id="tel" name="tel" minlength="10" maxlength="15" required
+						value= "<%=lstPara==null?"":lstPara.get(4)=="true"?request.getParameter("tel"):lstPara.get(4)%>"
+						/>
 					</div>
 					<div class="field">
 						<label for="rue">Rue : </label>
-						<input type="text" id="rue" name="rue" minlength="10" maxlength="30" required/>
+						<input type="text" id="rue" name="rue" minlength="10" maxlength="30" required
+						value= "<%=lstPara==null?"":lstPara.get(5)=="true"?request.getParameter("rue"):lstPara.get(5)%>"
+						/>
 					</div>
 				</div>
 				
 				<div class="fields">
 					<div class="field">
 						<label for="codePostal">Code Postal : </label>
-						<input type="text" id="codePostal" name="codePostal" minlength="5" maxlength="10" required/>
+						<input type="text" id="codePostal" name="codePostal" minlength="5" maxlength="10" required
+						value= "<%=lstPara==null?"":lstPara.get(6)=="true"?request.getParameter("codePostal"):lstPara.get(6)%>"
+						/>
 					</div>
 					<div class="field">
 						<label for="ville">Ville : </label>
-						<input type="text" id="ville" name="ville" minlength="2" maxlength="50" required/>
+						<input type="text" id="ville" name="ville" minlength="2" maxlength="50" required
+						value= "<%=lstPara==null?"":lstPara.get(7)=="true"?request.getParameter("ville"):lstPara.get(7)%>"
+						/>
 					</div>
 				</div>
 				
 				<div class="fields">
 					<div class="field">
 						<label for="motDePasse">Mot de passe : </label>
-						<input type="password" id="motDePasse" name="motDePasse" minlength="8" maxlength="30" required/>
+						<input type="password" id="motDePasse" name="motDePasse" minlength="8" maxlength="30" required
+						value= "<%=lstPara==null?"":lstPara.get(8)=="true"?"":lstPara.get(8)%>"
+						/>
 					</div>
 					<div class="field">
 						<label for="confMotDePasse">Confirmation : </label>
-						<input type="password" id="confMotDePasse" name="confMotDePasse" minlength="8" maxlength="30" required/>
+						<input type="password" id="confMotDePasse" name="confMotDePasse" minlength="8" maxlength="30" required
+						value= "<%=lstPara==null?"":lstPara.get(9)=="true"?"":lstPara.get(9)%>"
+						/>
 					</div>
 				</div>
 				
