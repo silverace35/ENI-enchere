@@ -98,13 +98,14 @@
 					<div class="field">
 						<label for="motDePasse">Mot de passe : </label>
 						<input type="password" id="motDePasse" name="motDePasse" minlength="8" maxlength="30" required
-						placeholder= "<%=lstPara==null?"":lstPara.get(8)=="true"?"":lstPara.get(8)%>"
+						placeholder= "<%=lstPara==null?"":(lstPara.get(8)=="true"?(lstPara.get(10)=="true"?"":lstPara.get(10)):lstPara.get(8))%>"
+						
 						/>
 					</div>
 					<div class="field">
 						<label for="confMotDePasse">Confirmation : </label>
 						<input type="password" id="confMotDePasse" name="confMotDePasse" minlength="8" maxlength="30" required
-						placeholder= "<%=lstPara==null?"":lstPara.get(9)=="true"?"":lstPara.get(9)%>"
+						placeholder= "<%=lstPara==null?"":(lstPara.get(9)=="true"?(lstPara.get(10)=="true"?"":lstPara.get(10)):lstPara.get(9))%>"
 						/>
 					</div>
 				</div>

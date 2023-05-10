@@ -80,7 +80,6 @@ public class ServletInscription extends HttpServlet {
 			}
 		
 		} else {
-			//TODO highlight erreurs champs & remettre les champs bons
 			request.setAttribute("lstParam", lstParam);
 			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/inscription.jsp");
 			rd.forward(request, response);
@@ -88,19 +87,17 @@ public class ServletInscription extends HttpServlet {
 			
 	}
 	
-	//TODO valider tous les champs NOT NULL & REGEX
 	public boolean validerChamps(List<String> lstParam, String pseudo, String nom, String prenom, 
 			String email, String tel, String rue, String codePostal, String ville, String pwdUser, String confPwdUser) {
 			boolean result = true;
-			final String patternString = 	"^[\\w]{2,30}$";
-			final String patternNom = 	"^[a-zA-Z]{2,30}$";
-			final String patternVille = 	"^[a-zA-Z]{2,50}$";
-			final String patternRue = 	"^[0-9 a-z A-Z]{2,30}$";
+			final String patternString = "^[\\w-]{2,30}$";
+			final String patternNom = "^[a-z A-Z\\'\\-]{2,30}$";
+			final String patternVille = "^[a-z A-Z\\'\\-]{2,50}$";
+			final String patternRue = "^[0-9 a-z A-Z\\'\\-]{2,30}$";
 			final String patternEmail = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
 			final String patternTel = "(^\\+{1}+[3]{2}+[0-9]{9}$)|(^0{1}+[0-9]{9}$)";
-			final String patternCP ="^[0-9]{5}$";
-			final String patternMDP = "^[\\w]{8,30}$";
-			
+			final String patternCP = "^[0-9]{5}$";
+			final String patternMDP = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&+=])(?=\\S+$).{8,30}$";
 			
 				lstParam.add(valider(patternString, pseudo, "Caractères alphanumériques requis."));
 				lstParam.add(valider(patternNom, nom, "Caractères alphanumériques requis."));
@@ -108,7 +105,7 @@ public class ServletInscription extends HttpServlet {
 				lstParam.add(valider(patternEmail, email, "Type de format possible xxxx-xxxx@xxxx.xxx."));
 				lstParam.add(valider(patternTel, tel, "+33123123112 ou 0110203040"));
 				lstParam.add(valider(patternRue, rue, "Caractères alphanumériques requis."));
-				lstParam.add(valider(patternString, codePostal, "Code postal incorrect."));
+				lstParam.add(valider(patternCP, codePostal, "Code postal incorrect."));
 				lstParam.add(valider(patternVille, ville, "Caractères alphanumériques requis."));
 				lstParam.add(valider(patternMDP, pwdUser, "Format de mot de passe incorrect."));
 				lstParam.add(valider(patternMDP, confPwdUser, "Format de mot de passe incorrect."));
@@ -118,7 +115,6 @@ public class ServletInscription extends HttpServlet {
 					result = false;
 				}
 			}
-			
 		return result;
 	}
 	
