@@ -10,7 +10,7 @@
 		
 		if(session.getAttribute("noUtilisateur") != null ) {
 			%>
-			<li><a href="#">Enchères</a></li>
+			<li id="hidden"><a href="#">Enchères</a></li>
 			<li><a href="#">Vendre un article</a></li>
 			<li><a href="/ENI-enchere/InfosProfil">Mon profil</a></li>
 			<li><a href="/ENI-enchere/ServletDeconnexion">Déconnexion</a></li> 
@@ -21,7 +21,7 @@
 						cookieLoginExist = true;
 						session.setAttribute("noUtilisateur", cookie.getValue());
 						%>
-						<li><a href="#">Enchères</a></li>
+						<li id="hidden_link"><a href="#">Enchères</a></li>
 						<li><a href="#">Vendre un article</a></li>
 						<li><a href="/ENI-enchere/InfosProfil">Mon profil</a></li>
 						<li><a href="/ENI-enchere/ServletDeconnexion">Déconnexion</a></li>
