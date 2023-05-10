@@ -20,6 +20,8 @@ public class UtilisateurDAOJdbcImpl implements DAOUtilisateur{
 	private static final String INSERT="INSERT INTO utilisateurs(pseudo, nom, prenom, email, telephone, rue,"
 			+ " code_postal, ville, mot_de_passe, credit, administrateur) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 	private static final String DELETEBYID="DELETE FROM utilisateurs WHERE no_utilisateur=?;";
+	private static final String SELECTBYPWD="SELECT * FROM utilisateurs WHERE ((pseudo=? OR email=?) AND (mot_de_passe=?));";
+	
 	
 	private UtilisateurDAOJdbcImpl() {
 	}
@@ -194,5 +196,51 @@ public class UtilisateurDAOJdbcImpl implements DAOUtilisateur{
 			BusinessException businessException = new BusinessException();
 			throw businessException;
 		}
+	}
+
+	@Override
+	public Utilisateur checkPwd(String pseudo, String pwd) throws BusinessException {
+		Utilisateur u = null;
+		try(Connection cnx = ConnectionProvider.getConnection())
+		{
+			PreparedStatement pstmt = cnx.prepareStatement(SELECTBYPWD);
+			pstmt.setString(1, pseudo);
+			pstmt.setString(2, pseudo);
+			pstmt.setString(3, pwd);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			
+			if (rs.next()) {
+				u = new Utilisateur(
+						rs.getInt("no_utilisateur"),
+						rs.getString("pseudo"),
+						rs.getString("nom"),
+						rs.getString("prenom"),
+						rs.getString("email"),
+						rs.getString("telephone"),
+						rs.getString("rue"),
+						rs.getString("code_postal"),
+						rs.getString("ville"),
+						rs.getString("mot_de_passe"),
+						rs.getInt("credit"),
+						rs.getBoolean("administrateur"));
+				
+				System.out.println(u.toString());
+				System.out.println("MSG DAL j'ai trouvé un utilisateur");
+			} else {
+				//TODO remonter msg erreur
+				System.out.println("MSG DAL Login ou mdp incorrect");
+			}
+			
+			
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			throw businessException;
+		}
+		return u;
 	}
 }

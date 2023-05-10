@@ -25,6 +25,24 @@ public class UtilisateurManager {
 		return u;
 	}
 		
-	
+	public Utilisateur validerPwd(String pseudo, String pwd) {
+		Utilisateur u = null;
+		try {
+			
+			u = this.daoUtilisateur.checkPwd(pseudo, pwd);
+			System.out.println(u);
+			if (u!=null) {
+				System.out.println("MSG BLL j'ai trouvé un utilisateur");
+				
+			} else {
+				//TODO remonter msg erreur
+				System.out.println("MSG BLL Login ou mdp incorrect");
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return u;
+	}
 	
 }

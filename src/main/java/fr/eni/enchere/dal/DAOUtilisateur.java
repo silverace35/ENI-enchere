@@ -22,4 +22,7 @@ public interface DAOUtilisateur {
 
 	// Delete with noUtilisateur
 	void delete(int noUtilisateur) throws BusinessException;
+	
+	// Check login/email and pwd match
+	Utilisateur checkPwd(String pseudo, String pwd) throws BusinessException;
 }
