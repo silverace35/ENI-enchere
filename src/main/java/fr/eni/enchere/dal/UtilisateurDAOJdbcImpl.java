@@ -3,6 +3,7 @@ package fr.eni.enchere.dal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class UtilisateurDAOJdbcImpl implements DAOUtilisateur{
 			+ " code_postal, ville, mot_de_passe, credit, administrateur) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 	private static final String DELETEBYID="DELETE FROM utilisateurs WHERE no_utilisateur=?;";
 	private static final String SELECTBYPWD="SELECT * FROM utilisateurs WHERE ((pseudo=? OR email=?) AND (mot_de_passe=?));";
-	
+	private static final String CHECK="SELECT * FROM utilisateurs WHERE pseudo=? OR email=?;";
 	
 	private UtilisateurDAOJdbcImpl() {
 	}
@@ -154,29 +155,41 @@ public class UtilisateurDAOJdbcImpl implements DAOUtilisateur{
 		
 		try(Connection cnx = ConnectionProvider.getConnection())
 		{
-			PreparedStatement pstmt = cnx.prepareStatement(INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
+			PreparedStatement pstmt = cnx.prepareStatement(CHECK);
 			pstmt.setString(1, u.getPseudo());
-			pstmt.setString(2, u.getNom());
-			pstmt.setString(3, u.getPrenom());
-			pstmt.setString(4, u.getEmail());
-			pstmt.setString(5, u.getTelephone());
-			pstmt.setString(6, u.getRue());
-			pstmt.setString(7, u.getCodePostal());
-			pstmt.setString(8, u.getVille());
-			pstmt.setString(9, u.getMotDePasse());
-			pstmt.setInt(10, u.getCredit());
-			pstmt.setBoolean(11, u.getAdministrateur());
-			pstmt.executeUpdate();
-			ResultSet rs = pstmt.getGeneratedKeys();
-			if(rs.next())
-			{
-				u.setNoUtilisateur(rs.getInt(1));
-			}
+			pstmt.setString(2, u.getEmail());
+			ResultSet rs = pstmt.executeQuery();
+			 if(!rs.next()) {
+				pstmt.close();
+				//rs.close();
+				pstmt = cnx.prepareStatement(INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
+				pstmt.setString(1, u.getPseudo());
+				pstmt.setString(2, u.getNom());
+				pstmt.setString(3, u.getPrenom());
+				pstmt.setString(4, u.getEmail());
+				pstmt.setString(5, u.getTelephone());
+				pstmt.setString(6, u.getRue());
+				pstmt.setString(7, u.getCodePostal());
+				pstmt.setString(8, u.getVille());
+				pstmt.setString(9, u.getMotDePasse());
+				pstmt.setInt(10, u.getCredit());
+				pstmt.setBoolean(11, u.getAdministrateur());
+				pstmt.executeUpdate();
+				rs = pstmt.getGeneratedKeys();
+				if(rs.next())
+				{
+					u.setNoUtilisateur(rs.getInt(1));
+				}
+			 } else {
+				 throw new BusinessException("Pseudo ou email déjà inscrit !");
+			 }
+			
+			
 		}
-		catch(Exception e)
+		catch(BusinessException | SQLException e)
 		{
-			e.printStackTrace();
-			BusinessException businessException = new BusinessException();
+			//e.printStackTrace();
+			BusinessException businessException = new BusinessException(e.getMessage());
 			throw businessException;
 		}
 		return u;

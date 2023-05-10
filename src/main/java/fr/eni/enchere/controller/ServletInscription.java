@@ -69,6 +69,8 @@ public class ServletInscription extends HttpServlet {
 		if (validerChamps(lstParam, pseudo, nom, prenom, email, tel, rue, codePostal, ville, pwdUser, confPwdUser)) {
 		
 			try {
+				
+				
 				Utilisateur u = mgr.insert(pseudo, nom, prenom, email, tel, rue, codePostal, ville, confPwdUser, 100);
 				System.out.println(u);
 				request.setAttribute("utilisateur", u);
