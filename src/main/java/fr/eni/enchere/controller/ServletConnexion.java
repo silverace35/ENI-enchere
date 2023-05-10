@@ -32,15 +32,12 @@ public class ServletConnexion extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Cookie[] cookies = request.getCookies();
-		for (Cookie cookie : cookies) { 
-			if (cookie.getName().equals("cookieLogin")) {
-				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/index.jsp");
-				rd.forward(request, response);
-			} else {
-				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/connexion.jsp");
-				rd.forward(request, response);
-			}
+		
+		if(request.getSession().getAttribute("noUtilisateur") != null) {			
+			response.sendRedirect("/ENI-enchere");
+		} else {
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/connexion.jsp");
+			rd.forward(request, response);
 		}
 	}
 
@@ -67,8 +64,7 @@ public class ServletConnexion extends HttpServlet {
 	        		HttpSession session = request.getSession(); 
 	        		request.getSession().setAttribute("noUtilisateur", u.getNoUtilisateur()); 
 	        		//SI VALID : httpSession.setAttribute("IdUser", idUser);
-	        		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/index.jsp");
-		    		rd.forward(request, response);
+	        		response.sendRedirect("/ENI-enchere");
 	        	} else {
 	        		//TODO message d'erreur gestion erreur 
 	        		response.sendRedirect("ServletConnexion");
