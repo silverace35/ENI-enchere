@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import fr.eni.enchere.bll.UtilisateurManager;
 import fr.eni.enchere.bo.Utilisateur;
 
 /**
@@ -31,7 +32,7 @@ public class ServletInfosProfil extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		
+		UtilisateurManager mgr = new UtilisateurManager();
 		Utilisateur utilisateur = null;
 		
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/profilUtilisateur.jsp");
@@ -40,7 +41,7 @@ public class ServletInfosProfil extends HttpServlet {
 		if (session != null) {
 			//Je verifie que le numero utilisateur est bien renseigner en session
 			if (!session.getAttribute("noUtilisateur").equals("")) {
-				//utilisateur = bll.getUtilisateurByNoUtilisateur(session.getAttribute("noUtilisateur"));
+				utilisateur = mgr.getUtilisateurByNoUtilisateur(Integer.valueOf((String)session.getAttribute("noUtilisateur")));
 			}
 		}
 		

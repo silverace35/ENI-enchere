@@ -55,5 +55,15 @@ public class UtilisateurManager {
 		}
 			
 	}
+
+	public Utilisateur getUtilisateurByNoUtilisateur(int noUtilisateur) {
+		// TODO Auto-generated method stub
+		try {
+			this.daoUtilisateur.selectByNoUtilisateur(noUtilisateur);
+		}  catch (Exception e) {
+			
+		}
+		return null;
+	}
 	
 }
