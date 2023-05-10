@@ -1,3 +1,4 @@
+<%@ page import="fr.eni.enchere.bo.Utilisateur"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 	<!DOCTYPE html>
@@ -11,6 +12,10 @@
 	</head>
 
 	<body>
+	
+	<%
+		Utilisateur u = (Utilisateur) request.getAttribute("utilisateur");
+	%>
 		<nav>
 			<h1><a href="ServletProfil">ENI-Enchères</a></h1>
 			<ul></ul>
@@ -99,7 +104,7 @@
 					</div>
 				</div>
 				
-				<p>Crédit : ??????????</p>
+				<p>Crédit : <%=u.getCredit() %></p>
 
 				<button type="submit">Enregistrer</button>
 			</form>
@@ -110,13 +115,14 @@
 				<div class="line"></div>
 			</div>
 
-			<a class="secondary-link" href="/ENI-enchere">Supprimer mon compte</a>
+			<a class="warning-link" href="/ENI-enchere">Supprimer mon compte</a>
 			
 			<div class="line-container">
 				<div class="line"></div>
 				<p>ou</p>
 				<div class="line"></div>
 			</div>
+			
 			<a class="secondary-link" href="/ENI-enchere/InfosProfil">Retour</a>
 		</main>
 

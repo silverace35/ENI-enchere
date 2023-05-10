@@ -118,9 +118,9 @@ a.secondary-link:hover {
 
 a.warning-link {
 	font-size: 1rem;
-	background-color: red;
+	background-color: #e92626;
 	border: none;
-	color: var(--black);
+	color: var(--white);
 	cursor: pointer;
     border-radius: 30px;
     padding: 10px;
