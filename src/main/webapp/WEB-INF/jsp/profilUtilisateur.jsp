@@ -10,25 +10,25 @@
 <title>Profil | ENI-enchere</title>
 </head>
 <body>
+<%Utilisateur u = (Utilisateur) request.getAttribute("utilisateur");%>
 <%@ include file="navigation.jsp" %>
-<h1>Profil de l'utilisateur</h1>
-	<%
-	Utilisateur u = (Utilisateur) request.getAttribute("utilisateur");
-	%>
 
-	<p><%=u.getPseudo()%></p>
-	<p><%=u.getNom()%></p>
-	<p><%=u.getPrenom()%></p>
-	<p><%=u.getEmail()%></p>
-	<p><%=u.getTelephone()%></p>
-	<p><%=u.getRue()%></p>
-	<p><%=u.getCodePostal()%></p>
-	<p><%=u.getVille()%></p>
-	<p><%=u.getMotDePasse()%></p>
-	<p><%=u.getCredit()%></p>
-	<p><%=u.getAdministrateur()%></p>
-
-	<a class="secondary-link" href="/ENI-enchere/ServletModifierProfil">Modifier</a>
+	<main>
+		<table class="rwd-table">
+		  <tr>
+		    <td data-th="Pseudo "><%=u.getPseudo() %></td>
+		    <td data-th="Nom "><%=u.getNom() %></td>
+		    <td data-th="Prénom "><%=u.getPrenom() %></td>
+		    <td data-th="E-Mail "><%=u.getEmail() %></td>
+		     <td data-th="Téléphone "><%=u.getTelephone() %></td>
+		    <td data-th="Rue "><%=u.getRue() %></td>
+		    <td data-th="Code postal "><%=u.getCodePostal() %></td>
+		    <td data-th="Ville "><%=u.getVille() %></td>
+		  </tr>
+		</table>
+	
+		<a class="secondary-link" href="/ENI-enchere/ServletModifierProfil">Modifier</a>
+	</main>
 
 </body>
 </html>

@@ -31,10 +31,11 @@ body {
 main {
   width: 90%;
   margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  padding-top: 100px; 
+}
+
+a {
+	display: block;
 }
 
 nav {
@@ -48,6 +49,17 @@ nav {
     height: 70px;
     text-align: center;
     align-items: center;
+}
+
+nav ul {
+	display: flex;
+	flex-direction: row;
+	justify-content: end;
+    width: 100%;
+}
+
+nav ul li {
+	padding-right: 10px;
 }
 
 nav a {
@@ -99,6 +111,7 @@ a.link:hover {
 
 a.secondary-link {
 	font-size: 1rem;
+    margin-top: 15px;
 	background-color: var(--white);
 	border: none;
 	color: var(--black);
