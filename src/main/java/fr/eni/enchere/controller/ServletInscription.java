@@ -66,7 +66,7 @@ public class ServletInscription extends HttpServlet {
 		
 		List<String> lstParam = new ArrayList<>();
 		
-		if (validerChamps(lstParam, pseudo, nom, prenom, email, tel, rue, codePostal, ville, pwdUser, confPwdUser) && pwdUser.equals(confPwdUser)) {
+		if (validerChamps(lstParam, pseudo, nom, prenom, email, tel, rue, codePostal, ville, pwdUser, confPwdUser)) {
 		
 			try {
 				Utilisateur u = mgr.insert(pseudo, nom, prenom, email, tel, rue, codePostal, ville, confPwdUser, 100);
@@ -95,7 +95,7 @@ public class ServletInscription extends HttpServlet {
 			final String patternString = 	"^[\\w]{2,30}$";
 			final String patternNom = 	"^[a-zA-Z]{2,30}$";
 			final String patternVille = 	"^[a-zA-Z]{2,50}$";
-			final String patternRue = 	"^[a-z A-Z]{2,30}$";
+			final String patternRue = 	"^[0-9 a-z A-Z]{2,30}$";
 			final String patternEmail = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
 			final String patternTel = "(^\\+{1}+[3]{2}+[0-9]{9}$)|(^0{1}+[0-9]{9}$)";
 			final String patternCP ="^[0-9]{5}$";
@@ -112,7 +112,7 @@ public class ServletInscription extends HttpServlet {
 				lstParam.add(valider(patternVille, ville, "Caractères alphanumériques requis."));
 				lstParam.add(valider(patternMDP, pwdUser, "Format de mot de passe incorrect."));
 				lstParam.add(valider(patternMDP, confPwdUser, "Format de mot de passe incorrect."));
-				
+				lstParam.add(confPwdUser.equals(pwdUser)? "true":"Les mots de passe ne correspondent pas.");
 			for(String s:lstParam)	 {
 				if (!"true".equals(s)) {
 					result = false;
