@@ -35,53 +35,67 @@
 	
 					<div class="field">
 						<label for="nom">Nom : </label>
-						<input type="text" id="nom" name="nom" minlength="2" maxlength="30" required/>				
+						<input type="text" id="nom" name="nom" minlength="2" maxlength="30" required
+							value="<%=request.getAttribute("nom")%>"
+						/>				
 					</div>
 				</div>
 				<div class="fields">
 					<div class="field">
 						<label for="prenom">Prénom : </label>
-						<input type="text" id="prenom" name="prenom" minlength="2" maxlength="30" required/>
+						<input type="text" id="prenom" name="prenom" minlength="2" maxlength="30" required
+						value="<%=request.getAttribute("prenom")%>"
+						/>
 					</div>
 					
 					<div class="field">
 						<label for="email">Email : </label>
-						<input type="text" id="email" name="email" minlength="6" maxlength="50" required/>
+						<input type="text" id="email" name="email" minlength="6" maxlength="50" required
+						value="<%=request.getAttribute("email")%>"
+						/>
 					</div>
 				</div>
 				
 				<div class="fields">
 					<div class="field">
 						<label for="tel">Téléphone : </label>
-						<input type="text" id="tel" name="telephone" minlength="10" maxlength="15" required/>
+						<input type="text" id="tel" name="tel" minlength="10" maxlength="15" required
+						value="<%=request.getAttribute("tel")%>"
+						/>
 					</div>
 					
 					<div class="field">
 						<label for="rue">Rue : </label>
-						<input type="text" id="rue" name="rue" minlength="10" maxlength="30" required/>
+						<input type="text" id="rue" name="rue" minlength="10" maxlength="30" required
+						value="<%=request.getAttribute("rue")%>"
+						/>
 					</div>
 				</div>
 				
 				<div class="fields">
 					<div class="field">
 						<label for="codePostal">Code Postal : </label>
-						<input type="text" id="codePostal" name="code_postal" minlength="5" maxlength="10" required/>
+						<input type="text" id="codePostal" name="codePostal" minlength="5" maxlength="10" required
+							value="<%=request.getAttribute("codePostal")%>"
+						/>
 					</div>
 					
 					<div class="field">
 						<label for="ville">Ville : </label>
-						<input type="text" id="ville" name="ville" minlength="2" maxlength="50" required/>
+						<input type="text" id="ville" name="ville" minlength="2" maxlength="50" required
+							value="<%=request.getAttribute("ville")%>"
+						/>
 					</div>
 				</div>
 				
 				<div class="fields">
 					<div class="field">
-						<label for="mdp">Mot de passe : </label>
-						<input type="password" id="mdp" name="mdp" minlength="8" maxlength="30" required/>
+						<label for="motDePasse">Mot de passe : </label>
+						<input type="password" id="motDePasse" name="motDePasse" minlength="8" maxlength="30" required/>
 					</div>
 					<div class="field">
-						<label for="mdp_confirm">Confirmation : </label>
-						<input type="password" id="mdp_confirm" name="mdp_confirm" minlength="8" maxlength="30" required/>
+						<label for="confMotDePasse">Confirmation : </label>
+						<input type="password" id="confMotDePasse" name="confMotDePasse" minlength="8" maxlength="30" required/>
 					</div>
 				</div>
 				
