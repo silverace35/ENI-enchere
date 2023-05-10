@@ -3,9 +3,7 @@
     <html>
 
     <head>
-        <meta charset="UTF-8" />
-        <link rel="stylesheet" href="css/settings.css">
-        <link rel="stylesheet" href="css/index.css">
+        <%@ include file="head.jsp" %>
         <title>Accueil | ENI-enchere</title>
     </head>
     

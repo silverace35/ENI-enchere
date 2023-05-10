@@ -5,9 +5,7 @@
 	<html>
 
 	<head>
-		<meta charset="UTF-8">
-		<link rel="stylesheet" href="css/settings.css">
-        <link rel="stylesheet" href="css/login.css">
+		<%@ include file="head.jsp" %>
 		<title>Modification de profil | ENI-enchere</title>
 	</head>
 
