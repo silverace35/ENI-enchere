@@ -1,20 +1,3 @@
-nav ul {
-	width: 20%;
-    display: flex;
-    justify-content: space-evenly;
-}
-
-nav a {
-	color: var(--white);
-	text-decoration: none;
-	transition: all 200ms;
-}
-
-nav a:hover {
-	text-decoration : underline;
-	color: var(--yellow);
-}
-
 h2 {
     font-size: 3rem;
     text-align: center;

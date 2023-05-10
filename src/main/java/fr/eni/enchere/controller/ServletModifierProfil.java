@@ -38,8 +38,7 @@ public class ServletModifierProfil extends HttpServlet {
 			UtilisateurManager mgr = new UtilisateurManager();
 			Utilisateur utilisateur = null;
 			try {
-				//int noUtilisateur = Integer.valueOf((String)session.getAttribute("noUtilisateur"));
-				int noUtilisateur = 5;
+				int noUtilisateur = (int)session.getAttribute("noUtilisateur");
 				utilisateur = mgr.getUtilisateurByNoUtilisateur(noUtilisateur);
 				System.out.println("utilisateur : "+utilisateur.toString());
 				System.out.println(utilisateur.getPseudo());
@@ -71,8 +70,7 @@ public class ServletModifierProfil extends HttpServlet {
 		UtilisateurManager mgr = new UtilisateurManager();
 		Utilisateur utilisateur = null;
 		try {
-			//int noUtilisateur = Integer.valueOf((String)session.getAttribute("noUtilisateur"));
-			int noUtilisateur = Integer.valueOf(request.getParameter("noUtilisateur")) ;
+			int noUtilisateur = (int)session.getAttribute("noUtilisateur");
 			String pseudo = request.getParameter("pseudo");
 			String nom = request.getParameter("nom");
 			String prenom = request.getParameter("prenom");

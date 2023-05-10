@@ -35,13 +35,12 @@ public class ServletSupression extends HttpServlet {
 		Cookie[] cookies = request.getCookies();
 		
 		if (session.getAttribute("noUtilisateur") != null) {
-			if (session.getAttribute("noUtilisateur") != null) {
-				mgr.deleteUtilisateur((int)session.getAttribute("noUtilisateur"));
-				for(Cookie cookie:cookies)
-				{
-					if (cookie.getName().equals("cookieLogin")) {
-						cookie.setMaxAge(0);
-					}
+			mgr.deleteUtilisateur((int)session.getAttribute("noUtilisateur"));
+			session.invalidate();
+			for(Cookie cookie:cookies)
+			{
+				if (cookie.getName().equals("cookieLogin")) {
+					cookie.setMaxAge(0);
 				}
 			}
 			response.sendRedirect("/ENI-enchere");
