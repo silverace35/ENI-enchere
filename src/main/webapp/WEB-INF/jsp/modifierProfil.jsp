@@ -104,7 +104,7 @@
 					</div>
 				</div>
 				
-				<p>Crédit : <%=u.getCredit() %></p>
+				<p>Crédit : <%=request.getParameter("credit") %></p>
 
 				<button type="submit">Enregistrer</button>
 			</form>
@@ -115,7 +115,7 @@
 				<div class="line"></div>
 			</div>
 
-			<a class="warning-link" href="/ENI-enchere">Supprimer mon compte</a>
+			<a class="warning-link" href="/ENI-enchere/profil/suppression">Supprimer mon compte</a>
 			
 			<div class="line-container">
 				<div class="line"></div>
