@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import fr.eni.enchere.bll.UtilisateurManager;
 import fr.eni.enchere.bo.Utilisateur;
@@ -74,6 +75,8 @@ public class ServletInscription extends HttpServlet {
 				Utilisateur u = mgr.insert(pseudo, nom, prenom, email, tel, rue, codePostal, ville, confPwdUser, 100);
 				System.out.println(u);
 				request.setAttribute("utilisateur", u);
+				//HttpSession session = request.getSession(); 
+        		request.getSession().setAttribute("noUtilisateur", u.getNoUtilisateur()); 
 				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/index.jsp");
 				rd.forward(request, response);
 				
