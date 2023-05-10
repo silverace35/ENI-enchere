@@ -47,10 +47,8 @@ public class ServletModifierProfil extends HttpServlet {
 			String pwdUser = request.getParameter("motDePasse");
 			String confpwdUser = request.getParameter("confMotDePasse");
 	        //TODO : gerer les erreurs d'entrées utilisateur
-	        if (pseudo != null && nom != null && prenom != null && email != null && email != null && rue != null && codePostal != null && ville != null && pwdUser != null && confpwdUser != null) {
+	        if (pseudo != null && nom != null && prenom != null && email != null && tel != null && rue != null && codePostal != null && ville != null && pwdUser != null && confpwdUser != null) {
 	            //TODO utiliser la BLL pour vérifier la validité des identifiants
-	        	//SI VALID : httpSession.setAttribute("IdUser", idUser);
-	            // TODO : créer cookie pour se souvenir de moi
 	            RequestDispatcher rd = request.getRequestDispatcher("/profil.jsp");
 	    		rd.forward(request, response);
 	        } else {

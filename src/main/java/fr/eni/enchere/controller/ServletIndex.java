@@ -14,7 +14,7 @@ import fr.eni.enchere.bll.UtilisateurManager;
 /**
  * Servlet implementation class ServletIndex
  */
-@WebServlet("/ServletIndex")
+@WebServlet("")
 public class ServletIndex extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
