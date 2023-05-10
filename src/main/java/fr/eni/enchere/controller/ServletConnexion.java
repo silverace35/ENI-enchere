@@ -72,7 +72,7 @@ public class ServletConnexion extends HttpServlet {
 //					    }
 //					  }
 //					}
-	        		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/profil.jsp");
+	        		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/index.jsp");
 		    		rd.forward(request, response);
 	        	} else {
 	        		//TODO message d'erreur gestion erreur 

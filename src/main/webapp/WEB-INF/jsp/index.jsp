@@ -13,13 +13,7 @@
 	
 
     <body>
-        <nav>
-            <h1><a href="profil.jsp">ENI-Enchères</a></h1>
-            <ul>
-                <li><a href="ServletInscription">S'inscrire</a></li>
-                <li><a href="ServletConnexion">Se connecter</a></li>
-            </ul>
-        </nav>
+        <%@ include file="navigation.jsp" %>
 
         <main>
 

@@ -26,56 +26,56 @@
 					</div>
 	
 					<div class="field">
-						<label for="pseudo">Nom : </label>
+						<label for="nom">Nom : </label>
 						<input type="text" id="nom" name="nom" minlength="2" maxlength="30" required/>				
 					</div>
 				</div>
 				<div class="fields">
 					<div class="field">
-						<label for="pseudo">Prénom : </label>
+						<label for="prenom">Prénom : </label>
 						<input type="text" id="prenom" name="prenom" minlength="2" maxlength="30" required/>
 					</div>
 					
 					<div class="field">
-						<label for="pseudo">Email : </label>
+						<label for="email">Email : </label>
 						<input type="text" id="email" name="email" minlength="6" maxlength="50" required/>
 					</div>
 				</div>
 				
 				<div class="fields">
 					<div class="field">
-						<label for="pseudo">Téléphone : </label>
-						<input type="text" id="telephone" name="telephone" minlength="10" maxlength="15" required/>
+						<label for="tel">Téléphone : </label>
+						<input type="text" id="tel" name="telephone" minlength="10" maxlength="15" required/>
 					</div>
 					<div class="field">
-						<label for="pseudo">Rue : </label>
+						<label for="rue">Rue : </label>
 						<input type="text" id="rue" name="rue" minlength="10" maxlength="30" required/>
 					</div>
 				</div>
 				
 				<div class="fields">
 					<div class="field">
-						<label for="pseudo">Code Postal : </label>
-						<input type="text" id="code_postal" name="code_postal" minlength="5" maxlength="10" required/>
+						<label for="codePostal">Code Postal : </label>
+						<input type="text" id="codePostal" name="code_postal" minlength="5" maxlength="10" required/>
 					</div>
 					<div class="field">
-						<label for="pseudo">Ville : </label>
+						<label for="ville">Ville : </label>
 						<input type="text" id="ville" name="ville" minlength="2" maxlength="50" required/>
 					</div>
 				</div>
 				
 				<div class="fields">
 					<div class="field">
-						<label for="pseudo">Mot de passe : </label>
+						<label for="mdp">Mot de passe : </label>
 						<input type="password" id="mdp" name="mdp" minlength="8" maxlength="30" required/>
 					</div>
 					<div class="field">
-						<label for="pseudo">Confirmation : </label>
+						<label for="mdp_confirm">Confirmation : </label>
 						<input type="password" id="mdp_confirm" name="mdp_confirm" minlength="8" maxlength="30" required/>
 					</div>
 				</div>
 				
-				<p>Crédit : 640</p>
+				<p>Crédit : ??????????</p>
 
 				<button type="submit">Enregistrer</button>
 			</form>
