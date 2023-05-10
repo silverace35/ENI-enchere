@@ -3,7 +3,9 @@
 	<html>
 
 	<head>
-		<%@ include file="head.jsp" %>
+		<meta charset="UTF-8" />
+		<link rel="stylesheet" href="css/settings.css">
+        <link rel="stylesheet" href="css/login.css">
 		<title>Se connecter | ENI-enchere</title>
 	</head>
 
