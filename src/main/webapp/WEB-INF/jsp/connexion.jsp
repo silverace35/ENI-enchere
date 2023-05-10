@@ -1,3 +1,4 @@
+<%@page import="fr.eni.enchere.controller.ErrorCodes"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 	<!DOCTYPE html>
 	<html>
@@ -18,6 +19,7 @@
 		<main>
 			<h2>Se connecter</h2>
 			<form action="<%=request.getContextPath()%>/ServletConnexion" method="POST">
+				<p><%=request.getAttribute(ErrorCodes.IDORPASSWORD.name()) != null ? ErrorCodes.IDORPASSWORD.getMessage() : "" %></p>
 				<div class="fields">			
 					<div class="field">			
 						<label for="identifiant">Identifiant</label>

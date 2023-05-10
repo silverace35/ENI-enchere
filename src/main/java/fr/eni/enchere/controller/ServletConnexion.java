@@ -1,6 +1,10 @@
 package fr.eni.enchere.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -66,8 +70,9 @@ public class ServletConnexion extends HttpServlet {
 	        		//SI VALID : httpSession.setAttribute("IdUser", idUser);
 	        		response.sendRedirect("/ENI-enchere");
 	        	} else {
-	        		//TODO message d'erreur gestion erreur 
-	        		response.sendRedirect("ServletConnexion");
+	        		request.setAttribute(ErrorCodes.IDORPASSWORD.name(), ErrorCodes.IDORPASSWORD.getMessage());
+	        		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/connexion.jsp");
+	    			rd.forward(request, response);
 	        	}
 	        	
 	        } else {
