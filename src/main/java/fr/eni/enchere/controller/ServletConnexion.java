@@ -32,8 +32,16 @@ public class ServletConnexion extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/connexion.jsp");
-		rd.forward(request, response);
+		Cookie[] cookies = request.getCookies();
+		for (Cookie cookie : cookies) { 
+			if (cookie.getName().equals("cookieLogin")) {
+				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/index.jsp");
+				rd.forward(request, response);
+			} else {
+				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/connexion.jsp");
+				rd.forward(request, response);
+			}
+		}
 	}
 
 	/**
@@ -48,8 +56,6 @@ public class ServletConnexion extends HttpServlet {
 	        String pwdUser = request.getParameter("motDePasse");
 	        String souvenir = request.getParameter("souvenir");
 	        //TODO : gerer les erreurs d'entrées utilisateur
-	        //TODO : lors de l'afffichage de la page profil.jsp : si ne s'est pas deja connecté
-	        // => redirection vers index.jsp
 	        if (idUser != null && pwdUser != null) {
 	        	u = mgr.validerPwd(idUser, pwdUser);
 	        	if (u!=null) {
@@ -61,17 +67,6 @@ public class ServletConnexion extends HttpServlet {
 	        		HttpSession session = request.getSession(); 
 	        		request.getSession().setAttribute("noUtilisateur", u.getNoUtilisateur()); 
 	        		//SI VALID : httpSession.setAttribute("IdUser", idUser);
-		            // TODO : créer cookie pour se souvenir de moi
-		            //TODO: ajouter dans profil.jsp getsession + getAttribute(noUtilisateur)
-		            // TODO : ajouter dans profil.jsp userCookie
-// 					Cookie[] cookies = request.getCookies();
-//					if (cookies != null) {
-//					 for (Cookie cookie : cookies) {
-//					   if (userCookie.getName().equals("cookieName")) {
-//					     
-//					    }
-//					  }
-//					}
 	        		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/index.jsp");
 		    		rd.forward(request, response);
 	        	} else {

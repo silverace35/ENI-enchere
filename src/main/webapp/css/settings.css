@@ -116,6 +116,25 @@ a.secondary-link:hover {
 	color: var(--black);
 }
 
+a.warning-link {
+	font-size: 1rem;
+	background-color: red;
+	border: none;
+	color: var(--black);
+	cursor: pointer;
+    border-radius: 30px;
+    padding: 10px;
+    transition: 200ms ease-in-out;
+    text-decoration: none;
+    text-align: center;
+}
+
+a.warning-link:hover {
+	background-color: #ca0000;
+	border: none;
+	color: var(--white);
+}
+
 li {
 	list-style: none;
 }
