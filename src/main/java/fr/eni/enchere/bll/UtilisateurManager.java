@@ -64,7 +64,7 @@ public class UtilisateurManager {
 		}  catch (Exception e) {
 			
 		}
-		return null;
+		return u;
 	}
 
 	public void updateUtilisateur(Utilisateur utilisateur) {
