@@ -1,6 +1,7 @@
 :root {
   --green: #7b8950;
   --yellow: #e8c43a;
+  --red: #e92626;
   --black: #131313;
   --grey: #cbcbcb;
   --white: #f1f1f1;
@@ -131,7 +132,7 @@ a.secondary-link:hover {
 
 a.warning-link {
 	font-size: 1rem;
-	background-color: #e92626;
+	background-color: var(--red);
 	border: none;
 	color: var(--white);
 	cursor: pointer;
@@ -148,6 +149,30 @@ a.warning-link:hover {
 	color: var(--white);
 }
 
+input::placeholder {
+	color: var(--red);
+}
+
 li {
 	list-style: none;
 }
+
+@media screen and (max-width: 600px) {
+	
+	nav ul {
+		flex-direction: column;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,9 +1,12 @@
+<%@page import="fr.eni.enchere.controller.ErrorCodes"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 	<!DOCTYPE html>
 	<html>
 
 	<head>
-		<%@ include file="head.jsp" %>
+		<meta charset="UTF-8" />
+		<link rel="stylesheet" href="css/settings.css">
+        <link rel="stylesheet" href="css/login.css">
 		<title>Se connecter | ENI-enchere</title>
 	</head>
 
@@ -16,6 +19,7 @@
 		<main>
 			<h2>Se connecter</h2>
 			<form action="<%=request.getContextPath()%>/ServletConnexion" method="POST">
+				<p><%=request.getAttribute(ErrorCodes.IDORPASSWORD.name()) != null ? ErrorCodes.IDORPASSWORD.getMessage() : "" %></p>
 				<div class="fields">			
 					<div class="field">			
 						<label for="identifiant">Identifiant</label>
