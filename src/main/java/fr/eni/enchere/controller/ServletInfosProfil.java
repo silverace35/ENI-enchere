@@ -40,11 +40,11 @@ public class ServletInfosProfil extends HttpServlet {
 		//Je verifie que la session n'est pas null
 		if (session != null) {
 			//Je verifie que le numero utilisateur est bien renseigner en session
-			if (!session.getAttribute("noUtilisateur").equals("")) {
-				utilisateur = mgr.getUtilisateurByNoUtilisateur(Integer.valueOf((String)session.getAttribute("noUtilisateur")));
+			if (session.getAttribute("noUtilisateur") != null) {
+				
+				utilisateur = mgr.getUtilisateurByNoUtilisateur((Integer)session.getAttribute("noUtilisateur"));
 			}
 		}
-		
 		if (utilisateur != null) {
 			request.setAttribute("utilisateur", utilisateur);
 			rd.forward(request, response);
