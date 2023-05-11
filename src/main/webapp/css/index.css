@@ -53,16 +53,14 @@ select {
 }
 
 .icon {
+	opacity: 0.5;
 	height: 25px;
 	padding-right: 5px;
 }
 
 /* tablette */
 @media screen and (max-width: 900px) {
-	nav ul {
-		width: 30%;
-	}
-	
+
 	form {
 		width: 90%;
 	}
@@ -71,9 +69,7 @@ select {
 /* mobile */
 @media screen and (max-width: 600px) {
 	nav ul {
-		width: 50%;
 		flex-direction: column;
-		text-align: end;
 	}
 	
 	form {
