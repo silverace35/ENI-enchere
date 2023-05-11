@@ -1,6 +1,10 @@
 package fr.eni.enchere.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -71,6 +75,7 @@ public class ServletModifierProfil extends HttpServlet {
 		Utilisateur utilisateur = null;
 		try {
 			int noUtilisateur = (int)session.getAttribute("noUtilisateur");
+			utilisateur = mgr.getUtilisateurByNoUtilisateur(noUtilisateur);
 			String pseudo = request.getParameter("pseudo");
 			String nom = request.getParameter("nom");
 			String prenom = request.getParameter("prenom");
@@ -80,23 +85,63 @@ public class ServletModifierProfil extends HttpServlet {
 			String codePostal = request.getParameter("codePostal");
 			String ville = request.getParameter("ville");
 			String pwdUser = request.getParameter("motDePasse");
-			String confpwdUser = request.getParameter("confMotDePasse");
-			int credit = Integer.valueOf(request.getParameter("credit")) ;
-			boolean  administrateur = Boolean.getBoolean ((String)request.getParameter("administrateur"));
-			System.out.println(administrateur);
-	        //TODO : gerer les erreurs d'entrées utilisateur
-	        if (pseudo != null && nom != null && prenom != null && email != null && tel != null && rue != null && codePostal != null && ville != null && pwdUser != null && confpwdUser != null) {
-	            //TODO utiliser la BLL pour vérifier la validité des identifiants
-	        	utilisateur = new Utilisateur(noUtilisateur, pseudo, nom, prenom, email, tel, rue, codePostal, ville, confpwdUser, credit, administrateur);
-	        	System.out.println(utilisateur.toString());
-	        	mgr.updateUtilisateur(utilisateur);
-	        	
-	        	response.sendRedirect("/ENI-enchere");
-	        } else {
-	        	throw new Exception("Certains champs sont invalides");
-	        }
+			String confPwdUser = request.getParameter("confMotDePasse");
+			
+			int credit = utilisateur.getCredit();
+			boolean administrateur = utilisateur.getAdministrateur();
+			
+			request.setAttribute("utilisateur", utilisateur);
+			
+			List<ErrorCodes> lstParam = new ArrayList<>();
+			
+			if (validerChamps(lstParam, pseudo, nom, prenom, email, tel, rue, codePostal, ville, pwdUser, confPwdUser)) {
+				utilisateur = new Utilisateur(noUtilisateur, pseudo, nom, prenom, email, tel, rue, codePostal, ville, confPwdUser, credit, administrateur);
+				System.out.println(utilisateur.toString());
+				try {
+					mgr.updateUtilisateur(utilisateur);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				response.sendRedirect("/ENI-enchere");
+			} else {
+				request.setAttribute("lstParam", lstParam);
+				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/modifierProfil.jsp");
+				rd.forward(request, response);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+	
+	public boolean validerChamps(List<ErrorCodes> lstParam, String pseudo, String nom, String prenom, String email,
+			String tel, String rue, String codePostal, String ville, String pwdUser, String confPwdUser) {
+		boolean result = true;
+		valider(pseudo, ErrorCodes.PSEUDO, lstParam);
+		valider(nom, ErrorCodes.NOM, lstParam);
+		valider(prenom, ErrorCodes.PRENOM, lstParam);
+		valider(email, ErrorCodes.EMAIL, lstParam);
+		valider(tel, ErrorCodes.TEL, lstParam);
+		valider(rue, ErrorCodes.RUE, lstParam);
+		valider(codePostal, ErrorCodes.CODEPOSTAL, lstParam);
+		valider(ville, ErrorCodes.VILLE, lstParam);
+		valider(pwdUser, ErrorCodes.PWDUSER, lstParam);
+		valider(confPwdUser, ErrorCodes.CONFPWDUSER, lstParam);
+		
+		if (!confPwdUser.equals(pwdUser)) {
+			lstParam.add(ErrorCodes.PASSWORDMISSMATCH);
+		}
+		
+		for (ErrorCodes e : lstParam) {
+			result = false;
+		}
+		return result;
+	}
+	
+	public void valider(String text, ErrorCodes errorCode, List<ErrorCodes> lstParam) {
+		Pattern pattern = Pattern.compile(errorCode.getPattern());
+		Matcher matcher = pattern.matcher(text);
+		if (!matcher.matches()) {
+			lstParam.add(errorCode);
 		}
 	}
 
