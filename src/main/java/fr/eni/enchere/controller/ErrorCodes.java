@@ -13,7 +13,8 @@ public enum ErrorCodes {
 	PWDUSER("Format de mot de passe incorrect.", "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&+=*])(?=\\S+$).{8,30}$"),
 	CONFPWDUSER("Format de mot de passe incorrect.", "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&+=])(?=\\S+$).{8,30}$"),
 	PASSWORDMISSMATCH("Les mots de passe ne correspondent pas."),
-	
+	PSEUDO_OR_EMAIL_ALREADY_EXIST("Le pseudo ou l'email existe déjà."),
+	SQL_ERROR("Connexion à la base impossible.")
 	;
 
 	private String message;

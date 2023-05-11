@@ -25,4 +25,7 @@ public interface DAOUtilisateur {
 	
 	// Check login/email and pwd match
 	Utilisateur checkPwd(String pseudo, String pwd) throws BusinessException;
+	
+	// Check whether the pseudo or the email already exists
+	public boolean checkPseudoEmail(String pseudo, String email) throws BusinessException;
 }

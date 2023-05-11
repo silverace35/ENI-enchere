@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 
 import fr.eni.enchere.bll.UtilisateurManager;
 import fr.eni.enchere.bo.Utilisateur;
+import fr.eni.enchere.dal.exceptions.BusinessException;
 
 /**
  * Servlet implementation class ServletCreerCompte
@@ -72,17 +73,22 @@ public class ServletInscription extends HttpServlet {
 		List<ErrorCodes> lstParam = new ArrayList<>();
 
 		if (validerChamps(lstParam, pseudo, nom, prenom, email, tel, rue, codePostal, ville, pwdUser, confPwdUser)) {
-
+			
 			try {
-
 				Utilisateur u = mgr.insert(pseudo, nom, prenom, email, tel, rue, codePostal, ville, confPwdUser, 100);
-				System.out.println(u); 
+				System.out.println(u);
 				request.setAttribute("utilisateur", u);
 				// HttpSession session = request.getSession();
 				request.getSession().setAttribute("noUtilisateur", u.getNoUtilisateur());
 				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/index.jsp");
 				rd.forward(request, response);
-
+			} catch (BusinessException be) {
+				if (be.getMessage().contains(ErrorCodes.PSEUDO_OR_EMAIL_ALREADY_EXIST.getMessage())) {
+					lstParam.add(ErrorCodes.PSEUDO_OR_EMAIL_ALREADY_EXIST);
+					request.setAttribute("lstParam", lstParam);
+					RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/inscription.jsp");
+					rd.forward(request, response);
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -108,11 +114,11 @@ public class ServletInscription extends HttpServlet {
 		valider(ville, ErrorCodes.VILLE, lstParam);
 		valider(pwdUser, ErrorCodes.PWDUSER, lstParam);
 		valider(confPwdUser, ErrorCodes.CONFPWDUSER, lstParam);
-		
+
 		if (!confPwdUser.equals(pwdUser)) {
 			lstParam.add(ErrorCodes.PASSWORDMISSMATCH);
 		}
-		
+
 		for (ErrorCodes e : lstParam) {
 			result = false;
 		}

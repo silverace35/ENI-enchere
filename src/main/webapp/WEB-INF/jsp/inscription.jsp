@@ -119,6 +119,7 @@
 					</div>
 				</div>
 						<p><%=lstPara.contains(ErrorCodes.PASSWORDMISSMATCH)?ErrorCodes.PASSWORDMISSMATCH.getMessage():""%></p>
+						<p><%=lstPara.contains(ErrorCodes.PSEUDO_OR_EMAIL_ALREADY_EXIST)?ErrorCodes.PSEUDO_OR_EMAIL_ALREADY_EXIST.getMessage():""%></p>
 				
 				<Button type="submit">Créer mon compte</button>
 			</form>

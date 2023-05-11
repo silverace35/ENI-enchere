@@ -1,6 +1,7 @@
 package fr.eni.enchere.dal;
 
 import java.sql.Connection;
+import fr.eni.enchere.controller.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -155,38 +156,26 @@ public class UtilisateurDAOJdbcImpl implements DAOUtilisateur{
 		
 		try(Connection cnx = ConnectionProvider.getConnection())
 		{
-			PreparedStatement pstmt = cnx.prepareStatement(CHECK);
+			PreparedStatement pstmt = cnx.prepareStatement(INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
 			pstmt.setString(1, u.getPseudo());
-			pstmt.setString(2, u.getEmail());
-			ResultSet rs = pstmt.executeQuery();
-			 if(!rs.next()) {
-				pstmt.close();
-				//rs.close();
-				pstmt = cnx.prepareStatement(INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
-				pstmt.setString(1, u.getPseudo());
-				pstmt.setString(2, u.getNom());
-				pstmt.setString(3, u.getPrenom());
-				pstmt.setString(4, u.getEmail());
-				pstmt.setString(5, u.getTelephone());
-				pstmt.setString(6, u.getRue());
-				pstmt.setString(7, u.getCodePostal());
-				pstmt.setString(8, u.getVille());
-				pstmt.setString(9, u.getMotDePasse());
-				pstmt.setInt(10, u.getCredit());
-				pstmt.setBoolean(11, u.getAdministrateur());
-				pstmt.executeUpdate();
-				rs = pstmt.getGeneratedKeys();
-				if(rs.next())
-				{
-					u.setNoUtilisateur(rs.getInt(1));
-				}
-			 } else {
-				 throw new BusinessException("Pseudo ou email déjà inscrit !");
-			 }
-			
-			
+			pstmt.setString(2, u.getNom());
+			pstmt.setString(3, u.getPrenom());
+			pstmt.setString(4, u.getEmail());
+			pstmt.setString(5, u.getTelephone());
+			pstmt.setString(6, u.getRue());
+			pstmt.setString(7, u.getCodePostal());
+			pstmt.setString(8, u.getVille());
+			pstmt.setString(9, u.getMotDePasse());
+			pstmt.setInt(10, u.getCredit());
+			pstmt.setBoolean(11, u.getAdministrateur());
+			pstmt.executeUpdate();
+			ResultSet rs = pstmt.getGeneratedKeys();
+			if(rs.next())
+			{
+				u.setNoUtilisateur(rs.getInt(1));
+			}
 		}
-		catch(BusinessException | SQLException e)
+		catch( SQLException e)
 		{
 			//e.printStackTrace();
 			BusinessException businessException = new BusinessException(e.getMessage());
@@ -194,6 +183,25 @@ public class UtilisateurDAOJdbcImpl implements DAOUtilisateur{
 		}
 		return u;
 	}
+	
+	
+	public boolean checkPseudoEmail(String pseudo, String email) throws BusinessException{
+		boolean res = false;
+		try(Connection cnx = ConnectionProvider.getConnection())
+		{
+			PreparedStatement pstmt = cnx.prepareStatement(CHECK);
+			pstmt.setString(1, pseudo);
+			pstmt.setString(2, email);
+			ResultSet rs = pstmt.executeQuery();
+			 if(rs.next()) {
+				 res=true;
+			 	}
+		}  catch (SQLException e) {
+			 throw new BusinessException(ErrorCodes.SQL_ERROR.getMessage());
+		 }
+		return res;
+	}
+	
 
 	@Override
 	public void delete(int noUtilisateur) throws BusinessException {
@@ -222,7 +230,6 @@ public class UtilisateurDAOJdbcImpl implements DAOUtilisateur{
 			pstmt.setString(3, pwd);
 			
 			ResultSet rs = pstmt.executeQuery();
-			
 			
 			if (rs.next()) {
 				u = new Utilisateur(

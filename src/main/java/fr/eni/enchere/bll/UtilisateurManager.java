@@ -1,6 +1,7 @@
 package fr.eni.enchere.bll;
 
 import fr.eni.enchere.bo.Utilisateur;
+import fr.eni.enchere.controller.ErrorCodes;
 import fr.eni.enchere.dal.DAOUtilisateur;
 import fr.eni.enchere.dal.FactoryDAO;
 import fr.eni.enchere.dal.exceptions.BusinessException;
@@ -18,6 +19,15 @@ public class UtilisateurManager {
 	
 	public Utilisateur insert(String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal, String ville, String mdp, Integer credit) throws Exception {
 		Utilisateur u = null;
+		try {
+			if (this.daoUtilisateur.checkPseudoEmail(pseudo, email)) {
+				System.out.println("j'ai cramé le doublon");
+				throw new BusinessException(ErrorCodes.PSEUDO_OR_EMAIL_ALREADY_EXIST.getMessage());
+			}
+			
+		} catch (BusinessException be) {
+			throw be;
+		}
 		try {
 			u = this.daoUtilisateur.insert(new Utilisateur(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, mdp, credit, false));
 		} catch (Exception e) {
