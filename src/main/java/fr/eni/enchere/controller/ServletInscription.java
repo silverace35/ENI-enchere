@@ -76,7 +76,7 @@ public class ServletInscription extends HttpServlet {
 			try {
 
 				Utilisateur u = mgr.insert(pseudo, nom, prenom, email, tel, rue, codePostal, ville, confPwdUser, 100);
-				System.out.println(u);
+				System.out.println(u); 
 				request.setAttribute("utilisateur", u);
 				// HttpSession session = request.getSession();
 				request.getSession().setAttribute("noUtilisateur", u.getNoUtilisateur());
@@ -108,10 +108,11 @@ public class ServletInscription extends HttpServlet {
 		valider(ville, ErrorCodes.VILLE, lstParam);
 		valider(pwdUser, ErrorCodes.PWDUSER, lstParam);
 		valider(confPwdUser, ErrorCodes.CONFPWDUSER, lstParam);
+		
 		if (!confPwdUser.equals(pwdUser)) {
 			lstParam.add(ErrorCodes.PASSWORDMISSMATCH);
 		}
-
+		
 		for (ErrorCodes e : lstParam) {
 			result = false;
 		}
