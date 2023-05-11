@@ -1,3 +1,4 @@
+<%@page import="fr.eni.enchere.controller.ErrorCodes"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page import="java.util.List"%>
@@ -22,13 +23,15 @@
 			<h2>Créer un compte</h2>
 
 			<form class="" action="ServletInscription" method="POST">
-						<%List<String> lstPara =(List<String>)request.getAttribute("lstParam");%>		
+						<%List<ErrorCodes> lstPara =(List<ErrorCodes>)request.getAttribute("lstParam");
+							lstPara = 
+							%>		
 				<div class="fields">
 					<div class="field">	
 						<label for="pseudo">Pseudo : </label>
 						<input type="text" id="pseudo" name="pseudo" minlength="2" maxlength="30" required
-						value= "<%=lstPara==null?"":lstPara.get(0)=="true"?request.getParameter("pseudo"):""%>"
-						placeholder= "<%=lstPara==null?"":lstPara.get(0)=="true"?"":lstPara.get(0)%>"
+						value= "<%=lstPara==null?"":lstPara.contains(ErrorCodes.PSEUDO)?"":request.getParameter("pseudo")%>"
+						placeholder= "<%=lstPara==null?"":lstPara.contains(ErrorCodes.PSEUDO)?ErrorCodes.PSEUDO.getMessage():""%>"
 						
 						/>
 					
@@ -37,8 +40,8 @@
 					<div class="field">
 						<label for="nom">Nom : </label>
 						<input type="text" id="nom" name="nom" minlength="2" maxlength="30" required
-						value= "<%=lstPara==null?"":lstPara.get(1)=="true"?request.getParameter("nom"):""%>"
-						placeholder= "<%=lstPara==null?"":lstPara.get(1)=="true"?"":lstPara.get(1)%>"
+						value= "<%=lstPara==null?"":lstPara.contains(ErrorCodes.NOM)?"":request.getParameter("nom")%>"
+						placeholder= "<%=lstPara==null?"":lstPara.contains(ErrorCodes.NOM)?ErrorCodes.NOM.getMessage():""%>"
 						/>		
 					</div>
 				</div>
@@ -46,16 +49,16 @@
 					<div class="field">
 						<label for="prenom">Prénom : </label>
 						<input type="text" id="prenom" name="prenom" minlength="2" maxlength="30" required
-						value= "<%=lstPara==null?"":lstPara.get(2)=="true"?request.getParameter("prenom"):""%>"
-						placeholder= "<%=lstPara==null?"":lstPara.get(2)=="true"?"":lstPara.get(2)%>"
+						value= "<%=lstPara==null?"":lstPara.contains(ErrorCodes.PRENOM)?"":request.getParameter("prenom")%>"
+						placeholder= "<%=lstPara==null?"":lstPara.contains(ErrorCodes.PRENOM)?ErrorCodes.PRENOM.getMessage():""%>"
 						/>
 					</div>
 					
 					<div class="field">
 						<label for="email">Email : </label>
 						<input type="text" id="email" name="email" minlength="6" maxlength="50" required
-						value= "<%=lstPara==null?"":lstPara.get(3)=="true"?request.getParameter("email"):""%>"
-						placeholder= "<%=lstPara==null?"":lstPara.get(3)=="true"?"":lstPara.get(3)%>"
+						value= "<%=lstPara==null?"":lstPara.contains(ErrorCodes.EMAIL)?"":request.getParameter("email")%>"
+						placeholder= "<%=lstPara==null?"":lstPara.contains(ErrorCodes.EMAIL)?ErrorCodes.EMAIL.getMessage():""%>"
 						/>
 					</div>
 				</div>
@@ -64,15 +67,15 @@
 					<div class="field">
 						<label for="tel">Téléphone : </label>
 						<input type="text" id="tel" name="tel" minlength="10" maxlength="15" required
-						value= "<%=lstPara==null?"":lstPara.get(4)=="true"?request.getParameter("tel"):""%>"
-						placeholder= "<%=lstPara==null?"":lstPara.get(4)=="true"?"":lstPara.get(4)%>"
+						value= "<%=lstPara==null?"":lstPara.contains(ErrorCodes.TEL)?"":request.getParameter("tel")%>"
+						placeholder= "<%=lstPara==null?"":lstPara.contains(ErrorCodes.TEL)?ErrorCodes.TEL.getMessage():""%>"
 						/>
 					</div>
 					<div class="field">
 						<label for="rue">Rue : </label>
 						<input type="text" id="rue" name="rue" minlength="10" maxlength="30" required
-						value= "<%=lstPara==null?"":lstPara.get(5)=="true"?request.getParameter("rue"):""%>"
-						placeholder= "<%=lstPara==null?"":lstPara.get(5)=="true"?"":lstPara.get(5)%>"
+						value= "<%=lstPara==null?"":lstPara.contains(ErrorCodes.RUE)?"":request.getParameter("rue")%>"
+						placeholder= "<%=lstPara==null?"":lstPara.contains(ErrorCodes.RUE)?ErrorCodes.RUE.getMessage():""%>"
 						/>
 					</div>
 				</div>
@@ -81,15 +84,15 @@
 					<div class="field">
 						<label for="codePostal">Code Postal : </label>
 						<input type="text" id="codePostal" name="codePostal" minlength="5" maxlength="10" required
-						value= "<%=lstPara==null?"":lstPara.get(6)=="true"?request.getParameter("codePostal"):""%>"
-						placeholder= "<%=lstPara==null?"":lstPara.get(6)=="true"?"":lstPara.get(6)%>"
+						value= "<%=lstPara==null?"":lstPara.contains(ErrorCodes.CODEPOSTAL)?"":request.getParameter("codePostal")%>"
+						placeholder= "<%=lstPara==null?"":lstPara.contains(ErrorCodes.CODEPOSTAL)?ErrorCodes.CODEPOSTAL.getMessage():""%>"
 						/>
 					</div>
 					<div class="field">
 						<label for="ville">Ville : </label>
 						<input type="text" id="ville" name="ville" minlength="2" maxlength="50" required
-						value= "<%=lstPara==null?"":lstPara.get(7)=="true"?request.getParameter("ville"):""%>"
-						placeholder= "<%=lstPara==null?"":lstPara.get(7)=="true"?"":lstPara.get(7)%>"
+						value= "<%=lstPara==null?"":lstPara.contains(ErrorCodes.VILLE)?"":request.getParameter("ville")%>"
+						placeholder= "<%=lstPara==null?"":lstPara.contains(ErrorCodes.VILLE)?ErrorCodes.VILLE.getMessage():""%>"
 						/>
 					</div>
 				</div>
@@ -98,14 +101,15 @@
 					<div class="field">
 						<label for="motDePasse">Mot de passe : </label>
 						<input type="password" id="motDePasse" name="motDePasse" minlength="8" maxlength="30" required
-						placeholder= "<%=lstPara==null?"":(lstPara.get(8)=="true"?(lstPara.get(10)=="true"?"":lstPara.get(10)):lstPara.get(8))%>"
+						placeholder= "<%=lstPara==null?"":lstPara.contains(ErrorCodes.PWDUSER)?ErrorCodes.PWDUSER.getMessage():""%>"
 						
 						/>
 					</div>
 					<div class="field">
 						<label for="confMotDePasse">Confirmation : </label>
+						<p><%=lstPara==null?"":lstPara.contains(ErrorCodes.PASSWORDMISSMATCH)?ErrorCodes.PASSWORDMISSMATCH.getMessage():""%></p>
 						<input type="password" id="confMotDePasse" name="confMotDePasse" minlength="8" maxlength="30" required
-						placeholder= "<%=lstPara==null?"":(lstPara.get(9)=="true"?(lstPara.get(10)=="true"?"":lstPara.get(10)):lstPara.get(9))%>"
+						placeholder= "<%=lstPara==null?"":lstPara.contains(ErrorCodes.CONFPWDUSER)?ErrorCodes.PWDUSER.getMessage():""%>"
 						/>
 					</div>
 				</div>

@@ -23,19 +23,21 @@ import fr.eni.enchere.bo.Utilisateur;
 @WebServlet("/ServletInscription")
 public class ServletInscription extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ServletInscription() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public ServletInscription() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		if (request.getSession().getAttribute("noUtilisateur") != null) {
 			response.sendRedirect("/ENI-enchere");
@@ -47,13 +49,15 @@ public class ServletInscription extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
 		request.setCharacterEncoding("UTF-8");
 		UtilisateurManager mgr = new UtilisateurManager();
-		
+
 		String pseudo = request.getParameter("pseudo");
 		String nom = request.getParameter("nom");
 		String prenom = request.getParameter("prenom");
@@ -64,76 +68,63 @@ public class ServletInscription extends HttpServlet {
 		String ville = request.getParameter("ville");
 		String pwdUser = request.getParameter("motDePasse");
 		String confPwdUser = request.getParameter("confMotDePasse");
-		
-		List<String> lstParam = new ArrayList<>();
-		
+
+		List<ErrorCodes> lstParam = new ArrayList<>();
+
 		if (validerChamps(lstParam, pseudo, nom, prenom, email, tel, rue, codePostal, ville, pwdUser, confPwdUser)) {
-		
+
 			try {
-				
-				
+
 				Utilisateur u = mgr.insert(pseudo, nom, prenom, email, tel, rue, codePostal, ville, confPwdUser, 100);
 				System.out.println(u);
 				request.setAttribute("utilisateur", u);
-				//HttpSession session = request.getSession(); 
-        		request.getSession().setAttribute("noUtilisateur", u.getNoUtilisateur()); 
+				// HttpSession session = request.getSession();
+				request.getSession().setAttribute("noUtilisateur", u.getNoUtilisateur());
 				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/index.jsp");
 				rd.forward(request, response);
-				
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		
+
 		} else {
 			request.setAttribute("lstParam", lstParam);
 			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/inscription.jsp");
 			rd.forward(request, response);
 		}
-			
+
 	}
-	
-	public boolean validerChamps(List<String> lstParam, String pseudo, String nom, String prenom, 
-			String email, String tel, String rue, String codePostal, String ville, String pwdUser, String confPwdUser) {
-			boolean result = true;
-			final String patternString = "^[\\w-]{2,30}$";
-			final String patternNom = "^[a-z A-Z\\'\\-]{2,30}$";
-			final String patternVille = "^[a-z A-Z\\'\\-]{2,50}$";
-			final String patternRue = "^[0-9 a-z A-Z\\'\\-]{2,30}$";
-			final String patternEmail = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
-			final String patternTel = "(^\\+{1}+[3]{2}+[0-9]{9}$)|(^0{1}+[0-9]{9}$)";
-			final String patternCP = "^[0-9]{5}$";
-			final String patternMDP = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&+=])(?=\\S+$).{8,30}$";
-			
-				lstParam.add(valider(patternString, pseudo, "Caractères alphanumériques requis."));
-				lstParam.add(valider(patternNom, nom, "Caractères alphanumériques requis."));
-				lstParam.add(valider(patternNom, prenom, "Caractères alphanumériques requis."));
-				lstParam.add(valider(patternEmail, email, "Type de format possible xxxx-xxxx@xxxx.xxx."));
-				lstParam.add(valider(patternTel, tel, "+33123123112 ou 0110203040"));
-				lstParam.add(valider(patternRue, rue, "Caractères alphanumériques requis."));
-				lstParam.add(valider(patternCP, codePostal, "Code postal incorrect."));
-				lstParam.add(valider(patternVille, ville, "Caractères alphanumériques requis."));
-				lstParam.add(valider(patternMDP, pwdUser, "Format de mot de passe incorrect."));
-				lstParam.add(valider(patternMDP, confPwdUser, "Format de mot de passe incorrect."));
-				lstParam.add(confPwdUser.equals(pwdUser)? "true":"Les mots de passe ne correspondent pas.");
-			for(String s:lstParam)	 {
-				if (!"true".equals(s)) {
-					result = false;
-				}
-			}
-		return result;
-	}
-	
-	public String valider(String pat, String text, String message) {
-		Pattern pattern = Pattern.compile(pat);
-		Matcher matcher = pattern.matcher(text);
-		String result;
-		if (matcher.matches() ) {
-			result = "true";
-		} else {
-			result = message;
+
+	public boolean validerChamps(List<ErrorCodes> lstParam, String pseudo, String nom, String prenom, String email,
+			String tel, String rue, String codePostal, String ville, String pwdUser, String confPwdUser) {
+		boolean result = true;
+		valider(pseudo, ErrorCodes.PSEUDO, lstParam);
+		valider(nom, ErrorCodes.NOM, lstParam);
+		valider(prenom, ErrorCodes.PRENOM, lstParam);
+		valider(email, ErrorCodes.EMAIL, lstParam);
+		valider(tel, ErrorCodes.TEL, lstParam);
+		valider(rue, ErrorCodes.RUE, lstParam);
+		valider(codePostal, ErrorCodes.CODEPOSTAL, lstParam);
+		valider(ville, ErrorCodes.VILLE, lstParam);
+		valider(pwdUser, ErrorCodes.PWDUSER, lstParam);
+		valider(confPwdUser, ErrorCodes.CONFPWDUSER, lstParam);
+		if (!confPwdUser.equals(pwdUser)) {
+			lstParam.add(ErrorCodes.PASSWORDMISSMATCH);
+		}
+
+		for (ErrorCodes e : lstParam) {
+			result = false;
 		}
 		return result;
 	}
 
+	public void valider(String text, ErrorCodes errorCode, List<ErrorCodes> lstParam) {
+		Pattern pattern = Pattern.compile(errorCode.getPattern());
+		Matcher matcher = pattern.matcher(text);
+		String result;
+		if (!matcher.matches()) {
+			lstParam.add(errorCode);
+		}
+	}
 
 }
