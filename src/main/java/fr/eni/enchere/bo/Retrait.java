@@ -1,30 +1,34 @@
 package fr.eni.enchere.bo;
 
-public class Retrait {
+import java.io.Serializable;
+
+public class Retrait implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private Integer noArticle;
 	private String rue;
 	private String codePostal;
 	private String ville;
-	private Boolean isRetire = false;
 	
 	public Retrait() {
 	}
 
-	public Retrait(Integer noArticle, String rue, String codePostal, String ville, Boolean isRetire) {
+	public Retrait(Integer noArticle, String rue, String codePostal, String ville) {
 		super();
 		this.noArticle = noArticle;
 		this.rue = rue;
 		this.codePostal = codePostal;
 		this.ville = ville;
-		this.isRetire = isRetire;
 	}
 	
-	public Retrait(String rue, String codePostal, String ville, Boolean isRetire) {
+	public Retrait(String rue, String codePostal, String ville) {
 		super();
 		this.rue = rue;
 		this.codePostal = codePostal;
 		this.ville = ville;
-		this.isRetire = isRetire;
 	}
 
 	public Integer getNoArticle() {
@@ -59,14 +63,6 @@ public class Retrait {
 		this.ville = ville;
 	}
 
-	public Boolean getIsRetire() {
-		return isRetire;
-	}
-
-	public void setIsRetire(Boolean isRetire) {
-		this.isRetire = isRetire;
-	}
-
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -79,7 +75,6 @@ public class Retrait {
 		builder.append(", ville=");
 		builder.append(ville);
 		builder.append(", isRetire=");
-		builder.append(isRetire);
 		builder.append("]");
 		return builder.toString();
 	}
