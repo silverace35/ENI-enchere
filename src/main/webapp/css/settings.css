@@ -62,10 +62,13 @@ nav a:hover, #desktop-menu a:hover {
 }
 
 #desktop-menu {
-	width: 15%;
 	display: flex;
 	flex-direction: row;
 	justify-content: space-around;
+}
+
+#desktop-menu li {
+	padding-right: 10px;
 }
 
 #menuToggle {
@@ -243,13 +246,6 @@ input::placeholder {
 
 li {
 	list-style: none;
-}
-
-@media screen and (max-width: 1300px) {
-	
-	#desktop-menu {
-		width: 30%;
-	}
 }
 
 /* mobile */
