@@ -28,4 +28,8 @@ public interface DAOUtilisateur {
 	
 	// Check whether the pseudo or the email already exists
 	public boolean checkPseudoEmail(String pseudo, String email) throws BusinessException;
+	// Check if the pseudo already exists
+	public boolean checkEmail(String email) throws BusinessException;
+	// Check if the email already exists
+	public boolean checkPseudo(String pseudo) throws BusinessException;
 }

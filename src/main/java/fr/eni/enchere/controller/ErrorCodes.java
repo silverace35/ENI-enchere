@@ -14,7 +14,9 @@ public enum ErrorCodes {
 	CONFPWDUSER("Format de mot de passe incorrect.", "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&+=])(?=\\S+$).{8,30}$"),
 	PASSWORDMISSMATCH("Les mots de passe ne correspondent pas."),
 	PSEUDO_OR_EMAIL_ALREADY_EXIST("Le pseudo ou l'email existe déjà."),
-	SQL_ERROR("Connexion à la base impossible.")
+	PSEUDO_ALREADY_EXIST("Le pseudo existe déjà."),
+	EMAIL_ALREADY_EXIST("l'email existe déjà."),
+	SQL_ERROR("Connexion à la base impossible."),
 	;
 
 	private String message;

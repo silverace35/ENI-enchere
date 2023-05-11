@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 
 import fr.eni.enchere.bll.UtilisateurManager;
 import fr.eni.enchere.bo.Utilisateur;
+import fr.eni.enchere.dal.exceptions.BusinessException;
 
 /**
  * Servlet implementation class ServletModifierProfil
@@ -99,6 +100,18 @@ public class ServletModifierProfil extends HttpServlet {
 				System.out.println(utilisateur.toString());
 				try {
 					mgr.updateUtilisateur(utilisateur);
+				} catch (BusinessException be) {
+					if (be.getMessage().contains(ErrorCodes.PSEUDO_ALREADY_EXIST.getMessage())) {
+						lstParam.add(ErrorCodes.PSEUDO_ALREADY_EXIST);
+					}
+					if (be.getMessage().contains(ErrorCodes.EMAIL_ALREADY_EXIST.getMessage())) {
+						lstParam.add(ErrorCodes.EMAIL_ALREADY_EXIST);
+					}
+					
+					request.setAttribute("lstParam", lstParam);
+					RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/modifierProfil.jsp");
+					rd.forward(request, response);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

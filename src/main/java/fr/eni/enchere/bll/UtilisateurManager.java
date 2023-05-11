@@ -77,12 +77,29 @@ public class UtilisateurManager {
 		return u;
 	}
 
-	public void updateUtilisateur(Utilisateur utilisateur) {
-		// TODO Auto-generated method stub
+	public void updateUtilisateur(Utilisateur utilisateur) throws BusinessException {
+		try {
+			Utilisateur oldUser = this.daoUtilisateur.selectByNoUtilisateur(utilisateur.getNoUtilisateur());
+			if (!oldUser.getPseudo().equals(utilisateur.getPseudo())) {
+				if (this.daoUtilisateur.checkPseudo(utilisateur.getPseudo())) {
+					System.out.println("j'ai cramé le doublon pseudo existe");
+					throw new BusinessException(ErrorCodes.PSEUDO_ALREADY_EXIST.getMessage());
+				}
+			}
+			if (!oldUser.getEmail().equals(utilisateur.getEmail())) {
+				if (this.daoUtilisateur.checkEmail(utilisateur.getEmail())) {
+					System.out.println("j'ai cramé le doublon email existe");
+					throw new BusinessException(ErrorCodes.EMAIL_ALREADY_EXIST.getMessage());
+				}
+			}
+		} catch (BusinessException be) {
+			throw be;
+		}
 		try {
 			this.daoUtilisateur.update(utilisateur);
+			System.out.println("ça try d'update l'utilisateur");
 		}  catch (Exception e) {
-			
+			e.printStackTrace();
 		}
 	}
 	

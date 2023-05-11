@@ -37,7 +37,7 @@
 			<form action="/ENI-enchere/ServletModifierProfil" method="POST">
 			
 				<div class="fields">
-					<div class="field">			
+					<div class="field">
 						<label for="pseudo">Pseudo : </label>
 						<input type="text" id="pseudo" name="pseudo" minlength="2" maxlength="30" required
 							 value= "<%=lstPara.contains(ErrorCodes.PSEUDO)?"":request.getAttribute("pseudo")==null?request.getParameter("pseudo"):request.getAttribute("pseudo")%>"
@@ -123,7 +123,8 @@
 					</div>
 				</div>
 						<p><%=lstPara.contains(ErrorCodes.PASSWORDMISSMATCH)?ErrorCodes.PASSWORDMISSMATCH.getMessage():""%></p>
-				
+						<p><%=lstPara.contains(ErrorCodes.PSEUDO_ALREADY_EXIST)?ErrorCodes.PSEUDO_ALREADY_EXIST.getMessage():""%></p>
+						<p><%=lstPara.contains(ErrorCodes.EMAIL_ALREADY_EXIST)?ErrorCodes.EMAIL_ALREADY_EXIST.getMessage():""%></p>
 				<p>Crédit : ${utilisateur.getCredit()}</p>
 
 				<button type="submit">Enregistrer</button>

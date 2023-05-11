@@ -24,6 +24,8 @@ public class UtilisateurDAOJdbcImpl implements DAOUtilisateur{
 	private static final String DELETEBYID="DELETE FROM utilisateurs WHERE no_utilisateur=?;";
 	private static final String SELECTBYPWD="SELECT * FROM utilisateurs WHERE ((pseudo=? OR email=?) AND (mot_de_passe=?));";
 	private static final String CHECK="SELECT * FROM utilisateurs WHERE pseudo=? OR email=?;";
+	private static final String CHECKPSEUDO="SELECT * FROM utilisateurs WHERE pseudo=?;";
+	private static final String CHECKEMAIL="SELECT * FROM utilisateurs WHERE email=?;";
 	
 	private UtilisateurDAOJdbcImpl() {
 	}
@@ -199,6 +201,38 @@ public class UtilisateurDAOJdbcImpl implements DAOUtilisateur{
 		}  catch (SQLException e) {
 			 throw new BusinessException(ErrorCodes.SQL_ERROR.getMessage());
 		 }
+		return res;
+	}
+	
+	public boolean checkPseudo(String pseudo) throws BusinessException{
+		boolean res = false;
+		try(Connection cnx = ConnectionProvider.getConnection())
+		{
+			PreparedStatement pstmt = cnx.prepareStatement(CHECKPSEUDO);
+			pstmt.setString(1, pseudo);
+			ResultSet rs = pstmt.executeQuery();
+			 if(rs.next()) {
+				 res=true;
+			 }
+		}  catch (SQLException e) {
+			 throw new BusinessException(ErrorCodes.SQL_ERROR.getMessage());
+		}
+		return res;
+	}
+	
+	public boolean checkEmail(String email) throws BusinessException{
+		boolean res = false;
+		try(Connection cnx = ConnectionProvider.getConnection())
+		{
+			PreparedStatement pstmt = cnx.prepareStatement(CHECKEMAIL);
+			pstmt.setString(1, email);
+			ResultSet rs = pstmt.executeQuery();
+			 if(rs.next()) {
+				 res=true;
+			 }
+		}  catch (SQLException e) {
+			 throw new BusinessException(ErrorCodes.SQL_ERROR.getMessage());
+		}
 		return res;
 	}
 	
