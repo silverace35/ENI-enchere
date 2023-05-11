@@ -12,4 +12,6 @@ public interface CategorieDAO {
 	List<Categorie> selectAllCategories() throws BusinessException;
 	void update(Categorie c) throws BusinessException;
 	void delete(int noCategorie) throws BusinessException;
+	
+	boolean checkLibelle(String libelle) throws BusinessException;
 }

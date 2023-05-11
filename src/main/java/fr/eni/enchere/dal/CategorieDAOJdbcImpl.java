@@ -3,25 +3,44 @@ package fr.eni.enchere.dal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import fr.eni.enchere.bo.Categorie;
+import fr.eni.enchere.controller.ErrorCodes;
 import fr.eni.enchere.dal.exceptions.BusinessException;
 
 public class CategorieDAOJdbcImpl implements CategorieDAO {
+	private static CategorieDAOJdbcImpl instance;
 	
 	private static final String INSERT_CATEGORIE = "";
 	private static final String SELECT_CATEGORIE_BY_ID = "";
 	private static final String SELECT_ALL_CATEGORIES = "";
 	private static final String UPDATE_CATEGORIE= "";
 	private static final String DELETE_CATEGORIE = "";
+	private static final String CHECK_LIBELLE="SELECT * FROM Categories WHERE libelle=?;";
+	
+	private CategorieDAOJdbcImpl() {
+	}
+
+	//Singleton
+	public static CategorieDAOJdbcImpl getInstance() {
+		if (instance == null) {
+			instance = new CategorieDAOJdbcImpl();
+		}
+		return instance;
+	}
 
 	@Override
 	public Categorie insert(Categorie c) throws BusinessException {
 		if (c == null) {
 			BusinessException businessException = new BusinessException("La catégorie est null");
 			throw businessException;
+		}
+		
+		if(!checkLibelle(c.getLibelle())) {
+			throw new BusinessException("Cette catégorie existe déjà, veuillez en choisir une autre");
 		}
 
 		try (Connection cnx = ConnectionProvider.getConnection()) {
@@ -34,9 +53,7 @@ public class CategorieDAOJdbcImpl implements CategorieDAO {
 				c.setNoCategorie(rs.getInt(1));
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
-			BusinessException businessException = new BusinessException();
-			throw businessException;
+			throw new BusinessException();
 		}
 		return c;
 	}
@@ -53,9 +70,7 @@ public class CategorieDAOJdbcImpl implements CategorieDAO {
 			}
 			pstmt.executeQuery();
 		} catch (Exception e) {
-			e.printStackTrace();
-			BusinessException businessException = new BusinessException();
-			throw businessException;
+			throw new BusinessException();
 		}
 		return c;
 	}
@@ -73,9 +88,7 @@ public class CategorieDAOJdbcImpl implements CategorieDAO {
 				listeCategories.add(c);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
-			BusinessException businessException = new BusinessException();
-			throw businessException;
+			throw new BusinessException();
 		}
 		return listeCategories;
 	}
@@ -88,12 +101,11 @@ public class CategorieDAOJdbcImpl implements CategorieDAO {
 		}
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement pstmt = cnx.prepareStatement(UPDATE_CATEGORIE);
+			pstmt.setInt(1, c.getNoCategorie());
 			pstmt.setString(1, c.getLibelle());
 			pstmt.executeUpdate();
 		} catch (Exception e) {
-			e.printStackTrace();
-			BusinessException businessException = new BusinessException();
-			throw businessException;
+			throw new BusinessException();
 		}
 	}
 
@@ -104,10 +116,23 @@ public class CategorieDAOJdbcImpl implements CategorieDAO {
 			pstmt.setInt(1, noCategorie);
 			pstmt.executeUpdate();
 		} catch (Exception e) {
-			e.printStackTrace();
-			BusinessException businessException = new BusinessException();
-			throw businessException;
+			throw new BusinessException();
 		}
+	}
+	
+	public boolean checkLibelle(String libelle) throws BusinessException{
+		boolean isUnique = true;
+		try(Connection cnx = ConnectionProvider.getConnection()) {
+			PreparedStatement pstmt = cnx.prepareStatement(CHECK_LIBELLE);
+			pstmt.setString(1, libelle);
+			ResultSet rs = pstmt.executeQuery();
+			 if(rs.next()) {
+				 isUnique = false;
+			 }
+		}  catch (SQLException e) {
+			 throw new BusinessException();
+		}
+		return isUnique;
 	}
 
 }
