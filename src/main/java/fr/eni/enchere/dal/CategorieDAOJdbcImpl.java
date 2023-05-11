@@ -8,17 +8,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.eni.enchere.bo.Categorie;
-import fr.eni.enchere.controller.ErrorCodes;
 import fr.eni.enchere.dal.exceptions.BusinessException;
 
 public class CategorieDAOJdbcImpl implements CategorieDAO {
 	private static CategorieDAOJdbcImpl instance;
 	
-	private static final String INSERT_CATEGORIE = "";
-	private static final String SELECT_CATEGORIE_BY_ID = "";
-	private static final String SELECT_ALL_CATEGORIES = "";
-	private static final String UPDATE_CATEGORIE= "";
-	private static final String DELETE_CATEGORIE = "";
+	private static final String INSERT_CATEGORIE = "INSERT INTO Categories(libelle) VALUES(?);";
+	private static final String SELECT_CATEGORIE_BY_ID = "SELECT * FROM Categories WHERE noCategorie=?;";
+	private static final String SELECT_ALL_CATEGORIES = "SELECT * FROM Categories";
+	private static final String UPDATE_CATEGORIE= "UPDATE Categories SET libelle=? WHERE noCategorie=?;";
+	private static final String DELETE_CATEGORIE = "DELETE FROM Categories WHERE noCategorie=?;";
 	private static final String CHECK_LIBELLE="SELECT * FROM Categories WHERE libelle=?;";
 	
 	private CategorieDAOJdbcImpl() {
@@ -102,7 +101,7 @@ public class CategorieDAOJdbcImpl implements CategorieDAO {
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement pstmt = cnx.prepareStatement(UPDATE_CATEGORIE);
 			pstmt.setInt(1, c.getNoCategorie());
-			pstmt.setString(1, c.getLibelle());
+			pstmt.setString(2, c.getLibelle());
 			pstmt.executeUpdate();
 		} catch (Exception e) {
 			throw new BusinessException();
