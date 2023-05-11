@@ -12,10 +12,10 @@
 
 			if (session.getAttribute("noUtilisateur") != null) {
 			%>
-			<li id="hidden"><a href="#">Enchères</a></li>
-			<li><a href="#">Vendre un article</a></li>
-			<li><a href="/ENI-enchere/InfosProfil">Mon profil</a></li>
-			<li><a href="/ENI-enchere/ServletDeconnexion">Déconnexion</a></li>
+			<li class="menu-links" id="hidden"><a href="#">Enchères</a></li>
+			<li class="menu-links"><a href="#">Vendre un article</a></li>
+			<li class="menu-links"><a href="/ENI-enchere/InfosProfil">Mon profil</a></li>
+			<li class="menu-links"><a href="/ENI-enchere/ServletDeconnexion">Déconnexion</a></li>
 			<%
 			} else if (cookies != null) {
 
@@ -24,23 +24,23 @@
 					cookieLoginExist = true;
 					session.setAttribute("noUtilisateur", cookie.getValue());
 			%>
-			<li id="hidden_link"><a href="#">Enchères</a></li>
-			<li><a href="#">Vendre un article</a></li>
-			<li><a href="/ENI-enchere/InfosProfil">Mon profil</a></li>
-			<li><a href="/ENI-enchere/ServletDeconnexion">Déconnexion</a></li>
+			<li class="menu-links" id="hidden_link"><a href="#">Enchères</a></li>
+			<li class="menu-links"><a href="#">Vendre un article</a></li>
+			<li class="menu-links"><a href="/ENI-enchere/InfosProfil">Mon profil</a></li>
+			<li class="menu-links"><a href="/ENI-enchere/ServletDeconnexion">Déconnexion</a></li>
 			<%
 			}
 			}
 			if (cookieLoginExist == false) {
 			%>
-			<li><a href="ServletInscription">S'inscrire</a></li>
-			<li><a href="ServletConnexion">Se connecter</a></li>
+			<li class="menu-links"><a href="ServletInscription">S'inscrire</a></li>
+			<li class="menu-links"><a href="ServletConnexion">Se connecter</a></li>
 			<%
 			}
 			} else {
 			%>
-			<li><a href="ServletInscription">S'inscrire</a></li>
-			<li><a href="ServletConnexion">Se connecter</a></li>
+			<li class="menu-links"><a href="ServletInscription">S'inscrire</a></li>
+			<li class="menu-links"><a href="ServletConnexion">Se connecter</a></li>
 			<%
 			}
 			%>
@@ -56,9 +56,9 @@
 			if (session.getAttribute("noUtilisateur") != null) {
 			%>
 			<li id="hidden"><a href="#">Enchères</a></li>
-			<li><a href="#">Vendre un article</a></li>
-			<li><a href="/ENI-enchere/InfosProfil">Mon profil</a></li>
-			<li><a href="/ENI-enchere/ServletDeconnexion">Déconnexion</a></li>
+			<li class="menu-links"><a href="#">Vendre un article</a></li>
+			<li class="menu-links"><a href="/ENI-enchere/InfosProfil">Mon profil</a></li>
+			<li class="menu-links"><a href="/ENI-enchere/ServletDeconnexion">Déconnexion</a></li>
 			<%
 			} else if (cookies != null) {
 
@@ -67,23 +67,23 @@
 					cookieLoginExist = true;
 					session.setAttribute("noUtilisateur", cookie.getValue());
 			%>
-			<li id="hidden_link"><a href="#">Enchères</a></li>
-			<li><a href="#">Vendre un article</a></li>
-			<li><a href="/ENI-enchere/InfosProfil">Mon profil</a></li>
-			<li><a href="/ENI-enchere/ServletDeconnexion">Déconnexion</a></li>
+			<li class="menu-links" id="hidden_link"><a href="#">Enchères</a></li>
+			<li class="menu-links"><a href="#">Vendre un article</a></li>
+			<li class="menu-links"><a href="/ENI-enchere/InfosProfil">Mon profil</a></li>
+			<li class="menu-links"><a href="/ENI-enchere/ServletDeconnexion">Déconnexion</a></li>
 			<%
 			}
 			}
 			if (cookieLoginExist == false) {
 			%>
-			<li><a href="ServletInscription">S'inscrire</a></li>
-			<li><a href="ServletConnexion">Se connecter</a></li>
+			<li class="menu-links"><a href="ServletInscription">S'inscrire</a></li>
+			<li class="menu-links"><a href="ServletConnexion">Se connecter</a></li>
 			<%
 			}
 			} else {
 			%>
-			<li><a href="ServletInscription">S'inscrire</a></li>
-			<li><a href="ServletConnexion">Se connecter</a></li>
+			<li class="menu-links"><a href="ServletInscription">S'inscrire</a></li>
+			<li class="menu-links"><a href="ServletConnexion">Se connecter</a></li>
 			<%
 			}
 			%>

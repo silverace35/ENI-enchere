@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
+<%@ include file="head.jsp" %>
 <link rel="stylesheet" href="css/settings.css">
 <link rel="stylesheet" href="css/login.css">
 <title>Profil | ENI-enchere</title>

@@ -141,18 +141,23 @@ nav a:hover, #desktop-menu a:hover {
   transform: rotate(-45deg) translate(0, -1px);
 }
 
+.menu-links {
+	display: none;
+}
+
 #menu {
   position: absolute;
   top: -16px;
   right: 0;
-  width: 200px;
+  width: 0px;
+  opacity: 0;
   padding-top: 41px;
   background: var(--white);
   list-style-type: none;
   -webkit-font-smoothing: antialiased;
   transform-origin: 0% 0%;
-  transform: translate(300px, 0); 
-  transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
+  transition: width 300ms ease-in-out;
+  transition: opacity 300ms ease-in-out;
 }
 
 #menu li {
@@ -160,10 +165,18 @@ nav a:hover, #desktop-menu a:hover {
   font-size: 1rem;
 }
 
-#menuToggle input:checked ~ ul {
-  transform: none;
+#menuToggle input:checked ~ ul li.menu-links {
+  display: block;
 }
 
+#menuToggle input:checked ~ ul {
+  opacity: 1;
+  width: 200px;
+}
+
+#hidden {
+	display: block;
+}
 
 button {
 	font-size: 1rem;
@@ -181,8 +194,8 @@ button.form-btn {
 }
 
 button:hover {
-    background: var(--white);
-    border: 3px solid var(--yellow);
+    background: #e1b611;
+    border: 3px solid #e1b611;
     
 }
 
@@ -197,8 +210,8 @@ a.link {
 }
 
 a.link:hover {
-    background: var(--yellow);
-    border: 3px solid var(--white);
+    background: #e1b611;
+    border: 3px solid #e1b611;
 }
 
 a.secondary-link {
@@ -261,6 +274,10 @@ li {
 	
 	nav ul {
 		flex-direction: column;
+	}
+	
+	#hidden {
+		display: none;
 	}
 }
 

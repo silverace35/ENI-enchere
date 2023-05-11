@@ -34,9 +34,12 @@ input[type="search"] {
 }
 
 label {
-	color: var(--grey);
 	font-size: 0.7rem;
 	padding-bottom: 3px;
+}
+
+label:not(label[for="categorie"]) {
+	color: var(--grey);
 }
 
 .select-container {
