@@ -32,7 +32,7 @@
                         <option value="2">Informatique</option>
                         <option value="3">Ameublement</option>
                         <option value="4">Vêtement</option>
-                        <option value="5">Sport & Loisirs</option>
+                        <option value="5">Sport et Loisirs</option>
                     </select>
                 </div>
                 
@@ -65,13 +65,16 @@
                 	</div>
                 </div>
                 
+                <%//TODO: disabled l'un si l'autre est coché %>
+                <%//TODO: faire le style %>
+                
     
                 <button class="form-btn" type="submit">Rechercher une enchère</button>
             </form>
 
             <div class="list-encheres">
             	<div class="enchere">
-	             	<div class="img-enchere"><img src="https://source.unsplash.com/random/300×300"></div>
+	             	<img src="https://source.unsplash.com/random/100×100/?code">
 	             	<div class="details-enchere">
 	             		<h3><a href="#">Titre enchere</a></h3>
 	             		<p>Prix enchere</p>
