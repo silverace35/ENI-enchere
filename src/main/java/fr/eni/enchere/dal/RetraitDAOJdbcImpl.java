@@ -92,10 +92,10 @@ public class RetraitDAOJdbcImpl implements RetraitDAO {
 		}
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement pstmt = cnx.prepareStatement(UPDATE_RETRAIT);
-			pstmt.setInt(1, r.getNoRetrait());
-			pstmt.setString(2, r.getRue());
-			pstmt.setString(3, r.getCodePostal());
-			pstmt.setString(4, r.getVille());
+			pstmt.setString(1, r.getRue());
+			pstmt.setString(2, r.getCodePostal());
+			pstmt.setString(3, r.getVille());
+			pstmt.setInt(4, r.getNoRetrait());
 			pstmt.executeUpdate();
 		} catch (Exception e) {
 			throw new BusinessException();
