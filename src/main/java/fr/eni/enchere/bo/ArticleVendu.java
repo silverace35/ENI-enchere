@@ -22,6 +22,7 @@ public class ArticleVendu implements Serializable{
 	private boolean retraitOkVendeur;
 	private boolean retraitOkAcheteur;
 	private ArticleStatus articleStatus;
+	private String nomPrenomAuteur;
 
 	public ArticleVendu() {
 	}
@@ -29,7 +30,7 @@ public class ArticleVendu implements Serializable{
 
 	public ArticleVendu(int noArticle, String nomArticle, String description, LocalDateTime dateDebutEncheres,
 			LocalDateTime dateFinEncheres, Integer prixInitial, Integer prixVente, Integer noUtilisateur, Integer noCategorie,
-			boolean retraitOkVendeur, boolean retraitOkAcheteur) {
+			boolean retraitOkVendeur, boolean retraitOkAcheteur, String nomPrenomAuteur) {
 		super();
 		this.noArticle = noArticle;
 		this.nomArticle = nomArticle;
@@ -42,12 +43,13 @@ public class ArticleVendu implements Serializable{
 		this.noCategorie = noCategorie;
 		this.retraitOkVendeur = retraitOkVendeur;
 		this.retraitOkAcheteur = retraitOkAcheteur;
+		this.nomPrenomAuteur = nomPrenomAuteur;
 		this.updateStatus();
 	}
 	
 	public ArticleVendu(String nomArticle, String description, LocalDateTime dateDebutEncheres,
 			LocalDateTime dateFinEncheres, Integer prixInitial, Integer prixVente, Integer noUtilisateur, Integer noCategorie,
-			boolean retraitOkVendeur, boolean retraitOkAcheteur) {
+			boolean retraitOkVendeur, boolean retraitOkAcheteur, String nomPrenomAuteur) {
 		super();
 		this.nomArticle = nomArticle;
 		this.description = description;
@@ -59,6 +61,7 @@ public class ArticleVendu implements Serializable{
 		this.noCategorie = noCategorie;
 		this.retraitOkVendeur = retraitOkVendeur;
 		this.retraitOkAcheteur = retraitOkAcheteur;
+		this.nomPrenomAuteur = nomPrenomAuteur;
 		this.updateStatus();
 	}
 
@@ -211,5 +214,15 @@ public class ArticleVendu implements Serializable{
 				+ prixInitial + ", prixVente=" + prixVente + ", noUtilisateur=" + noUtilisateur + ", noCategorie="
 				+ noCategorie + ", retraitOkVendeur=" + retraitOkVendeur + ", retraitOkAcheteur=" + retraitOkAcheteur
 				+ ", articleStatus=" + articleStatus.name() + "]";
+	}
+
+
+	public String getNomPrenomAuteur() {
+		return nomPrenomAuteur;
+	}
+
+
+	public void setNomPrenomAuteur(String nomPrenomAuteur) {
+		this.nomPrenomAuteur = nomPrenomAuteur;
 	}
 }
