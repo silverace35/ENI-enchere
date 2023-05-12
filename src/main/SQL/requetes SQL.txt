@@ -1,15 +1,15 @@
-/*Select tous les articles dont la vente s'est terminée*/
+/*Select tous les articles dont la vente s'est termin≈Ωe*/
 SELECT * FROM articles_vendus WHERE date_fin_encheres <= now();
 /*Select tous les articles disponibles*/
 SELECT * FROM articles_vendus WHERE date_fin_encheres > now();
 
 
-/*Select tous les articles sur lesquels l'utilisateur ? a enchéri*/
+/*Select tous les articles sur lesquels l'utilisateur ? a ench≈Ωri*/
 SELECT * FROM articles_vendus as a
         INNER JOIN encheres as e
     ON e.no_article = a.no_article
     WHERE e.no_utilisateur = 1;
-/*Select tous les articles sur lesquels l'utilisateur ? a enchérit et dont la vente s'est terminée*/
+/*Select tous les articles sur lesquels l'utilisateur ? a ench≈Ωrit et dont la vente s'est termin≈Ωe*/
 SELECT * FROM articles_vendus as a
         INNER JOIN encheres as e
     ON e.no_article = a.no_article
@@ -25,7 +25,7 @@ AND (no_article IN (
     ));
 
 
-/*Select les enchères remportées par l'utilisateur ?*/
+/*Select les ench¬ères remport≈Ωes par l'utilisateur ?*/
 With encheres_remportees AS(
 	Select a.no_article, e.no_utilisateur, e.no_enchere, Max(montant_enchere) from ENCHERES as e
 	inner JOIN ARTICLES_VENDUS as a 
@@ -44,13 +44,13 @@ SELECT * FROM (
 WHERE encheres_remportees.no_utilisateur =?;
 
 
-/*Select les enchères max des articles dont la vente est en cours*/
+/*Select les ench¬ères max des articles dont la vente est en cours*/
 Select a.no_article, e.no_utilisateur, e.no_enchere, Max(montant_enchere) from ENCHERES as e
 	inner JOIN ARTICLES_VENDUS as a 
     on a.no_article = e.no_article
 	where date_fin_encheres > now()
     group by 1;   
-/*Select les enchères max des articles dont la vente s'est terminée ?*/
+/*Select les ench¬ères max des articles dont la vente s'est termin≈Ωe ?*/
 Select a.no_article, e.no_utilisateur, e.no_enchere, Max(montant_enchere) from ENCHERES as e
 	inner JOIN ARTICLES_VENDUS as a 
     on a.no_article = e.no_article
@@ -58,9 +58,42 @@ Select a.no_article, e.no_utilisateur, e.no_enchere, Max(montant_enchere) from E
     group by 1;
     
 
-/*Select les articles qui n'ont aucune enchère*/
+/*Select les articles qui n'ont aucune ench¬ère*/
 Select a.no_article from ARTICLES_VENDUS as a 
     WHERE a.no_article NOT IN (SELECT e.no_article from ENCHERES as e where e.no_article = a.no_article);
 /*ou*/
 Select a.no_article from ARTICLES_VENDUS as a 
     WHERE (SELECT count(*) from ENCHERES as e where e.no_article = a.no_article)=0;
+
+
+/*Select des ventes pour l'utilisateur ?*/
+SELECT * FROM articles_vendus 
+WHERE no_utilisateur = ?;
+
+/*Select des ventes non d√©but√©es pour l'utilisateur ?*/
+SELECT * FROM articles_vendus 
+WHERE no_utilisateur = ?
+AND date_debut_encheres>now();
+
+/*Select des ventes termin√©es pour l'utilisateur ?*/
+SELECT * FROM articles_vendus 
+WHERE no_utilisateur = ?
+AND date_fin_encheres<now();
+
+/*Modifier un article vendu
+UPDATE articles_vendus SET
+nom_article = '?1'
+description = '?2'
+date_debut_encheres = '?3',
+date_fin_encheres= '?4',
+prix_initial = '?5',
+no_categorie = '?6'
+WHERE no_article = '?7'
+AND no_utilisateur = '?8'
+AND ('?9 = ?3' < '?10 = ?4')
+AND ('?11 = ?3' < (SELECT date_fin_encheres 
+                  FROM articles_vendus 
+                  WHERE no_article='?12 = ?7'))
+AND  ('?13 = ?5'<( SELECT MAX(montant_enchere) 
+                    FROM encheres 
+                    WHERE no_article='?14 = ?7')) 
