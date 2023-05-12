@@ -9,8 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import fr.eni.enchere.bll.UtilisateurManager;
-
 /**
  * Servlet implementation class ServletIndex
  */
@@ -37,20 +35,31 @@ public class ServletIndex extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//TODO : 
 		request.setCharacterEncoding("UTF-8");
 		
 		String barreRecherche = request.getParameter("barreRecherche");
 		String categorie = request.getParameter("categorie");
+		Boolean enchereOuverte = Boolean.parseBoolean(request.getParameter("enchere-ouverte"));
+		Boolean mesEncheres = Boolean.parseBoolean(request.getParameter("mes-encheres"));
+		Boolean enchereRemportees = Boolean.parseBoolean(request.getParameter("enchere-remportees"));
+		Boolean venteCours = Boolean.parseBoolean(request.getParameter("vente-cours"));
+		Boolean venteDebutees = Boolean.parseBoolean(request.getParameter("vente-debutees"));
+		Boolean venteTerminees = Boolean.parseBoolean(request.getParameter("vente-terminees"));
 		
 		try {
-			if (barreRecherche != null) {
-				
+			if (enchereOuverte || mesEncheres || enchereRemportees || venteCours || venteDebutees || venteTerminees) {
 				request.setAttribute("barreRecherche", barreRecherche);
 				request.setAttribute("categorie", categorie);
+				request.setAttribute("enchere-ouverte", enchereOuverte);
+				request.setAttribute("mes-encheres", mesEncheres);
+				request.setAttribute("enchere-remportees", enchereRemportees);
+				request.setAttribute("vente-cours", venteCours);
+				request.setAttribute("vente-debutees", venteDebutees);
+				request.setAttribute("vente-terminees", venteTerminees);
 				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/index.jsp");
 				rd.forward(request, response);	            
 	        } else {
-	        	
 	        	throw new Exception("Veuillez entrer un mot clé dans la barre de recherche");
 	        }
 			
