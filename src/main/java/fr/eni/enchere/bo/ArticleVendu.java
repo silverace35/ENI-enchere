@@ -12,13 +12,13 @@ public class ArticleVendu implements Serializable{
 	
 	private int noArticle;
 	private String nomArticle;
-	private String descritpion;
+	private String description;
 	private LocalDateTime dateDebutEncheres;
 	private LocalDateTime dateFinEncheres;
-	private int prixInitial;
-	private int prixVente;
-	private int noUtilisateur;
-	private int noCategorie;
+	private Integer prixInitial;
+	private Integer prixVente;
+	private Integer noUtilisateur;
+	private Integer noCategorie;
 	private boolean retraitOkVendeur;
 	private boolean retraitOkAcheteur;
 	private ArticleStatus articleStatus;
@@ -27,13 +27,13 @@ public class ArticleVendu implements Serializable{
 	}
 
 
-	public ArticleVendu(int noArticle, String nomArticle, String descritpion, LocalDateTime dateDebutEncheres,
-			LocalDateTime dateFinEncheres, int prixInitial, int prixVente, int noUtilisateur, int noCategorie,
+	public ArticleVendu(int noArticle, String nomArticle, String description, LocalDateTime dateDebutEncheres,
+			LocalDateTime dateFinEncheres, Integer prixInitial, Integer prixVente, Integer noUtilisateur, Integer noCategorie,
 			boolean retraitOkVendeur, boolean retraitOkAcheteur) {
 		super();
 		this.noArticle = noArticle;
 		this.nomArticle = nomArticle;
-		this.descritpion = descritpion;
+		this.description = description;
 		this.dateDebutEncheres = dateDebutEncheres;
 		this.dateFinEncheres = dateFinEncheres;
 		this.prixInitial = prixInitial;
@@ -45,12 +45,12 @@ public class ArticleVendu implements Serializable{
 		this.updateStatus();
 	}
 	
-	public ArticleVendu(String nomArticle, String descritpion, LocalDateTime dateDebutEncheres,
-			LocalDateTime dateFinEncheres, int prixInitial, int prixVente, int noUtilisateur, int noCategorie,
+	public ArticleVendu(String nomArticle, String description, LocalDateTime dateDebutEncheres,
+			LocalDateTime dateFinEncheres, Integer prixInitial, Integer prixVente, Integer noUtilisateur, Integer noCategorie,
 			boolean retraitOkVendeur, boolean retraitOkAcheteur) {
 		super();
 		this.nomArticle = nomArticle;
-		this.descritpion = descritpion;
+		this.description = description;
 		this.dateDebutEncheres = dateDebutEncheres;
 		this.dateFinEncheres = dateFinEncheres;
 		this.prixInitial = prixInitial;
@@ -104,13 +104,13 @@ public class ArticleVendu implements Serializable{
 	}
 
 
-	public String getDescritpion() {
-		return descritpion;
+	public String getDescription() {
+		return description;
 	}
 
 
-	public void setDescritpion(String descritpion) {
-		this.descritpion = descritpion;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 
@@ -134,42 +134,42 @@ public class ArticleVendu implements Serializable{
 	}
 
 
-	public int getPrixInitial() {
+	public Integer getPrixInitial() {
 		return prixInitial;
 	}
 
 
-	public void setPrixInitial(int prixInitial) {
+	public void setPrixInitial(Integer prixInitial) {
 		this.prixInitial = prixInitial;
 	}
 
 
-	public int getPrixVente() {
+	public Integer getPrixVente() {
 		return prixVente;
 	}
 
 
-	public void setPrixVente(int prixVente) {
+	public void setPrixVente(Integer prixVente) {
 		this.prixVente = prixVente;
 	}
 
 
-	public int getNoUtilisateur() {
+	public Integer getNoUtilisateur() {
 		return noUtilisateur;
 	}
 
 
-	public void setNoUtilisateur(int noUtilisateur) {
+	public void setNoUtilisateur(Integer noUtilisateur) {
 		this.noUtilisateur = noUtilisateur;
 	}
 
 
-	public int getNoCategorie() {
+	public Integer getNoCategorie() {
 		return noCategorie;
 	}
 
 
-	public void setNoCategorie(int noCategorie) {
+	public void setNoCategorie(Integer noCategorie) {
 		this.noCategorie = noCategorie;
 	}
 
@@ -201,5 +201,15 @@ public class ArticleVendu implements Serializable{
 
 	public void setArticleStatus(ArticleStatus articleStatus) {
 		this.articleStatus = articleStatus;
+	}
+
+
+	@Override
+	public String toString() {
+		return "ArticleVendu [noArticle=" + noArticle + ", nomArticle=" + nomArticle + ", description=" + description
+				+ ", dateDebutEncheres=" + dateDebutEncheres + ", dateFinEncheres=" + dateFinEncheres + ", prixInitial="
+				+ prixInitial + ", prixVente=" + prixVente + ", noUtilisateur=" + noUtilisateur + ", noCategorie="
+				+ noCategorie + ", retraitOkVendeur=" + retraitOkVendeur + ", retraitOkAcheteur=" + retraitOkAcheteur
+				+ ", articleStatus=" + articleStatus.name() + "]";
 	}
 }
