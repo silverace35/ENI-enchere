@@ -59,7 +59,7 @@ public class RetraitDAOJdbcImpl implements RetraitDAO {
 			pstmt.setInt(1, noRetrait);
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {
-				r = new Retrait(rs.getInt("noRetrait"), rs.getString("rue"), rs.getString("codePostal"), rs.getString("ville"));
+				r = new Retrait(rs.getInt("no_retrait"), rs.getString("rue"), rs.getString("code_postal"), rs.getString("ville"));
 			}
 		} catch (Exception e) {
 			throw new BusinessException();
@@ -76,7 +76,7 @@ public class RetraitDAOJdbcImpl implements RetraitDAO {
 			PreparedStatement pstmt = cnx.prepareStatement(SELECT_ALL_RETRAITS);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
-				r = new Retrait(rs.getInt("noRetrait"), rs.getString("rue"), rs.getString("codePostal"), rs.getString("ville"));
+				r = new Retrait(rs.getInt("no_retrait"), rs.getString("rue"), rs.getString("code_postal"), rs.getString("ville"));
 				listeRetraits.add(r);
 			}
 		} catch (Exception e) {
