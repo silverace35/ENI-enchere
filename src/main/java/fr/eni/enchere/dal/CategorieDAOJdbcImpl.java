@@ -14,10 +14,10 @@ public class CategorieDAOJdbcImpl implements CategorieDAO {
 	private static CategorieDAOJdbcImpl instance;
 	
 	private static final String INSERT_CATEGORIE = "INSERT INTO Categories(libelle) VALUES(?);";
-	private static final String SELECT_CATEGORIE_BY_ID = "SELECT * FROM Categories WHERE noCategorie=?;";
+	private static final String SELECT_CATEGORIE_BY_ID = "SELECT * FROM Categories WHERE no_Categorie=?;";
 	private static final String SELECT_ALL_CATEGORIES = "SELECT * FROM Categories";
-	private static final String UPDATE_CATEGORIE= "UPDATE Categories SET libelle=? WHERE noCategorie=?;";
-	private static final String DELETE_CATEGORIE = "DELETE FROM Categories WHERE noCategorie=?;";
+	private static final String UPDATE_CATEGORIE= "UPDATE Categories SET libelle=? WHERE no_Categorie=?;";
+	private static final String DELETE_CATEGORIE = "DELETE FROM Categories WHERE no_Categorie=?;";
 	private static final String CHECK_LIBELLE="SELECT * FROM Categories WHERE libelle=?;";
 	
 	private CategorieDAOJdbcImpl() {

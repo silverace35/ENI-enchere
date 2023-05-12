@@ -14,10 +14,10 @@ public class RetraitDAOJdbcImpl implements RetraitDAO {
 	private static RetraitDAOJdbcImpl instance;
 	
 	private static final String INSERT_RETRAIT = "INSERT INTO Retraits(rue, code_postal, ville) VALUES(?, ?, ?);";
-	private static final String SELECT_RETRAIT_BY_ID = "SELECT * FROM Retraits WHERE noArticle=?;";
+	private static final String SELECT_RETRAIT_BY_ID = "SELECT * FROM Retraits WHERE no_article=?;";
 	private static final String SELECT_ALL_RETRAITS = "SELECT * FROM Retraits";
-	private static final String UPDATE_RETRAIT = "UPDATE Retraits SET rue=?, code_postal=?, ville=? WHERE noArticle=?;";
-	private static final String DELETE_RETRAIT = "DELETE FROM Retraits WHERE noArticle=?;";
+	private static final String UPDATE_RETRAIT = "UPDATE Retraits SET rue=?, code_postal=?, ville=? WHERE no_article=?;";
+	private static final String DELETE_RETRAIT = "DELETE FROM Retraits WHERE no_article=?;";
 	
 	private RetraitDAOJdbcImpl() {
 	}
