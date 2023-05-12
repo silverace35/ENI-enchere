@@ -36,11 +36,11 @@ public class UtilisateurManager {
 		return u;
 	}
 		
-	public Utilisateur validerPwd(String pseudo, String pwd) {
+	public Utilisateur validerPwd(String pseudoOrEmail, String pwd) {
 		Utilisateur u = null;
 		try {
 			
-			u = this.daoUtilisateur.checkPwd(pseudo, pwd);
+			u = this.daoUtilisateur.checkPwd(pseudoOrEmail, pwd);
 			System.out.println(u);
 			if (u!=null) {
 				System.out.println("MSG BLL j'ai trouvé un utilisateur");

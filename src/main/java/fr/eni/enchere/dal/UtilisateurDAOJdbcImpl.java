@@ -254,13 +254,13 @@ public class UtilisateurDAOJdbcImpl implements DAOUtilisateur{
 	}
 
 	@Override
-	public Utilisateur checkPwd(String pseudo, String email, String pwd) throws BusinessException {
+	public Utilisateur checkPwd(String pseudoOrEmail, String pwd) throws BusinessException {
 		Utilisateur u = null;
 		try(Connection cnx = ConnectionProvider.getConnection())
 		{
 			PreparedStatement pstmt = cnx.prepareStatement(SELECTBYPWD);
-			pstmt.setString(1, pseudo);
-			pstmt.setString(2, email);
+			pstmt.setString(1, pseudoOrEmail);
+			pstmt.setString(2, pseudoOrEmail);
 			pstmt.setString(3, pwd);
 			
 			ResultSet rs = pstmt.executeQuery();
