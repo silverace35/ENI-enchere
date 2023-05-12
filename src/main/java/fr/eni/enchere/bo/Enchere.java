@@ -10,6 +10,12 @@ public class Enchere {
 	public Enchere() {
 	}
 
+	public Enchere(LocalDateTime dateEnchere, Integer montantEnchere) {
+		super();
+		this.dateEnchere = dateEnchere;
+		this.montantEnchere = montantEnchere;
+	}
+
 	public Enchere(Integer noEnchere, LocalDateTime dateEnchere, Integer montantEnchere) {
 		super();
 		this.noEnchere = noEnchere;

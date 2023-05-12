@@ -1,14 +1,15 @@
 package fr.eni.enchere.dal;
 
 import java.sql.Connection;
-import fr.eni.enchere.controller.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.eni.enchere.bo.ArticleVendu;
 import fr.eni.enchere.bo.Utilisateur;
+import fr.eni.enchere.controller.ErrorCodes;
 import fr.eni.enchere.dal.exceptions.BusinessException;
 
 public class UtilisateurDAOJdbcImpl implements DAOUtilisateur{
@@ -26,6 +27,7 @@ public class UtilisateurDAOJdbcImpl implements DAOUtilisateur{
 	private static final String CHECK="SELECT * FROM utilisateurs WHERE pseudo=? OR email=?;";
 	private static final String CHECKPSEUDO="SELECT * FROM utilisateurs WHERE pseudo=?;";
 	private static final String CHECKEMAIL="SELECT * FROM utilisateurs WHERE email=?;";
+	private static final String SEARCH = "SELECT no_article FROM articles_vendus WHERE nom_article like ? AND no_categorie IN (?);";
 	
 	private UtilisateurDAOJdbcImpl() {
 	}

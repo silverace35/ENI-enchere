@@ -17,4 +17,8 @@ public class FactoryDAO {
 	public static ArticleVenduDAO getArticleVenduDAO() {
 		return ArticleVenduDAOJdbcImpl.getInstance();
 	}
+	
+	public static EnchereDAO getEnchereDAO() {
+		return EnchereDAOJdbcImpl.getInstance();
+	}
 }

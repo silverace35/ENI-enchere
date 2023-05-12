@@ -2,6 +2,7 @@ package fr.eni.enchere.dal;
 
 import java.util.List;
 
+import fr.eni.enchere.bo.ArticleVendu;
 import fr.eni.enchere.bo.Utilisateur;
 import fr.eni.enchere.dal.exceptions.BusinessException;
 
@@ -32,4 +33,5 @@ public interface DAOUtilisateur {
 	public boolean checkEmail(String email) throws BusinessException;
 	// Check if the email already exists
 	public boolean checkPseudo(String pseudo) throws BusinessException;
+
 }

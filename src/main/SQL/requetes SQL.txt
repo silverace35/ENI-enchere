@@ -3,6 +3,10 @@ SELECT * FROM articles_vendus WHERE date_fin_encheres <= now();
 /*Select tous les articles disponibles*/
 SELECT * FROM articles_vendus WHERE date_fin_encheres > now();
 
+/*Select tous les articles sur lesquels l'utilisateur n'a pas encheri*/
+SELECT * FROM articles_vendus
+       WHERE no_article NOT IN (SELECT no_article FROM encheres where no_utilisateur = ?);
+
 
 /*Select tous les articles sur lesquels l'utilisateur ? a enchŽri*/
 SELECT * FROM articles_vendus as a
