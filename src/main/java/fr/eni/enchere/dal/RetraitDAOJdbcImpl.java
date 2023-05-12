@@ -38,14 +38,14 @@ public class RetraitDAOJdbcImpl implements RetraitDAO {
 
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement pstmt = cnx.prepareStatement(INSERT_RETRAIT, PreparedStatement.RETURN_GENERATED_KEYS);
-			pstmt.setInt(1, r.getNoArticle());
+			pstmt.setInt(1, r.getNoRetrait());
 			pstmt.setString(2, r.getRue());
 			pstmt.setString(3, r.getCodePostal());
 			pstmt.setString(4, r.getVille());
 			pstmt.executeUpdate();
 			ResultSet rs = pstmt.getGeneratedKeys();
 			if (rs.next()) {
-				r.setNoArticle(rs.getInt(1));
+				r.setNoRetrait(rs.getInt(1));
 			}
 		} catch (Exception e) {
 			throw new BusinessException();
@@ -54,14 +54,14 @@ public class RetraitDAOJdbcImpl implements RetraitDAO {
 	}
 
 	@Override
-	public Retrait selectByNoArticle(int noArticle) throws BusinessException {
+	public Retrait selectByNoRetrait(int noRetrait) throws BusinessException {
 		Retrait r = null;
 		try (Connection cnx = ConnectionProvider.getConnection()){
 			PreparedStatement pstmt = cnx.prepareStatement(SELECT_RETRAIT_BY_ID);
-			pstmt.setInt(1, noArticle);
+			pstmt.setInt(1, noRetrait);
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {
-				r = new Retrait(rs.getInt("noArticle"), rs.getString("rue"), rs.getString("codePostal"), rs.getString("ville"));
+				r = new Retrait(rs.getInt("noRetrait"), rs.getString("rue"), rs.getString("codePostal"), rs.getString("ville"));
 			}
 			pstmt.executeQuery();
 		} catch (Exception e) {
@@ -79,7 +79,7 @@ public class RetraitDAOJdbcImpl implements RetraitDAO {
 			PreparedStatement pstmt = cnx.prepareStatement(SELECT_ALL_RETRAITS);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
-				r = new Retrait(rs.getInt("noArticle"), rs.getString("rue"), rs.getString("codePostal"), rs.getString("ville"));
+				r = new Retrait(rs.getInt("noRetrait"), rs.getString("rue"), rs.getString("codePostal"), rs.getString("ville"));
 				listeRetraits.add(r);
 			}
 		} catch (Exception e) {
@@ -95,7 +95,7 @@ public class RetraitDAOJdbcImpl implements RetraitDAO {
 		}
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement pstmt = cnx.prepareStatement(UPDATE_RETRAIT);
-			pstmt.setInt(1, r.getNoArticle());
+			pstmt.setInt(1, r.getNoRetrait());
 			pstmt.setString(2, r.getRue());
 			pstmt.setString(3, r.getCodePostal());
 			pstmt.setString(4, r.getVille());
@@ -107,10 +107,10 @@ public class RetraitDAOJdbcImpl implements RetraitDAO {
 	}
 
 	@Override
-	public void delete(int noArticle) throws BusinessException {
+	public void delete(int noRetrait) throws BusinessException {
 		try (Connection cnx = ConnectionProvider.getConnection()){
 			PreparedStatement pstmt = cnx.prepareStatement(DELETE_RETRAIT);
-			pstmt.setInt(1, noArticle);
+			pstmt.setInt(1, noRetrait);
 			pstmt.executeUpdate();
 		} catch (Exception e) {
 			throw new BusinessException();

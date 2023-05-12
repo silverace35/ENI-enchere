@@ -21,10 +21,10 @@ public class RetraitManager {
 		return r;
 	}
 	
-	public Retrait getRetraitByNoArticle(int noArticle) {
+	public Retrait getRetraitByNoRetrait(int noRetrait) {
 		Retrait r = null;
 		try {
-			r = this.retraitDAO.selectByNoArticle(noArticle);
+			r = this.retraitDAO.selectByNoRetrait (noRetrait);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -41,9 +41,9 @@ public class RetraitManager {
 			}
 		}
 	
-	public void deleteRetrait(int noArticle) {
+	public void deleteRetrait(int noRetrait) {
 		try {
-			this.retraitDAO.delete(noArticle) ;
+			this.retraitDAO.delete(noRetrait) ;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
