@@ -15,24 +15,30 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO{
 	
 	private static ArticleVenduDAOJdbcImpl instance;
 	
-	private static final String SELECT_ALL = "SELECT * FROM articles_vendus";
-	private static final String SELECT_ALL_EN_COURS = "SELECT * FROM articles_vendus WHERE date_debut_encheres < now() AND date_fin_encheres > now()";
+	private static final String SELECT_ALL = "SELECT no_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, a.no_utilisateur, no_categorie, retrait_ok_vendeur, retrait_ok_acheteur, u.nom, u.prenom FROM articles_vendus a INNER JOIN utilisateurs u ON u.no_utilisateur = a.no_utilisateur";
+	private static final String SELECT_ALL_EN_COURS = "SELECT no_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, a.no_utilisateur, no_categorie, retrait_ok_vendeur, retrait_ok_acheteur, u.nom, u.prenom FROM articles_vendus a INNER JOIN utilisateurs u ON u.no_utilisateur = a.no_utilisateur WHERE date_debut_encheres < now() AND date_fin_encheres > now()";
 	private static final String SELECT_ALL_EN_COURS_ENCHERIE = "SELECT"
 			+ " a.no_article, nom_article, description, date_debut_encheres,"
 			+ " date_fin_encheres, prix_initial, prix_vente, a.no_utilisateur,"
-			+ " no_categorie, retrait_ok_vendeur, retrait_ok_acheteur FROM articles_vendus as a"
-			+ " INNER JOIN encheres as e"
+			+ " no_categorie, retrait_ok_vendeur, retrait_ok_acheteur, u.nom, u.prenom FROM articles_vendus a"
+			+ " INNER JOIN encheres e"
 			+ " ON e.no_article = a.no_article"
+			+ " INNER JOIN utilisateurs u"
+			+ " ON u.no_utilisateur = a.no_utilisateur"
 			+ " WHERE e.no_utilisateur = ?"
 			+ " AND date_debut_encheres < now() AND date_fin_encheres > now()"
 			+ " GROUP BY a.no_article;";
 	private static final String SELECT_ALL_EN_COURS_PAS_ENCHERIE = "SELECT"
-			+ " * FROM articles_vendus"
+			+ " a.no_article, nom_article, description, date_debut_encheres,"
+			+ " date_fin_encheres, prix_initial, prix_vente, a.no_utilisateur,"
+			+ " no_categorie, retrait_ok_vendeur, retrait_ok_acheteur, u.nom, u.prenom FROM articles_vendus a"
+			+ " INNER JOIN utilisateurs u"
+			+ " ON u.no_utilisateur = a.no_utilisateur"
 			+ " WHERE no_article NOT IN"
 			+ " (SELECT no_article FROM encheres where no_utilisateur = ?)"
 			+ " AND date_debut_encheres < now() AND date_fin_encheres > now();";
 
-	private static final String SELECT_ARTICLEVENDU_BY_ID = "SELECT * FROM articles_vendus WHERE no_article=?;";
+	private static final String SELECT_ARTICLEVENDU_BY_ID = "SELECT no_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, a.no_utilisateur, no_categorie, retrait_ok_vendeur, retrait_ok_acheteur, u.nom, u.prenom FROM articles_vendus a INNER JOIN utilisateurs u ON u.no_utilisateur = a.no_utilisateur WHERE no_article=?";
 	private static final String INSERT = "INSERT INTO articles_vendus (nom_article, description,"
 			+ " date_debut_encheres, date_fin_encheres, prix_initial, prix_vente,"
 			+ " no_utilisateur, no_categorie, retrait_ok_vendeur, retrait_ok_acheteur)"
@@ -76,7 +82,8 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO{
 						rs.getInt("no_utilisateur"),
 						rs.getInt("no_categorie"),
 						rs.getBoolean("retrait_ok_vendeur"),
-						rs.getBoolean("retrait_ok_acheteur")
+						rs.getBoolean("retrait_ok_acheteur"),
+						rs.getString("nom") + " " + rs.getString("prenom")
 				);
 				listArticleVendu.add(av);
 			}
@@ -115,7 +122,8 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO{
 						rs.getInt("no_utilisateur"),
 						rs.getInt("no_categorie"),
 						rs.getBoolean("retrait_ok_vendeur"),
-						rs.getBoolean("retrait_ok_acheteur")
+						rs.getBoolean("retrait_ok_acheteur"),
+						rs.getString("nom") + " " + rs.getString("prenom")
 				);
 				listArticleVendu.add(av);
 			}
@@ -154,7 +162,8 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO{
 						rs.getInt("no_utilisateur"),
 						rs.getInt("no_categorie"),
 						rs.getBoolean("retrait_ok_vendeur"),
-						rs.getBoolean("retrait_ok_acheteur")
+						rs.getBoolean("retrait_ok_acheteur"),
+						rs.getString("nom") + " " + rs.getString("prenom")
 				);
 				listArticleVendu.add(av);
 			}
@@ -192,7 +201,8 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO{
 						rs.getInt("no_utilisateur"),
 						rs.getInt("no_categorie"),
 						rs.getBoolean("retrait_ok_vendeur"),
-						rs.getBoolean("retrait_ok_acheteur")
+						rs.getBoolean("retrait_ok_acheteur"),
+						rs.getString("nom") + " " + rs.getString("prenom")
 				);
 				listArticleVendu.add(av);
 			}
@@ -231,7 +241,8 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO{
 						rs.getInt("no_utilisateur"),
 						rs.getInt("no_categorie"),
 						rs.getBoolean("retrait_ok_vendeur"),
-						rs.getBoolean("retrait_ok_acheteur")
+						rs.getBoolean("retrait_ok_acheteur"),
+						rs.getString("nom") + " " + rs.getString("prenom")
 				);
 			}
 		}
