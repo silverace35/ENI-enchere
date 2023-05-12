@@ -24,7 +24,7 @@ public interface DAOUtilisateur {
 	void delete(int noUtilisateur) throws BusinessException;
 	
 	// Check login/email and pwd match
-	Utilisateur checkPwd(String pseudo, String pwd) throws BusinessException;
+	Utilisateur checkPwd(String pseudo, String email, String pwd) throws BusinessException;
 	
 	// Check whether the pseudo or the email already exists
 	public boolean checkPseudoEmail(String pseudo, String email) throws BusinessException;

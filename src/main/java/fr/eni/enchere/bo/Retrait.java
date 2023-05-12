@@ -74,7 +74,6 @@ public class Retrait implements Serializable{
 		builder.append(codePostal);
 		builder.append(", ville=");
 		builder.append(ville);
-		builder.append(", isRetire=");
 		builder.append("]");
 		return builder.toString();
 	}
