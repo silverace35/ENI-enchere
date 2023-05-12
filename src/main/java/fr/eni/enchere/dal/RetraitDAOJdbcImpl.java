@@ -37,16 +37,14 @@ public class RetraitDAOJdbcImpl implements RetraitDAO {
 		}
 
 		try (Connection cnx = ConnectionProvider.getConnection()) {
-			PreparedStatement pstmt = cnx.prepareStatement(INSERT_RETRAIT, PreparedStatement.RETURN_GENERATED_KEYS);
+			//TODO : A TESTER AMBIGUITE NoARTICLE ET NoRETRAIT
+			PreparedStatement pstmt = cnx.prepareStatement(INSERT_RETRAIT);
 			pstmt.setInt(1, r.getNoRetrait());
 			pstmt.setString(2, r.getRue());
 			pstmt.setString(3, r.getCodePostal());
 			pstmt.setString(4, r.getVille());
 			pstmt.executeUpdate();
-			ResultSet rs = pstmt.getGeneratedKeys();
-			if (rs.next()) {
-				r.setNoRetrait(rs.getInt(1));
-			}
+
 		} catch (Exception e) {
 			throw new BusinessException();
 		}
@@ -61,9 +59,8 @@ public class RetraitDAOJdbcImpl implements RetraitDAO {
 			pstmt.setInt(1, noRetrait);
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {
-				r = new Retrait(rs.getInt("noRetrait"), rs.getString("rue"), rs.getString("codePostal"), rs.getString("ville"));
+				r = new Retrait(rs.getInt("no_retrait"), rs.getString("rue"), rs.getString("code_postal"), rs.getString("ville"));
 			}
-			pstmt.executeQuery();
 		} catch (Exception e) {
 			throw new BusinessException();
 		}
@@ -79,7 +76,7 @@ public class RetraitDAOJdbcImpl implements RetraitDAO {
 			PreparedStatement pstmt = cnx.prepareStatement(SELECT_ALL_RETRAITS);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
-				r = new Retrait(rs.getInt("noRetrait"), rs.getString("rue"), rs.getString("codePostal"), rs.getString("ville"));
+				r = new Retrait(rs.getInt("no_retrait"), rs.getString("rue"), rs.getString("code_postal"), rs.getString("ville"));
 				listeRetraits.add(r);
 			}
 		} catch (Exception e) {
@@ -95,10 +92,10 @@ public class RetraitDAOJdbcImpl implements RetraitDAO {
 		}
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement pstmt = cnx.prepareStatement(UPDATE_RETRAIT);
-			pstmt.setInt(1, r.getNoRetrait());
-			pstmt.setString(2, r.getRue());
-			pstmt.setString(3, r.getCodePostal());
-			pstmt.setString(4, r.getVille());
+			pstmt.setString(1, r.getRue());
+			pstmt.setString(2, r.getCodePostal());
+			pstmt.setString(3, r.getVille());
+			pstmt.setInt(4, r.getNoRetrait());
 			pstmt.executeUpdate();
 		} catch (Exception e) {
 			throw new BusinessException();
