@@ -37,16 +37,14 @@ public class RetraitDAOJdbcImpl implements RetraitDAO {
 		}
 
 		try (Connection cnx = ConnectionProvider.getConnection()) {
-			PreparedStatement pstmt = cnx.prepareStatement(INSERT_RETRAIT, PreparedStatement.RETURN_GENERATED_KEYS);
+			//TODO : A TESTER AMBIGUITE NoARTICLE ET NoRETRAIT
+			PreparedStatement pstmt = cnx.prepareStatement(INSERT_RETRAIT);
 			pstmt.setInt(1, r.getNoRetrait());
 			pstmt.setString(2, r.getRue());
 			pstmt.setString(3, r.getCodePostal());
 			pstmt.setString(4, r.getVille());
 			pstmt.executeUpdate();
-			ResultSet rs = pstmt.getGeneratedKeys();
-			if (rs.next()) {
-				r.setNoRetrait(rs.getInt(1));
-			}
+
 		} catch (Exception e) {
 			throw new BusinessException();
 		}
@@ -63,7 +61,6 @@ public class RetraitDAOJdbcImpl implements RetraitDAO {
 			if (rs.next()) {
 				r = new Retrait(rs.getInt("noRetrait"), rs.getString("rue"), rs.getString("codePostal"), rs.getString("ville"));
 			}
-			pstmt.executeQuery();
 		} catch (Exception e) {
 			throw new BusinessException();
 		}
