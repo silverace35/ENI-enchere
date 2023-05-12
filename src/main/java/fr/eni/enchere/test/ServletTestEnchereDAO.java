@@ -61,7 +61,7 @@ public class ServletTestEnchereDAO extends HttpServlet {
 			
 			/*TEST BLL*/
 			EnchereManager mgr = new EnchereManager();
-			mgr.insert("2023/05/12 16:20", 15, 2, 3);
+			mgr.insert("2023-05-12 16:40:00", 15, 2, 3);
 			System.out.println(mgr.selectAllEncheresByNoUtilisateur(1));
 			
 			

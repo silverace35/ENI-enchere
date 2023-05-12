@@ -21,8 +21,9 @@ public class EnchereManager implements Serializable{
 	}
 
 	public Enchere insert(String dateEnchere, Integer montantEnchere, int noArticle, int noUtilisateur) {
-		DateTimeFormatter dt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");	
-		Enchere en = new Enchere(LocalDateTime.parse(dateEnchere, dt), montantEnchere);
+		DateTimeFormatter dt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");	
+		//DateTimeFormatter dt = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+		Enchere en = new Enchere(LocalDateTime.parse(dateEnchere, dt),montantEnchere);
 			try {
 				en=this.enchereDAO.insert(en, noArticle, noUtilisateur);
 			} catch (Exception e) {
