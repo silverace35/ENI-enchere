@@ -1,0 +1,97 @@
+﻿
+/*Suppression base existante*/
+DROP DATABASE IF EXISTS enchere;
+
+/*Creation de la db*/
+CREATE DATABASE enchere CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+/*Go enchère*/
+USE enchere;
+
+/*Creation de la table utilisateur au stage*/
+CREATE TABLE UTILISATEURS (
+    no_utilisateur   INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    pseudo           VARCHAR(30) NOT NULL,
+    nom              VARCHAR(30) NOT NULL,
+    prenom           VARCHAR(30) NOT NULL,
+    email            VARCHAR(50) NOT NULL,
+    telephone        VARCHAR(15),
+    rue              VARCHAR(30) NOT NULL,
+    code_postal      VARCHAR(10) NOT NULL,
+    ville            VARCHAR(50) NOT NULL,
+    mot_de_passe     VARCHAR(30) NOT NULL,
+    credit           INTEGER NOT NULL,
+    administrateur   bit NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+/*Ajout champs desactive dans Utilisateurs*/
+ALTER TABLE utilisateurs
+ADD desactive BIT(1) DEFAULT 0;
+
+/*Creation de la table categories*/
+CREATE TABLE CATEGORIES (
+    no_categorie   INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    libelle        VARCHAR(30) NOT NULL
+);
+
+/*Creation de la table ARTICLES_VENDUS*/
+CREATE TABLE ARTICLES_VENDUS (
+    no_article                    INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    nom_article                   VARCHAR(30) NOT NULL,
+    description                   VARCHAR(300) NOT NULL,
+    date_debut_encheres           DATETIME NOT NULL,
+    date_fin_encheres             DATETIME NOT NULL,
+    prix_initial                  INTEGER,
+    prix_vente                    INTEGER,
+    no_utilisateur                INTEGER,
+    no_categorie                  INTEGER,
+    retrait_ok_vendeur		  BIT(1) NOT NULL DEFAULT 0,
+    retrait_ok_acheteur		  BIT(1) NOT NULL DEFAULT 0			  
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+ALTER TABLE ARTICLES_VENDUS
+    ADD CONSTRAINT articles_vendus_categories_fk FOREIGN KEY ( no_categorie )
+        REFERENCES categories ( no_categorie )
+ON DELETE SET NULL 
+    ON UPDATE NO ACTION;  
+
+ALTER TABLE ARTICLES_VENDUS
+    ADD CONSTRAINT ventes_utilisateur_fk FOREIGN KEY ( no_utilisateur )
+        REFERENCES utilisateurs ( no_utilisateur )
+ON DELETE SET NULL 
+    ON UPDATE NO ACTION;  
+
+/*Creation de la table Encheres*/
+CREATE TABLE ENCHERES(	
+	no_enchere  INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	date_enchere datetime NOT NULL,
+	montant_enchere INTEGER NOT NULL,
+	no_article INTEGER,
+	no_utilisateur INTEGER
+ ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE ENCHERES
+    ADD CONSTRAINT encheres_utilisateur_fk FOREIGN KEY ( no_utilisateur ) REFERENCES UTILISATEURS ( no_utilisateur )
+ON DELETE CASCADE
+    ON UPDATE NO ACTION;  
+
+ALTER TABLE ENCHERES
+    ADD CONSTRAINT encheres_no_article_fk FOREIGN KEY ( no_article ) REFERENCES ARTICLES_VENDUS ( no_article )
+ON DELETE CASCADE
+    ON UPDATE NO ACTION;  
+
+/*Creation de la table retraits*/
+CREATE TABLE RETRAITS (
+	no_article       INTEGER NOT NULL PRIMARY KEY,
+    rue              VARCHAR(30) NOT NULL,
+    code_postal      VARCHAR(15) NOT NULL,
+    ville            VARCHAR(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE RETRAITS
+    ADD CONSTRAINT retrait_article_fk FOREIGN KEY ( no_article ) REFERENCES  ARTICLES_VENDUS (no_article)
+ON DELETE CASCADE
+    ON UPDATE CASCADE;  
+
+
+
