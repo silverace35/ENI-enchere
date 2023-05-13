@@ -1,6 +1,7 @@
 package fr.eni.enchere.bll;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +21,17 @@ public class ArticleManager implements Serializable{
 	
 	public ArticleManager() {
 		this.articleVenduDAO = FactoryDAO.getArticleVenduDAO();
+	}
+	
+	public ArticleVendu insert(String nomArticle, String description, LocalDateTime dateDebutEncheres, LocalDateTime dateFinEncheres, Integer prixInitial, Integer prixVente, Integer noUtilisateur, Integer noCategorie, Boolean retraitOkVendeur, Boolean retraitOkAcheteur, String nomPrenomAuteur) throws BusinessException {
+		ArticleVendu av = null;
+
+		try {
+			av = this.articleVenduDAO.insert(new ArticleVendu(nomArticle, description, dateDebutEncheres, dateFinEncheres, prixInitial, prixVente, noUtilisateur, noCategorie, retraitOkVendeur, retraitOkAcheteur, nomPrenomAuteur));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return av;
 	}
 	
 	public List<ArticleVendu> getArticlesEnCours() {

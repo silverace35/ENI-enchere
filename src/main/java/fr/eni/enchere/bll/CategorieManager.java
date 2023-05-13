@@ -1,5 +1,8 @@
 package fr.eni.enchere.bll;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import fr.eni.enchere.bo.Categorie;
 import fr.eni.enchere.dal.CategorieDAO;
 import fr.eni.enchere.dal.FactoryDAO;
@@ -42,6 +45,16 @@ public class CategorieManager {
 			e.printStackTrace();
 		}
 		return c;
+	}
+	
+	public List<Categorie> selectAllCategories() throws BusinessException {
+		List<Categorie> listeCategories = new ArrayList<>();
+		try {
+			listeCategories = this.categorieDAO.selectAllCategories();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return listeCategories;
 	}
 
 	public void update(Categorie c) {
