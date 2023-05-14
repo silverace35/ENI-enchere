@@ -35,7 +35,7 @@ public class EnchereDAOJdbcImpl implements EnchereDAO {
 	
 
 	@Override
-	public Enchere insert(Enchere en, int noArticle, int noUtilisateur ) throws BusinessException {
+	public Enchere insert(Enchere en) throws BusinessException {
 		if (en == null) {
 			throw new BusinessException("L'enchere est null");
 		}
@@ -43,8 +43,8 @@ public class EnchereDAOJdbcImpl implements EnchereDAO {
 			PreparedStatement pstmt = cnx.prepareStatement(INSERT_ENCHERE, PreparedStatement.RETURN_GENERATED_KEYS);
 			pstmt.setTimestamp(1, Timestamp.valueOf(en.getDateEnchere()));
 			pstmt.setInt(2, en.getMontantEnchere());
-			pstmt.setInt(3, noArticle);
-			pstmt.setInt(4, noUtilisateur);
+			pstmt.setInt(3, en.getNoArticle());
+			pstmt.setInt(4, en.getNoUtilisateur());
 			pstmt.executeUpdate();
 			ResultSet rs = pstmt.getGeneratedKeys();
 			if (rs.next()) {
@@ -67,7 +67,9 @@ public class EnchereDAOJdbcImpl implements EnchereDAO {
 				en = new Enchere(
 						rs.getInt("no_enchere"),
 						rs.getTimestamp("date_enchere").toLocalDateTime(),
-						rs.getInt("montant_enchere"));
+						rs.getInt("montant_enchere"),
+						rs.getInt("no_article"),
+						rs.getInt("no_utilisateur"));
 			}
 		} catch(Exception e) {
 			throw new BusinessException("Echec DAL : selectByNoEnchere");
@@ -85,7 +87,9 @@ public class EnchereDAOJdbcImpl implements EnchereDAO {
 			while (rs.next()) {
 				en = new Enchere (rs.getInt("no_enchere"), 
 						rs.getTimestamp("date_enchere").toLocalDateTime(), 
-						rs.getInt("montant_enchere"));
+						rs.getInt("montant_enchere"),
+						rs.getInt("no_article"),
+						rs.getInt("no_utilisateur"));
 				lstEncheres.add(en);
 			}
 		} catch (Exception e) {
@@ -105,7 +109,9 @@ public class EnchereDAOJdbcImpl implements EnchereDAO {
 			while (rs.next()) {
 				en = new Enchere (rs.getInt("no_enchere"), 
 						rs.getTimestamp("date_enchere").toLocalDateTime(), 
-						rs.getInt("montant_enchere"));
+						rs.getInt("montant_enchere"),
+						rs.getInt("no_article"),
+						rs.getInt("no_utilisateur"));
 				lstEncheres.add(en);
 			}
 		} catch (Exception e) {
@@ -125,7 +131,9 @@ public class EnchereDAOJdbcImpl implements EnchereDAO {
 			while (rs.next()) {
 				en = new Enchere (rs.getInt("no_enchere"), 
 						rs.getTimestamp("date_enchere").toLocalDateTime(), 
-						rs.getInt("montant_enchere"));
+						rs.getInt("montant_enchere"),
+						rs.getInt("no_article"),
+						rs.getInt("no_utilisateur"));
 				lstEncheres.add(en);
 			}
 		} catch (Exception e) {
@@ -144,6 +152,8 @@ public class EnchereDAOJdbcImpl implements EnchereDAO {
 			pstmt.setTimestamp(1, Timestamp.valueOf(en.getDateEnchere()));
 			pstmt.setInt(2, en.getMontantEnchere());
 			pstmt.setInt(3, en.getNoEnchere());
+			pstmt.setInt(4, en.getNoArticle());
+			pstmt.setInt(5, en.getNoUtilisateur());
 			pstmt.executeUpdate();
 		} catch (Exception e) {
 			throw new BusinessException("Echec DAL : update enchere");

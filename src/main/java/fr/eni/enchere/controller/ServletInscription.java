@@ -122,13 +122,15 @@ public class ServletInscription extends HttpServlet {
 		for (ErrorCodes e : lstParam) {
 			result = false;
 		}
+		//return lstParam.size()==0;
 		return result;
 	}
 
 	public void valider(String text, ErrorCodes errorCode, List<ErrorCodes> lstParam) {
 		Pattern pattern = Pattern.compile(errorCode.getPattern());
 		Matcher matcher = pattern.matcher(text);
-		String result;
+		//boolean test = text.matches(errorCode.getPattern()); syntaxe à tester
+		//String result;
 		if (!matcher.matches()) {
 			lstParam.add(errorCode);
 		}

@@ -37,32 +37,34 @@ public class ServletTestEnchereDAO extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 	
-//		EnchereDAO dao = FactoryDAO.getEnchereDAO();
-//		DateTimeFormatter dt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-//		Enchere en1 = new Enchere(LocalDateTime.parse("2023-05-12 13:01:00", dt),12);
-//		Enchere en2 = new Enchere(LocalDateTime.parse("2023-05-12 14:01:00", dt),13);
+		EnchereDAO dao = FactoryDAO.getEnchereDAO();
+		DateTimeFormatter dt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		Enchere en1 = new Enchere(LocalDateTime.parse("2023-05-12 13:01:00", dt),12, 2, 3);
+		Enchere en2 = new Enchere(LocalDateTime.parse("2023-05-12 14:01:00", dt),13, 2, 2);
 		try {
 			/*TEST DAO*/
-//			System.out.println("-----------Test insertion");
-//			dao.insert(en1, 2, 3);
-//			dao.insert(en2, 2, 2);
-//			System.out.println("-----------Test select by id");
-//			System.out.println(dao.selectByNoEnchere(3));
-//			System.out.println(dao.selectByNoEnchere(10));
+			System.out.println("-----------Test select all");
+			System.out.println(dao.selectAllEncheres());
+			System.out.println("-----------Test insertion");
+			dao.insert(en1);
+			dao.insert(en2);
+			System.out.println("-----------Test select by id");
+			System.out.println(dao.selectByNoEnchere(3));
+			System.out.println(dao.selectByNoEnchere(10));
 			
-//			System.out.println("-----------Test select all");
-//			System.out.println(dao.selectAllEncheres());
+			System.out.println("-----------Test select all");
+			System.out.println(dao.selectAllEncheres());
 //
-//			System.out.println("-----------Test update");
-//			dao.delete(13);
+			System.out.println("-----------Test update");
+			dao.delete(13);
 //
-//			System.out.println("-----------Test select all");
-//			System.out.println(dao.selectAllEncheres());
+			System.out.println("-----------Test select all");
+			System.out.println(dao.selectAllEncheres());
 			
 			/*TEST BLL*/
-			EnchereManager mgr = new EnchereManager();
-			mgr.insert("2023-05-12 16:40:00", 15, 2, 3);
-			System.out.println(mgr.selectAllEncheresByNoUtilisateur(1));
+//			EnchereManager mgr = new EnchereManager();
+			//mgr.insert("2023-05-12 16:40:00", 15, 2, 3);
+//			System.out.println(mgr.selectAllEncheres());
 			
 			
 			

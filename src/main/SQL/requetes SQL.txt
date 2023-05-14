@@ -101,3 +101,58 @@ AND ('?11 = ?3' < (SELECT date_fin_encheres
 AND  ('?13 = ?5'<( SELECT MAX(montant_enchere) 
                     FROM encheres 
                     WHERE no_article='?14 = ?7')) 
+                    
+                    
+/* -----------------MAJ REQUETES AVEC FILTRES ----------------- */
+
+/*--------ACHATS---------*/
+
+/*Affichage des 'Enchères ouvertes' (ventes débutées, non encore enchéries par l'utlisateur et non terminées, ET non initiées par l'utilisateur*/
+SELECT * FROM articles_vendus
+       WHERE no_article NOT IN (SELECT no_article FROM encheres where no_utilisateur = 1)
+    AND `no_utilisateur` != 1,
+    AND date_fin_encheres > now()
+	AND date_debut_encheres < now()
+	AND `no_categorie` BETWEEN 6 AND 6;
+
+/*Affichage de 'Mes enchères', tous les articles sur lesquels l'utlisateur a enchéri*/
+SELECT * FROM articles_vendus as a
+        INNER JOIN encheres as e
+    ON e.no_article = a.no_article
+    WHERE e.no_utilisateur = 1
+    AND no_categorie BETWEEN 1 AND 6;
+
+/*Affichage de 'Mes enchères remportées' avec filtre catégories*/
+With encheres_remportees AS(
+	Select a.no_article, e.no_utilisateur, e.no_enchere, a.no_categorie, Max(montant_enchere) from ENCHERES as e
+	inner JOIN ARTICLES_VENDUS as a 
+    on a.no_article = e.no_article
+	where date_fin_encheres <= now()
+    group by 1)
+SELECT * FROM encheres_remportees WHERE no_utilisateur = 1 AND 
+no_categorie BETWEEN 1 AND 6;
+
+/*--------MES VENTES---------*/
+/*Select des ventes pour l'utilisateur non débutées, débutées et terminées avec filtres*/
+SELECT * FROM articles_vendus 
+WHERE no_utilisateur = 1
+AND no_categorie BETWEEN 1 AND 6;
+
+/*Select 'Mes ventes en cours', débutées et non terminées avec filtres*/
+SELECT * FROM articles_vendus 
+WHERE no_utilisateur = 1
+AND date_fin_encheres > now()
+AND date_debut_encheres < now()
+AND no_categorie BETWEEN 1 AND 6;
+
+/*Select 'ventes non débutées' avec filtres*/
+SELECT * FROM articles_vendus 
+WHERE no_utilisateur = 1
+AND date_debut_encheres > now()
+AND no_categorie BETWEEN 1 AND 6;
+
+/*Select 'ventes terminées' avec filtres*/
+SELECT * FROM articles_vendus 
+WHERE no_utilisateur = 1
+AND date_fin_encheres < now()
+AND no_categorie BETWEEN 1 AND 6;

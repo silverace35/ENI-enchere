@@ -15,7 +15,7 @@ public class CategorieDAOJdbcImpl implements CategorieDAO {
 	
 	private static final String INSERT_CATEGORIE = "INSERT INTO Categories(libelle) VALUES(?);";
 	private static final String SELECT_CATEGORIE_BY_ID = "SELECT * FROM Categories WHERE no_Categorie=?;";
-	private static final String SELECT_ALL_CATEGORIES = "SELECT * FROM Categories";
+	private static final String SELECT_ALL_CATEGORIES = "SELECT * FROM Categories;";
 	private static final String UPDATE_CATEGORIE= "UPDATE Categories SET libelle=? WHERE no_Categorie=?;";
 	private static final String DELETE_CATEGORIE = "DELETE FROM Categories WHERE no_Categorie=?;";
 	private static final String CHECK_LIBELLE="SELECT * FROM Categories WHERE libelle=?;";
@@ -65,7 +65,7 @@ public class CategorieDAOJdbcImpl implements CategorieDAO {
 			pstmt.setInt(1, noCategorie);
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {
-				c = new Categorie(rs.getInt("noCategorie"), rs.getString("libelle"));
+				c = new Categorie(rs.getInt("no_categorie"), rs.getString("libelle"));
 			}
 			pstmt.executeQuery();
 		} catch (Exception e) {
@@ -77,17 +77,17 @@ public class CategorieDAOJdbcImpl implements CategorieDAO {
 	@Override
 	public List<Categorie> selectAllCategories() throws BusinessException {
 		List<Categorie> listeCategories = new ArrayList<>();
-		Categorie c = new Categorie();
+		Categorie c = null;
 		
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement pstmt = cnx.prepareStatement(SELECT_ALL_CATEGORIES);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
-				c = new Categorie(rs.getInt("noCategorie"), rs.getString("libelle"));
+				c = new Categorie(rs.getInt("no_categorie"), rs.getString("libelle"));
 				listeCategories.add(c);
 			}
 		} catch (Exception e) {
-			throw new BusinessException();
+			throw new BusinessException("Echec DAL : selectAllCategories");
 		}
 		return listeCategories;
 	}

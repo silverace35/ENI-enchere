@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import fr.eni.enchere.bll.ArticleManager;
+import fr.eni.enchere.bll.CategorieManager;
 import fr.eni.enchere.bo.ArticleVendu;
+import fr.eni.enchere.bo.Categorie;
 
 /**
  * Servlet implementation class ServletIndex
@@ -36,6 +38,13 @@ public class ServletIndex extends HttpServlet {
 		ArticleManager articleManager = new ArticleManager();
 		List<ArticleVendu> listArticle = articleManager.getArticlesEnCours();
 		request.setAttribute("listArticle", listArticle);
+		CategorieManager catMgr = new CategorieManager();
+		try {
+			List<Categorie> listCategories = catMgr.selectAllCategories();
+			request.setAttribute("listCategories", listCategories);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		rd.forward(request, response);
 	}
