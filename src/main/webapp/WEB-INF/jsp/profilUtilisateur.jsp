@@ -5,8 +5,8 @@
 <html>
 <head>
 <%@ include file="head.jsp" %>
-<link rel="stylesheet" href="css/settings.css">
-<link rel="stylesheet" href="css/login.css">
+<link rel="stylesheet" href="../css/settings.css">
+<link rel="stylesheet" href="../css/login.css">
 <title>Profil | ENI-enchere</title>
 </head>
 <body>
@@ -27,7 +27,9 @@
 		  </tr>
 		</table>
 	
+	 	<% if(isConnected && (int)session.getAttribute("noUtilisateur") == u.getNoUtilisateur()) {%>
 		<a class="secondary-link" href="/ENI-enchere/ServletModifierProfil">Modifier</a>
+		<%} %>
 	</main>
 
 </body>
