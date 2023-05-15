@@ -21,7 +21,6 @@ public class UtilisateurManager {
 		Utilisateur u = null;
 		try {
 			if (this.daoUtilisateur.checkPseudoEmail(pseudo, email)) {
-				System.out.println("j'ai cramé le doublon");
 				throw new BusinessException(ErrorCodes.PSEUDO_OR_EMAIL_ALREADY_EXIST.getMessage());
 			}
 			
@@ -41,7 +40,6 @@ public class UtilisateurManager {
 		try {
 			
 			u = this.daoUtilisateur.checkPwd(pseudoOrEmail, pwd);
-			System.out.println(u);
 			if (u!=null) {
 				System.out.println("MSG BLL j'ai trouvé un utilisateur");
 				
@@ -49,7 +47,6 @@ public class UtilisateurManager {
 				//TODO remonter msg erreur
 				System.out.println("MSG BLL Login ou mdp incorrect");
 			}
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -72,7 +69,7 @@ public class UtilisateurManager {
 		try {
 			u= this.daoUtilisateur.selectByNoUtilisateur(noUtilisateur);
 		}  catch (Exception e) {
-			
+		
 		}
 		return u;
 	}

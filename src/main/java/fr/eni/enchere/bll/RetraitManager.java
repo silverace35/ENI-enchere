@@ -3,6 +3,7 @@ package fr.eni.enchere.bll;
 import fr.eni.enchere.bo.Retrait;
 import fr.eni.enchere.dal.FactoryDAO;
 import fr.eni.enchere.dal.RetraitDAO;
+import fr.eni.enchere.dal.exceptions.BusinessException;
 
 public class RetraitManager {
 	private RetraitDAO retraitDAO;
@@ -16,7 +17,8 @@ public class RetraitManager {
 		try {
 			r = this.retraitDAO.insert(new Retrait(noRetrait, rue, codePostal, ville));
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new BusinessException("Echec BLL : insertion retrait.");
+			
 		}
 		return r;
 	}

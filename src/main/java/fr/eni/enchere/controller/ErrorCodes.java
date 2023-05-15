@@ -11,12 +11,15 @@ public enum ErrorCodes {
 	CODEPOSTAL("Code postal incorrect.", "^[0-9]{5}$"),
 	VILLE("Caractères alphanumériques requis.", "^[a-z A-Z\\'\\-]{2,50}$"),
 	PWDUSER("Format de mot de passe incorrect.", "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&+=*])(?=\\S+$).{8,30}$"),
-	CONFPWDUSER("Format de mot de passe incorrect.", "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&+=])(?=\\S+$).{8,30}$"),
+	CONFPWDUSER("Format de mot de passe incorrect.", "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&+=*])(?=\\S+$).{8,30}$"),
 	PASSWORDMISSMATCH("Les mots de passe ne correspondent pas."),
 	PSEUDO_OR_EMAIL_ALREADY_EXIST("Le pseudo ou l'email existe déjà."),
 	PSEUDO_ALREADY_EXIST("Le pseudo existe déjà."),
 	EMAIL_ALREADY_EXIST("l'email existe déjà."),
 	SQL_ERROR("Connexion à la base impossible."),
+	DESCRIPTION("Caractères non autorisés.", "^[0-9 a-z A-Z [&\\\"'(!)-*%+=?,.;/:<>€$]]{2,300}$"),
+	PRIX_INITIAL("Le prix ne peut pas être négatif."),
+	DATES_IMP("Date de fin doit être postérieure à celle de début."),
 	;
 
 	private String message;

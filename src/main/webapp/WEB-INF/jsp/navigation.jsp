@@ -34,7 +34,7 @@
 			if (isConnected) {
 			%>
 			<li id="hidden"><a href="#">Enchères</a></li>
-			<li class="menu-links"><a href="#">Vendre un article</a></li>
+			<li class="menu-links"><a href="/ENI-enchere/AjoutArticle">Vendre un article</a></li>
 			<li class="menu-links"><a href="/ENI-enchere/InfosProfil/<%=session.getAttribute("noUtilisateur") %>">Mon profil</a></li>
 			<li class="menu-links"><a href="/ENI-enchere/ServletDeconnexion">Déconnexion</a></li>
 			<%
