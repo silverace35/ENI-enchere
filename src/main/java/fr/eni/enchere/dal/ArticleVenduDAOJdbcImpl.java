@@ -47,7 +47,7 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO{
 			+ " ON u.no_utilisateur = a.no_utilisateur"
 			+ " WHERE (e.montant_enchere, e.no_article) IN"
 			+ " (SELECT MAX(montant_enchere), no_article FROM encheres GROUP BY no_article)"
-			+ " AND date_enchere <= now() AND e.no_utilisateur = ?;";
+			+ " AND a.date_fin_encheres <= now() AND e.no_utilisateur = ?;";
 	private static final String SELECT_ALL_VENTE_EN_COURS = "SELECT"
 			+ " a.no_article, nom_article, description, date_debut_encheres,"
 			+ " date_fin_encheres, prix_initial, prix_vente, a.no_utilisateur,"

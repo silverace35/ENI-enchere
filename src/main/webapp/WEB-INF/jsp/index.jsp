@@ -135,6 +135,7 @@
 						<a href="/ENI-enchere/DetailVente/<%=av.getNoArticle()%>"><%=av.getNomArticle()%></a>
 					</h3>
 					<p><%=av.getPrixVente()%></p>
+					<p><%=av.getArticleStatus().getStatusMessage()%></p>
 					<p><%=av.getDateFinEncheres().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))%></p>
 					<p>
 						<a href="/ENI-enchere/InfosProfil/<%=av.getNoUtilisateur()%>"><%=av.getNomPrenomAuteur()%></a>
