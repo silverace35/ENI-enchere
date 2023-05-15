@@ -33,13 +33,14 @@
 			<div class="select-container">
 				<label for="categorie">Catégorie : </label> 
 				<select name="categorie" id="categorie">
+					<option value="0" selected>Toutes</option>
 					<%
 					boolean categorieFind = false;
 					List<Categorie> listCategories = (List<Categorie>) request.getAttribute("listCategories");
 					for (Categorie c : listCategories) {
 						categorieFind = false;
-						if(request.getParameter("radio") != null) {
-							if (request.getParameter("radio").equals(c.getNoCategorie())) {
+						if(request.getParameter("categorie") != null) {
+							if (request.getParameter("categorie").equals(c.getNoCategorie().toString())) {
 								categorieFind = true;
 							}
 						}

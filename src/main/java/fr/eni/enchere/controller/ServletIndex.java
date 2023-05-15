@@ -92,7 +92,7 @@ public class ServletIndex extends HttpServlet {
 			if ("on".equals(enchereRemportees)) {
 				listArticle.addAll(articleManager.getArticlesTerminerGagner(id));
 			}
-		} else {
+		} else if("vente".equals(radio)){
 			if ("on".equals(venteCours)) {
 				listArticle.addAll(articleManager.getVentesEnCours(id));
 			}
@@ -102,6 +102,30 @@ public class ServletIndex extends HttpServlet {
 			if ("on".equals(venteTerminees)) {
 				listArticle.addAll(articleManager.getVentesTerminer(id));
 			}
+		} else {
+			listArticle.addAll(articleManager.getArticlesEnCours());
+		}
+		
+		List<ArticleVendu> toRemove = new ArrayList<ArticleVendu>();
+		
+		if (categorie != 0) {
+			System.out.println(categorie);
+			for (ArticleVendu articleVendu : listArticle) {
+				if (articleVendu.getNoCategorie() != categorie) {
+					toRemove.add(articleVendu);
+				}
+			}
+			listArticle.removeAll(toRemove);
+		}
+		
+		if (!barreRecherche.equals("") || !barreRecherche.isEmpty() || !barreRecherche.isBlank()) {
+			toRemove = new ArrayList<ArticleVendu>();
+			for (ArticleVendu articleVendu : listArticle) {
+				if (!articleVendu.getNomArticle().toLowerCase().contains(barreRecherche.toLowerCase())) {
+					toRemove.add(articleVendu);
+				}
+			}
+			listArticle.removeAll(toRemove);
 		}
 		
 		request.setAttribute("listArticle", listArticle);
