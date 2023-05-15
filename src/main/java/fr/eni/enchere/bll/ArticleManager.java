@@ -59,6 +59,54 @@ public class ArticleManager implements Serializable{
 		return listArticle;
 	}
 	
+	public List<ArticleVendu> getArticlesTerminerGagner(int noUtilisateur) {
+		List<ArticleVendu> listArticle = new ArrayList<ArticleVendu>();
+		
+		try {
+			listArticle = this.articleVenduDAO.selectAllArticleVenduEnCoursTerminerGagner(noUtilisateur);
+		} catch (BusinessException e) {
+			e.printStackTrace();
+		}
+		
+		return listArticle;
+	}
+	
+	public List<ArticleVendu> getVentesNonDebute(int noUtilisateur) {
+		List<ArticleVendu> listArticle = new ArrayList<ArticleVendu>();
+		
+		try {
+			listArticle = this.articleVenduDAO.selectAllVenteNonDebute(noUtilisateur);
+		} catch (BusinessException e) {
+			e.printStackTrace();
+		}
+		
+		return listArticle;
+	}
+	
+	public List<ArticleVendu> getVentesEnCours(int noUtilisateur) {
+		List<ArticleVendu> listArticle = new ArrayList<ArticleVendu>();
+		
+		try {
+			listArticle = this.articleVenduDAO.selectAllVenteEnCours(noUtilisateur);
+		} catch (BusinessException e) {
+			e.printStackTrace();
+		}
+		
+		return listArticle;
+	}
+	
+	public List<ArticleVendu> getVentesTerminer(int noUtilisateur) {
+		List<ArticleVendu> listArticle = new ArrayList<ArticleVendu>();
+		
+		try {
+			listArticle = this.articleVenduDAO.selectAllVenteTerminer(noUtilisateur);
+		} catch (BusinessException e) {
+			e.printStackTrace();
+		}
+		
+		return listArticle;
+	}
+	
 	public List<ArticleVendu> getArticlesEnCoursPasEncherie(int noUtilisateur) {
 		List<ArticleVendu> listArticle = new ArrayList<ArticleVendu>();
 		
