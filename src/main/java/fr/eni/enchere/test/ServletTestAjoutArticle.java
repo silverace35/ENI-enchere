@@ -75,20 +75,11 @@ public class ServletTestAjoutArticle extends HttpServlet {
 		Integer prixInitial=Integer.valueOf(request.getParameter("prixInitial"));
 		int noUtilisateur = (int)session.getAttribute("noUtilisateur");
 		Integer noCategorie=Integer.valueOf( request.getParameter("categorie"));
-		System.out.println("noCategorie :" + noCategorie);
-//		CategorieManager catMgr = new CategorieManager();
-//		try {
-//			List<Categorie> listCategories = catMgr.selectAllCategories();
-//			request.setAttribute("listCategories", listCategories);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-		
+
 		try {
 			mgr.insert(nomArticle, description,dateDebutEncheres, dateFinEncheres, prixInitial, null, noUtilisateur, noCategorie, false, false, "");
+			response.sendRedirect("/ENI-enchere");
 			
-//			RequestDispatcher rd = request.getRequestDispatcher("/ENI-enchere");
-//			rd.forward(request, response);
 		} catch (BusinessException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
