@@ -132,6 +132,19 @@ With encheres_remportees AS(
 SELECT * FROM encheres_remportees WHERE no_utilisateur = 1 AND 
 no_categorie BETWEEN 1 AND 6;
 
+/***LA BONNE *****/
+/*Select * Max enchere PAR article*/
+SELECT * FROM (
+    SELECT * FROM encheres WHERE 
+    (montant_enchere, no_article) IN (SELECT MAX(montant_enchere), no_article FROM encheres GROUP BY no_article)
+    )AS encheres_remportees
+WHERE no_utilisateur = 3;
+/*Select les enchres remportŽes par l'utilisateur ?*/
+SELECT a.no_article, a.nom_article, a.description, a.date_debut_encheres, a.date_fin_encheres, a.prix_initial, a.prix_vente, a.no_utilisateur, a.no_categorie, a.retrait_ok_vendeur, a.retrait_ok_acheteur FROM encheres e INNER JOIN articles_vendus a ON a.no_article = e.no_article WHERE (e.montant_enchere, e.no_article) IN (SELECT MAX(montant_enchere), no_article FROM encheres GROUP BY no_article) AND date_enchere <= now() AND e.no_utilisateur = 3
+
+
+
+
 /*--------MES VENTES---------*/
 /*Select des ventes pour l'utilisateur non débutées, débutées et terminées avec filtres*/
 SELECT * FROM articles_vendus 

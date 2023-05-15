@@ -39,8 +39,8 @@ public class ServletTestEnchereDAO extends HttpServlet {
 	
 		EnchereDAO dao = FactoryDAO.getEnchereDAO();
 		DateTimeFormatter dt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-		Enchere en1 = new Enchere(LocalDateTime.parse("2023-05-12 13:01:00", dt),12, 2, 3);
-		Enchere en2 = new Enchere(LocalDateTime.parse("2023-05-12 14:01:00", dt),13, 2, 2);
+		Enchere en1 = new Enchere(LocalDateTime.parse("2023-05-12T13:01:00", dt),12, 2, 3);
+		Enchere en2 = new Enchere(LocalDateTime.parse("2023-05-12T14:01:00", dt),13, 2, 2);
 		try {
 			System.out.println(Utils.sha256("123"));
 			/*TEST DAO*/
