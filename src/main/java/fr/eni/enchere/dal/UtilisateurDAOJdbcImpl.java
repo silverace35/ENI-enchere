@@ -11,6 +11,7 @@ import fr.eni.enchere.bo.ArticleVendu;
 import fr.eni.enchere.bo.Utilisateur;
 import fr.eni.enchere.controller.ErrorCodes;
 import fr.eni.enchere.dal.exceptions.BusinessException;
+import fr.eni.enchere.test.Utils;
 
 public class UtilisateurDAOJdbcImpl implements DAOUtilisateur{
 
@@ -136,7 +137,7 @@ public class UtilisateurDAOJdbcImpl implements DAOUtilisateur{
 			pstmt.setString(6, u.getRue());
 			pstmt.setString(7, u.getCodePostal());
 			pstmt.setString(8, u.getVille());
-			pstmt.setString(9, u.getMotDePasse());
+			pstmt.setString(9, Utils.sha256(u.getMotDePasse()));
 			pstmt.setInt(10, u.getCredit());
 			pstmt.setBoolean(11, u.getAdministrateur());
 			pstmt.setInt(12, u.getNoUtilisateur());
@@ -169,7 +170,7 @@ public class UtilisateurDAOJdbcImpl implements DAOUtilisateur{
 			pstmt.setString(6, u.getRue());
 			pstmt.setString(7, u.getCodePostal());
 			pstmt.setString(8, u.getVille());
-			pstmt.setString(9, u.getMotDePasse());
+			pstmt.setString(9, Utils.sha256(u.getMotDePasse()));
 			pstmt.setInt(10, u.getCredit());
 			pstmt.setBoolean(11, u.getAdministrateur());
 			pstmt.executeUpdate();
@@ -179,7 +180,7 @@ public class UtilisateurDAOJdbcImpl implements DAOUtilisateur{
 				u.setNoUtilisateur(rs.getInt(1));
 			}
 		}
-		catch( SQLException e)
+		catch( Exception e)
 		{
 			//e.printStackTrace();
 			BusinessException businessException = new BusinessException(e.getMessage());
@@ -263,7 +264,7 @@ public class UtilisateurDAOJdbcImpl implements DAOUtilisateur{
 			PreparedStatement pstmt = cnx.prepareStatement(SELECTBYPWD);
 			pstmt.setString(1, pseudoOrEmail);
 			pstmt.setString(2, pseudoOrEmail);
-			pstmt.setString(3, pwd);
+			pstmt.setString(3, Utils.sha256(pwd));
 			
 			ResultSet rs = pstmt.executeQuery();
 			

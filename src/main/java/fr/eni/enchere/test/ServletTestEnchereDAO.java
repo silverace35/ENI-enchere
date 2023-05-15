@@ -42,25 +42,25 @@ public class ServletTestEnchereDAO extends HttpServlet {
 		Enchere en1 = new Enchere(LocalDateTime.parse("2023-05-12 13:01:00", dt),12, 2, 3);
 		Enchere en2 = new Enchere(LocalDateTime.parse("2023-05-12 14:01:00", dt),13, 2, 2);
 		try {
+			System.out.println(Utils.sha256("123"));
 			/*TEST DAO*/
-			System.out.println("-----------Test select all");
-			System.out.println(dao.selectAllEncheres());
-			System.out.println("-----------Test insertion");
-			dao.insert(en1);
-			dao.insert(en2);
-			System.out.println("-----------Test select by id");
-			System.out.println(dao.selectByNoEnchere(3));
-			System.out.println(dao.selectByNoEnchere(10));
-			
-			System.out.println("-----------Test select all");
-			System.out.println(dao.selectAllEncheres());
+//			System.out.println("-----------Test select all");
+//			System.out.println(dao.selectAllEncheres());
+//			System.out.println("-----------Test insertion");
+//			dao.insert(en1);
+//			dao.insert(en2);
+//			System.out.println("-----------Test select by id");
+//			System.out.println(dao.selectByNoEnchere(3));
+//			System.out.println(dao.selectByNoEnchere(10));
+//			
+//			System.out.println("-----------Test select all");
+//			System.out.println(dao.selectAllEncheres());
 //
-			System.out.println("-----------Test update");
-			dao.delete(13);
+//			System.out.println("-----------Test update");
+//			dao.delete(13);
 //
-			System.out.println("-----------Test select all");
-			System.out.println(dao.selectAllEncheres());
-			
+//			System.out.println("-----------Test select all");
+//			System.out.println(dao.selectAllEncheres());
 			/*TEST BLL*/
 //			EnchereManager mgr = new EnchereManager();
 			//mgr.insert("2023-05-12 16:40:00", 15, 2, 3);
