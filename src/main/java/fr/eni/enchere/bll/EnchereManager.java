@@ -2,10 +2,12 @@ package fr.eni.enchere.bll;
 
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import fr.eni.enchere.bo.Enchere;
 import fr.eni.enchere.dal.EnchereDAO;
@@ -20,10 +22,10 @@ public class EnchereManager implements Serializable{
 		this.enchereDAO=FactoryDAO.getEnchereDAO();
 	}
 
-	public Enchere insert(String dateEnchere, Integer montantEnchere, int noArticle, int noUtilisateur) {
-		DateTimeFormatter dt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");	
-		//DateTimeFormatter dt = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
-		Enchere en = new Enchere(LocalDateTime.parse(dateEnchere, dt),montantEnchere, noArticle, noUtilisateur);
+	public Enchere insert(LocalDateTime dateEnchere, Integer montantEnchere, int noArticle, int noUtilisateur) {
+//		DateTimeFormatter dt = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+		        
+		Enchere en = new Enchere(dateEnchere, montantEnchere, noArticle, noUtilisateur);
 			try {
 				en=this.enchereDAO.insert(en);
 			} catch (Exception e) {
