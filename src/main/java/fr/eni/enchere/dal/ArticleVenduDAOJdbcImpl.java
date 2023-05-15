@@ -492,6 +492,7 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO{
 			}
 			pstmt.setBoolean(9, av.isRetraitOkVendeur());
 			pstmt.setBoolean(10, av.isRetraitOkAcheteur());
+			pstmt.executeUpdate();
 			ResultSet rs = pstmt.getGeneratedKeys();
 			if(rs.next())
 			{
