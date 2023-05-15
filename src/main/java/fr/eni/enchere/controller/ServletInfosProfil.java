@@ -53,12 +53,12 @@ public class ServletInfosProfil extends HttpServlet {
 			response.sendRedirect("/ENI-enchere");
 		} else {
 			utilisateur = mgr.getUtilisateurByNoUtilisateur(Integer.valueOf(id));
-		}
-		if (utilisateur != null) {
-			request.setAttribute("utilisateur", utilisateur);
-			rd.forward(request, response);
-		} else {
-			response.sendRedirect("/ENI-enchere");
+			if (utilisateur != null) {
+				request.setAttribute("utilisateur", utilisateur);
+				rd.forward(request, response);
+			} else {
+				response.sendRedirect("/ENI-enchere");
+			}
 		}
 	}
 
