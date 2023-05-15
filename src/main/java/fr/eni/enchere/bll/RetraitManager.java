@@ -11,10 +11,10 @@ public class RetraitManager {
 		this.retraitDAO = FactoryDAO.getRetraitDAO();
 	}
 	
-	public Retrait insert(String rue, String codePostal, String ville) throws Exception {
+	public Retrait insert(Integer noRetrait, String rue, String codePostal, String ville) throws Exception {
 		Retrait r = null;
 		try {
-			r = this.retraitDAO.insert(new Retrait(rue, codePostal, ville));
+			r = this.retraitDAO.insert(new Retrait(noRetrait, rue, codePostal, ville));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

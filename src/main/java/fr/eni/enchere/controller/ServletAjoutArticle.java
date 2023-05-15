@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 
 import fr.eni.enchere.bll.ArticleManager;
 import fr.eni.enchere.bll.CategorieManager;
+import fr.eni.enchere.bll.RetraitManager;
 import fr.eni.enchere.bll.UtilisateurManager;
 import fr.eni.enchere.bo.ArticleVendu;
 import fr.eni.enchere.bo.Categorie;
@@ -74,29 +75,25 @@ public class ServletAjoutArticle extends HttpServlet {
 		String description=request.getParameter("description");
 		LocalDateTime dateDebutEncheres=LocalDateTime.parse(request.getParameter("dateDebutEncheres"), DateTimeFormatter.ISO_DATE_TIME) ;
 		LocalDateTime dateFinEncheres=LocalDateTime.parse(request.getParameter("dateFinEncheres"), DateTimeFormatter.ISO_DATE_TIME);
-		//request.getParameter("dateDebutEncheres")
 		Integer prixInitial=Integer.valueOf(request.getParameter("prixInitial"));
-		int noUtilisateur = (int)session.getAttribute("noUtilisateur");
 		Integer noCategorie=Integer.valueOf( request.getParameter("categorie"));
 		String rue=request.getParameter("rue");
 		String codePostal=request.getParameter("codePostal");
 		String ville=request.getParameter("ville");
 		
 		try {
-			mgr.insert(nomArticle, description,dateDebutEncheres, dateFinEncheres, prixInitial, null, noUtilisateur, noCategorie, false, false, "");
-			
+			int noUtilisateur = (int)session.getAttribute("noUtilisateur");
+			ArticleVendu aV = mgr.insert(nomArticle, description,dateDebutEncheres, dateFinEncheres, prixInitial, null, noUtilisateur, noCategorie, false, false, "");
 			Utilisateur u = utilisateurMgr.getUtilisateurByNoUtilisateur(noUtilisateur);
-			
-			boolean nouvelleAdresse = (rue!=u.getRue())||(codePostal!=u.getCodePostal())||(ville!=u.getVille());
-			System.out.println(nouvelleAdresse);
-			if (nouvelleAdresse) {
-				//TODO
-				System.out.println("j'ajoute la nouvelle adresse dans la table retrait");
+			boolean nouvelleAdresse = (rue.equals(u.getRue()))&&(codePostal.toString().equals(u.getCodePostal()))&&(ville.equals(u.getVille()));
+			if (!nouvelleAdresse) {
+				RetraitManager retraitMgr = new RetraitManager();
+				retraitMgr.insert(aV.getNoArticle(), rue, codePostal, ville);
 			}
 			response.sendRedirect("/ENI-enchere");
 			
-		} catch (BusinessException e) {
-			// TODO Auto-generated catch block
+		} catch (Exception e) {
+			// TODO Gestion des erreurs de saisie
 			e.printStackTrace();
 		}
 		

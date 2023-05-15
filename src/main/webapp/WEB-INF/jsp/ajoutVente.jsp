@@ -128,7 +128,7 @@
 				</div>
 				<div class="fields">
 					<label for="ville">Ville : </label>
-						<input type="text" id=""ville"" name=""ville"" minlength="2" maxlength="50" required
+						<input type="text" id="ville" name="ville" minlength="2" maxlength="50" required
 							 value= "${utilisateur.getVille() }"
 							placeholder= ""
 						/>
