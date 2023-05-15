@@ -87,7 +87,7 @@
 					src="https://source.unsplash.com/random/100×100/?code">
 				<div class="details-enchere">
 					<h3>
-						<a href="#"><%=av.getNomArticle()%></a>
+						<a href="/ENI-enchere/DetailVente/<%=av.getNoArticle()%>"><%=av.getNomArticle()%></a>
 					</h3>
 					<p><%=av.getPrixVente()%></p>
 					<p><%=av.getDateFinEncheres()%></p>
