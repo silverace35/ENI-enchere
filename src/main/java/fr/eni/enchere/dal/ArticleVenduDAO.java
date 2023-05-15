@@ -15,4 +15,8 @@ public interface ArticleVenduDAO {
 	void delete(int noArticle) throws BusinessException;
 	List<ArticleVendu> selectAllArticleVenduEnCoursEncherie(int noUtilisateur) throws BusinessException;
 	List<ArticleVendu> selectAllArticleVenduEnCoursPasEncherie(int noUtilisateur) throws BusinessException;
+	List<ArticleVendu> selectAllArticleVenduEnCoursTerminerGagner(int noUtilisateur) throws BusinessException;
+	List<ArticleVendu> selectAllVenteEnCours(int noUtilisateur) throws BusinessException;
+	List<ArticleVendu> selectAllVenteNonDebute(int noUtilisateur) throws BusinessException;
+	List<ArticleVendu> selectAllVenteTerminer(int noUtilisateur) throws BusinessException;
 }

@@ -38,6 +38,28 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO{
 			+ " (SELECT no_article FROM encheres where no_utilisateur = ?)"
 			+ " AND date_debut_encheres < now() AND date_fin_encheres > now();";
 
+	private static final String SELECT_ALL_TERMINER_GAGNER = "SELECT"
+			+ " a.no_article, a.nom_article, a.description, a.date_debut_encheres,"
+			+ " a.date_fin_encheres, a.prix_initial, a.prix_vente, a.no_utilisateur,"
+			+ " a.no_categorie, a.retrait_ok_vendeur, a.retrait_ok_acheteur"
+			+ " FROM encheres e INNER JOIN articles_vendus a"
+			+ " ON a.no_article = e.no_article"
+			+ " WHERE (e.montant_enchere, e.no_article) IN"
+			+ " (SELECT MAX(montant_enchere), no_article FROM encheres GROUP BY no_article)"
+			+ " AND date_enchere <= now() AND e.no_utilisateur = ?;";
+	private static final String SELECT_ALL_VENTE_EN_COURS = "SELECT"
+			+ " * FROM articles_vendus"
+			+ " WHERE no_utilisateur = ?"
+			+ " AND date_debut_encheres <= now()"
+			+ " AND date_fin_encheres > now()";
+	private static final String SELECT_ALL_VENTE_NON_DEBUTE = "SELECT"
+			+ " * FROM articles_vendus"
+			+ " WHERE no_utilisateur = ?"
+			+ " AND date_debut_encheres > now();";
+	private static final String SELECT_ALL_VENTE_TERMINER = "SELECT"
+			+ " * FROM articles_vendus"
+			+ " WHERE no_utilisateur = ?"
+			+ " AND date_fin_encheres <= now();";
 	private static final String SELECT_ARTICLEVENDU_BY_ID = "SELECT no_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, a.no_utilisateur, no_categorie, retrait_ok_vendeur, retrait_ok_acheteur, u.nom, u.prenom FROM articles_vendus a INNER JOIN utilisateurs u ON u.no_utilisateur = a.no_utilisateur WHERE no_article=?";
 	private static final String INSERT = "INSERT INTO articles_vendus (nom_article, description,"
 			+ " date_debut_encheres, date_fin_encheres, prix_initial, prix_vente,"
@@ -105,6 +127,166 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO{
 		try(Connection cnx = ConnectionProvider.getConnection())
 		{
 			PreparedStatement pstmt = cnx.prepareStatement(SELECT_ALL_EN_COURS_ENCHERIE);
+			pstmt.setInt(1, noUtilisateur);
+			ResultSet rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				ArticleVendu av = null;
+				
+				av = new ArticleVendu(
+						rs.getInt("no_article"),
+						rs.getString("nom_article"),
+						rs.getString("description"),
+						rs.getTimestamp("date_debut_encheres").toLocalDateTime(),
+						rs.getTimestamp("date_fin_encheres").toLocalDateTime(),
+						rs.getInt("prix_initial"),
+						rs.getInt("prix_vente"),
+						rs.getInt("no_utilisateur"),
+						rs.getInt("no_categorie"),
+						rs.getBoolean("retrait_ok_vendeur"),
+						rs.getBoolean("retrait_ok_acheteur"),
+						rs.getString("nom") + " " + rs.getString("prenom")
+				);
+				listArticleVendu.add(av);
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			throw businessException;
+		}
+		
+		return listArticleVendu;
+	}
+	
+	@Override
+	public List<ArticleVendu> selectAllVenteEnCours(int noUtilisateur) throws BusinessException {
+		List<ArticleVendu> listArticleVendu = new ArrayList<>();
+		
+		try(Connection cnx = ConnectionProvider.getConnection())
+		{
+			PreparedStatement pstmt = cnx.prepareStatement(SELECT_ALL_VENTE_EN_COURS);
+			pstmt.setInt(1, noUtilisateur);
+			ResultSet rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				ArticleVendu av = null;
+				
+				av = new ArticleVendu(
+						rs.getInt("no_article"),
+						rs.getString("nom_article"),
+						rs.getString("description"),
+						rs.getTimestamp("date_debut_encheres").toLocalDateTime(),
+						rs.getTimestamp("date_fin_encheres").toLocalDateTime(),
+						rs.getInt("prix_initial"),
+						rs.getInt("prix_vente"),
+						rs.getInt("no_utilisateur"),
+						rs.getInt("no_categorie"),
+						rs.getBoolean("retrait_ok_vendeur"),
+						rs.getBoolean("retrait_ok_acheteur"),
+						rs.getString("nom") + " " + rs.getString("prenom")
+				);
+				listArticleVendu.add(av);
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			throw businessException;
+		}
+		
+		return listArticleVendu;
+	}
+	
+	@Override
+	public List<ArticleVendu> selectAllVenteNonDebute(int noUtilisateur) throws BusinessException {
+		List<ArticleVendu> listArticleVendu = new ArrayList<>();
+		
+		try(Connection cnx = ConnectionProvider.getConnection())
+		{
+			PreparedStatement pstmt = cnx.prepareStatement(SELECT_ALL_VENTE_NON_DEBUTE);
+			pstmt.setInt(1, noUtilisateur);
+			ResultSet rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				ArticleVendu av = null;
+				
+				av = new ArticleVendu(
+						rs.getInt("no_article"),
+						rs.getString("nom_article"),
+						rs.getString("description"),
+						rs.getTimestamp("date_debut_encheres").toLocalDateTime(),
+						rs.getTimestamp("date_fin_encheres").toLocalDateTime(),
+						rs.getInt("prix_initial"),
+						rs.getInt("prix_vente"),
+						rs.getInt("no_utilisateur"),
+						rs.getInt("no_categorie"),
+						rs.getBoolean("retrait_ok_vendeur"),
+						rs.getBoolean("retrait_ok_acheteur"),
+						rs.getString("nom") + " " + rs.getString("prenom")
+				);
+				listArticleVendu.add(av);
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			throw businessException;
+		}
+		
+		return listArticleVendu;
+	}
+	
+	@Override
+	public List<ArticleVendu> selectAllVenteTerminer(int noUtilisateur) throws BusinessException {
+		List<ArticleVendu> listArticleVendu = new ArrayList<>();
+		
+		try(Connection cnx = ConnectionProvider.getConnection())
+		{
+			PreparedStatement pstmt = cnx.prepareStatement(SELECT_ALL_VENTE_TERMINER);
+			pstmt.setInt(1, noUtilisateur);
+			ResultSet rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				ArticleVendu av = null;
+				
+				av = new ArticleVendu(
+						rs.getInt("no_article"),
+						rs.getString("nom_article"),
+						rs.getString("description"),
+						rs.getTimestamp("date_debut_encheres").toLocalDateTime(),
+						rs.getTimestamp("date_fin_encheres").toLocalDateTime(),
+						rs.getInt("prix_initial"),
+						rs.getInt("prix_vente"),
+						rs.getInt("no_utilisateur"),
+						rs.getInt("no_categorie"),
+						rs.getBoolean("retrait_ok_vendeur"),
+						rs.getBoolean("retrait_ok_acheteur"),
+						rs.getString("nom") + " " + rs.getString("prenom")
+				);
+				listArticleVendu.add(av);
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			throw businessException;
+		}
+		
+		return listArticleVendu;
+	}
+	
+	@Override
+	public List<ArticleVendu> selectAllArticleVenduEnCoursTerminerGagner(int noUtilisateur) throws BusinessException {
+		List<ArticleVendu> listArticleVendu = new ArrayList<>();
+		
+		try(Connection cnx = ConnectionProvider.getConnection())
+		{
+			PreparedStatement pstmt = cnx.prepareStatement(SELECT_ALL_TERMINER_GAGNER);
 			pstmt.setInt(1, noUtilisateur);
 			ResultSet rs = pstmt.executeQuery();
 			
@@ -277,7 +459,11 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO{
 				pstmt.setInt(5, av.getPrixInitial());
 			}
 			if (av.getPrixVente() == null) {
-				pstmt.setNull(6, 0);
+				if (av.getPrixInitial() == null) {
+					pstmt.setNull(6, 0);
+				} else {
+					pstmt.setInt(6, av.getPrixInitial());
+				}
 			} else {
 				pstmt.setInt(6, av.getPrixVente());
 			}
