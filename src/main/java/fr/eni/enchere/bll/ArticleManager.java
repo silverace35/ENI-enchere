@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.eni.enchere.bo.ArticleVendu;
+import fr.eni.enchere.bo.Categorie;
 import fr.eni.enchere.dal.ArticleVenduDAO;
 import fr.eni.enchere.dal.FactoryDAO;
 import fr.eni.enchere.dal.exceptions.BusinessException;
@@ -69,5 +70,25 @@ public class ArticleManager implements Serializable{
 		
 		return listArticle;
 	}
-
+	
+	public ArticleVendu getByNoArticle(int noArticle) {
+		ArticleVendu av = null;
+		
+		try {
+			av = this.articleVenduDAO.selectByNoArticle(noArticle);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return av;
+	}
+	
+	public void update(ArticleVendu av) {
+			
+		try {
+			this.articleVenduDAO.update(av);
+		}  catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 }
