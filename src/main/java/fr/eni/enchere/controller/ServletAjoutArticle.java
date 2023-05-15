@@ -1,4 +1,4 @@
-package fr.eni.enchere.test;
+package fr.eni.enchere.controller;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -24,14 +24,14 @@ import fr.eni.enchere.dal.exceptions.BusinessException;
 /**
  * Servlet implementation class ServletTestAjoutArticle
  */
-@WebServlet("/TestAjoutArticle")
-public class ServletTestAjoutArticle extends HttpServlet {
+@WebServlet("/AjoutArticle")
+public class ServletAjoutArticle extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ServletTestAjoutArticle() {
+    public ServletAjoutArticle() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -41,20 +41,22 @@ public class ServletTestAjoutArticle extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/ajoutVente.jsp");
-		CategorieManager catMgr = new CategorieManager();
 		UtilisateurManager utilisateurMgr = new UtilisateurManager();
 		Utilisateur utilisateur = null;
+		CategorieManager catMgr = new CategorieManager();
+
 		try {
 			int noUtilisateur = (int)session.getAttribute("noUtilisateur");
+			System.out.println(noUtilisateur);
 			utilisateur = utilisateurMgr.getUtilisateurByNoUtilisateur(noUtilisateur);
 			request.setAttribute("utilisateur", utilisateur);
 			List<Categorie> listCategories = catMgr.selectAllCategories();
 			request.setAttribute("listCategories", listCategories);
 			System.out.println(listCategories);
-		} catch (Exception e) {
+			} catch (Exception e) {
 			e.printStackTrace();
 		}
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/ajoutVente.jsp");
 		rd.forward(request, response);
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
@@ -66,19 +68,33 @@ public class ServletTestAjoutArticle extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		HttpSession session = request.getSession();
 		ArticleManager mgr = new ArticleManager();
-		System.out.println((List<Categorie>)request.getAttribute("listCategories"));
-		DateTimeFormatter dt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");	
+		UtilisateurManager utilisateurMgr = new UtilisateurManager();
+		
 		String nomArticle=request.getParameter("nomArticle");
 		String description=request.getParameter("description");
-		LocalDateTime dateDebutEncheres=LocalDateTime.parse(request.getParameter("dateDebutEncheres"), dt) ;
+		LocalDateTime dateDebutEncheres=LocalDateTime.parse(request.getParameter("dateDebutEncheres"), DateTimeFormatter.ISO_DATE_TIME) ;
+		LocalDateTime dateFinEncheres=LocalDateTime.parse(request.getParameter("dateFinEncheres"), DateTimeFormatter.ISO_DATE_TIME);
+		//request.getParameter("dateDebutEncheres")
 		Integer prixInitial=Integer.valueOf(request.getParameter("prixInitial"));
 		int noUtilisateur = (int)session.getAttribute("noUtilisateur");
 		Integer noCategorie=Integer.valueOf( request.getParameter("categorie"));
+		String rue=request.getParameter("rue");
+		String codePostal=request.getParameter("codePostal");
+		String ville=request.getParameter("ville");
 		
 		try {
-			mgr.insert(nomArticle, description,null, null, prixInitial, null, noUtilisateur, noCategorie, false, false, "");
-			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/index.jsp");
-			rd.forward(request, response);
+			mgr.insert(nomArticle, description,dateDebutEncheres, dateFinEncheres, prixInitial, null, noUtilisateur, noCategorie, false, false, "");
+			
+			Utilisateur u = utilisateurMgr.getUtilisateurByNoUtilisateur(noUtilisateur);
+			
+			boolean nouvelleAdresse = (rue!=u.getRue())||(codePostal!=u.getCodePostal())||(ville!=u.getVille());
+			System.out.println(nouvelleAdresse);
+			if (nouvelleAdresse) {
+				//TODO
+				System.out.println("j'ajoute la nouvelle adresse dans la table retrait");
+			}
+			response.sendRedirect("/ENI-enchere");
+			
 		} catch (BusinessException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

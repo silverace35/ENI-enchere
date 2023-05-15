@@ -115,21 +115,21 @@
 				<div class="fields">
 					<label for="rue">Rue : </label>
 						<input type="text" id="rue" name="rue" minlength="2" maxlength="30" required
-							 value= ""
+							 value= "${utilisateur.getRue() }"
 							placeholder= ""
 						/>
 				</div>
 				<div class="fields">
 					<label for="codePostal">Code postal : </label>
 						<input type="text" id="codePostal" name="codePostal" minlength="2" maxlength="10" required
-							 value= ""
+							 value= "${utilisateur.getCodePostal() }"
 							placeholder= ""
 						/>
 				</div>
 				<div class="fields">
 					<label for="ville">Ville : </label>
 						<input type="text" id=""ville"" name=""ville"" minlength="2" maxlength="50" required
-							 value= ""
+							 value= "${utilisateur.getVille() }"
 							placeholder= ""
 						/>
 				</div>
