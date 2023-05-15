@@ -15,7 +15,7 @@
 	</head>
 
 	<body>
-	
+	<%@ include file="connexionTest.jsp"%>
 	<%
 		Utilisateur u = (Utilisateur) request.getAttribute("utilisateur");
 	
@@ -24,7 +24,6 @@
 		if (lstPara == null) {
 			lstPara = new ArrayList<>();
 		}
-	
 	%>
 		<nav>
 			<h1><a href="/ENI-enchere">ENI-Enchères</a></h1>
@@ -144,7 +143,7 @@
 				<div class="line"></div>
 			</div>
 			
-			<a class="secondary-link" href="/ENI-enchere/InfosProfil">Retour</a>
+			<a class="secondary-link" href="/ENI-enchere/InfosProfil/<%=session.getAttribute("noUtilisateur") %>">Retour</a>
 		</main>
 
 	</body>

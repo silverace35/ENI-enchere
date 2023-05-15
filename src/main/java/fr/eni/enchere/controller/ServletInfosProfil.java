@@ -16,34 +16,43 @@ import fr.eni.enchere.bo.Utilisateur;
 /**
  * Servlet implementation class ServletInfosProfil
  */
-@WebServlet("/InfosProfil")
+@WebServlet("/InfosProfil/*")
 public class ServletInfosProfil extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ServletInfosProfil() {
-        super();
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public ServletInfosProfil() {
+		super();
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		boolean erreur = false;
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/profilUtilisateur.jsp");
 		HttpSession session = request.getSession();
 		UtilisateurManager mgr = new UtilisateurManager();
 		Utilisateur utilisateur = null;
-		
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/profilUtilisateur.jsp");
-		
-		//Je verifie que la session n'est pas null
-		if (session != null) {
-			//Je verifie que le numero utilisateur est bien renseigner en session
-			if (session.getAttribute("noUtilisateur") != null) {
-				
-				utilisateur = mgr.getUtilisateurByNoUtilisateur((int)session.getAttribute("noUtilisateur"));
-			}
+
+		String id = request.getPathInfo();
+		if (id != null) {
+			id = id.replace("/", "").trim();
+		}
+		try {
+			Integer.valueOf(id);
+		} catch (Exception e) {
+			erreur = true;
+		}
+
+		if (erreur) {
+			response.sendRedirect("/ENI-enchere");
+		} else {
+			utilisateur = mgr.getUtilisateurByNoUtilisateur(Integer.valueOf(id));
 		}
 		if (utilisateur != null) {
 			request.setAttribute("utilisateur", utilisateur);
@@ -54,9 +63,11 @@ public class ServletInfosProfil extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
