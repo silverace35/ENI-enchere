@@ -169,6 +169,10 @@ nav a:hover, #desktop-menu a:hover {
   display: block;
 }
 
+#menuToggle input ~ ul {
+	width: 200px;
+}
+
 #menuToggle input:checked ~ ul {
   opacity: 1;
   width: 200px;

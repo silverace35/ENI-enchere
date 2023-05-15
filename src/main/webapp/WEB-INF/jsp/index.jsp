@@ -46,7 +46,8 @@
 				<div class="radio-container">
 					<div class="achats-container">
 						<input name="radio" id="radio-achat" type="radio" checked>
-						<label for="radio-achat">Achats</label> <input
+						<label for="radio-achat">Achats</label> 
+						<input
 							name="enchere-ouverte" id="enchere-ouverte" type="checkbox"
 							checked> <label for="enchere-ouverte">Enchères
 							ouvertes</label> <input name="mes-encheres" id="mes-encheres"
@@ -57,11 +58,11 @@
 					</div>
 					<div class="ventes-container">
 						<input name="radio" id="radio-vente" type="radio"> <label
-							for="radio-vente">Mes ventes</label> <input name="vente-cours"
+							for="radio-vente">Mes ventes</label> <input disabled name="vente-cours"
 							id="vente-cours" type="checkbox"> <label for="vente-cours">Mes
-							ventes en cours</label> <input name="vente-debutees" id="vente-debutees"
+							ventes en cours</label> <input disabled name="vente-debutees" id="vente-debutees"
 							type="checkbox"> <label for="vente-debutees">ventes
-							non débutées</label> <input name="vente-terminees" id="vente-terminees"
+							non débutées</label> <input disabled name="vente-terminees" id="vente-terminees"
 							type="checkbox"> <label for="vente-terminees">ventes
 							terminées</label>
 					</div>
