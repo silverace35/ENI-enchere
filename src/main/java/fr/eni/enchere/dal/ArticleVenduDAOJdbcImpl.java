@@ -54,7 +54,7 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO{
 			+ " no_categorie, retrait_ok_vendeur, retrait_ok_acheteur, u.nom, u.prenom FROM articles_vendus a"
 			+ " INNER JOIN utilisateurs u"
 			+ " ON u.no_utilisateur = a.no_utilisateur"
-			+ " WHERE no_utilisateur = ?"
+			+ " WHERE a.no_utilisateur = ?"
 			+ " AND date_debut_encheres <= now()"
 			+ " AND date_fin_encheres > now()";
 	private static final String SELECT_ALL_VENTE_NON_DEBUTE = "SELECT"
@@ -63,7 +63,7 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO{
 			+ " no_categorie, retrait_ok_vendeur, retrait_ok_acheteur, u.nom, u.prenom FROM articles_vendus a"
 			+ " INNER JOIN utilisateurs u"
 			+ " ON u.no_utilisateur = a.no_utilisateur"
-			+ " WHERE no_utilisateur = ?"
+			+ " WHERE a.no_utilisateur = ?"
 			+ " AND date_debut_encheres > now();";
 	private static final String SELECT_ALL_VENTE_TERMINER = "SELECT"
 			+ " a.no_article, nom_article, description, date_debut_encheres,"
@@ -71,7 +71,7 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO{
 			+ " no_categorie, retrait_ok_vendeur, retrait_ok_acheteur, u.nom, u.prenom FROM articles_vendus a"
 			+ " INNER JOIN utilisateurs u"
 			+ " ON u.no_utilisateur = a.no_utilisateur"
-			+ " WHERE no_utilisateur = ?"
+			+ " WHERE a.no_utilisateur = ?"
 			+ " AND date_fin_encheres <= now();";
 	private static final String SELECT_ARTICLEVENDU_BY_ID = "SELECT no_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, a.no_utilisateur, no_categorie, retrait_ok_vendeur, retrait_ok_acheteur, u.nom, u.prenom FROM articles_vendus a INNER JOIN utilisateurs u ON u.no_utilisateur = a.no_utilisateur WHERE no_article=?";
 	private static final String INSERT = "INSERT INTO articles_vendus (nom_article, description,"
