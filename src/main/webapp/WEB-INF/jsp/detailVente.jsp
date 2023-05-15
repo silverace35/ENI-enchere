@@ -14,7 +14,7 @@
 <body>
 <%ArticleVendu av = (ArticleVendu) request.getAttribute("articleVendu");%>
 <%Utilisateur u = (Utilisateur) request.getAttribute("u");%>
-
+<%@ include file="navigation.jsp"%>
 	<main>
 		<h1>Détail vente</h1>
 		<div class="vente">
