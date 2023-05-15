@@ -1,3 +1,4 @@
+<%@page import="java.time.format.DateTimeFormatter"%>
 <%@page import="fr.eni.enchere.bo.ArticleVendu"%>
 <%@page import="fr.eni.enchere.bo.Categorie"%>
 <%@page import="java.util.List"%>
@@ -134,7 +135,7 @@
 						<a href="/ENI-enchere/DetailVente/<%=av.getNoArticle()%>"><%=av.getNomArticle()%></a>
 					</h3>
 					<p><%=av.getPrixVente()%></p>
-					<p><%=av.getDateFinEncheres()%></p>
+					<p><%=av.getDateFinEncheres().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))%></p>
 					<p>
 						<a href="/ENI-enchere/InfosProfil/<%=av.getNoUtilisateur()%>"><%=av.getNomPrenomAuteur()%></a>
 					</p>
