@@ -19,7 +19,6 @@
 		<main>
 			<h2>Se connecter</h2>
 			<form action="<%=request.getContextPath()%>/ServletConnexion" method="POST">
-				<p><%=request.getAttribute(ErrorCodes.IDORPASSWORD.name()) != null ? ErrorCodes.IDORPASSWORD.getMessage() : "" %></p>
 				<div class="fields">			
 					<div class="field">			
 						<label for="identifiant">Identifiant</label>
@@ -36,9 +35,11 @@
 						<label for="souvenir">Se souvenir de moi</label>
 						<input id="souvenir" name="souvenir" type="checkbox" />
 					</div>
-					<a href="#">Mot de passe oublié</a>
+					<a id="mdpOublie" href="#">Mot de passe oublié</a>
 					<!-- TODO : ajouter un message de mail envoyé lors du click du lien -->
 				</div>
+				<p style="color:#b71616"><%=request.getAttribute(ErrorCodes.IDORPASSWORD.name()) != null ? ErrorCodes.IDORPASSWORD.getMessage() : "" %></p>
+				<p id="success" style="color:#66cf66"></p>
 				<button type="submit">Connexion</button>
 			</form>
 
@@ -51,6 +52,13 @@
 			<a class="secondary-link" href="ServletInscription">Créer un compte</a>
 		</main>
 
+	<script type="text/javascript">
+		const mdpOublie = document.getElementById("mdpOublie");
+		const success = document.getElementById("success");
+		mdpOublie.addEventListener("click", () => {
+			success.textContent = "Une demande de réinitialisation de mot de passe vous a été envoyé par e-mail."
+		});
+	</script>
 	</body>
 
 	</html>
