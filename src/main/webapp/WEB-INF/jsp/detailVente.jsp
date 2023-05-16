@@ -52,7 +52,7 @@
 				<% if (av.getArticleStatus() == ArticleStatus.EC) {%>
 					<form action="/ENI-enchere/DetailVente/<%=av.getNoArticle() %>" method="POST">				
 						<label for="proposition">Ma proposition</label>
-						<input id="proposition" name="proposition" step="10" type="number" value="<%=av.getPrixVente() + 10%>" min="<%=av.getPrixVente() + 10%>">
+						<input id="proposition" name="proposition" type="number">
 						<button type="submit">Enchérir</button>
 					</form>
 				<%} %>
