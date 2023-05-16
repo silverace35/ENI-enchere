@@ -22,6 +22,7 @@ radioAchat.addEventListener("change", () => {
         venteCours.disabled = true;
         venteDebutees.disabled = true;
         venteTerminees.disabled = true;
+        displayAchats();
     }
 });
 
@@ -34,5 +35,36 @@ radioVente.addEventListener("change", () => {
         enchereOuverte.disabled = true;
         mesEncheres.disabled = true;
         enchereRemportees.disabled = true;
+        displayVentes();
     }
 });
+
+const achatsScreen = document.querySelector(".achats-display");
+const ventesScreen = document.querySelector(".ventes-display");
+	
+function displayAchats() {
+	console.log("Je display achats");
+	achatsScreen.classList.add("isShowed");
+	ventesScreen.classList.remove("isShowed");
+}
+
+function displayVentes() {
+	console.log("Je display ventes");
+	achatsScreen.classList.remove("isShowed");
+	ventesScreen.classList.add("isShowed");
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

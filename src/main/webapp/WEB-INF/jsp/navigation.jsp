@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 
 <%@ include file="connexionTest.jsp"%>
+<div class="bandeau"></div>
 <nav role="navigation">
 	<h1>
 		<a href="/ENI-enchere">ENI-Enchères</a>

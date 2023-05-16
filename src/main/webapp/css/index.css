@@ -1,52 +1,59 @@
 h2 {
     font-size: 3rem;
     text-align: center;
-    color: var(--white);
+    color: var(--black);
     padding-bottom: 30px;
 }
 
 form {
     display: flex;
-    background: var(--white);
-    justify-content: space-around;
+    background: white;
+    justify-content: space-between;
     align-items: center;
-    width: 70%;
+    width: 50%;
     margin: 0 auto;
     height: 100px;
     border-radius: 50px;
-    padding: 30px 15px;
+    padding: 12px 35px;
 }
 
 input[type="search"] {
-	border-radius: 30px;
-	padding: 10px;
+	background-color: white;
 	border: none;
 	width: 100%;
 	outline: none;
 }
 
 .search-container {
-	width: 35%;
+	position: relative;
 	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-direction: row;
+	justify-content: start;
+	align-items: start;
+	flex-direction: column;
 }
 
-label {
-	font-size: 0.7rem;
-	padding-bottom: 3px;
+label:not(.achats-container label, .ventes-container label) {
+	font-weight: 600;
+	font-size: 1rem;
+	padding-bottom: 2px;
 }
 
-label:not(label[for="categorie"]) {
-	color: var(--grey);
+.achats-display div label, .ventes-display div label {
+	font-size: 0.8rem;
+}
+
+.bar {
+	height: 30px;
+	width: 1px;
+	background-color: grey;
 }
 
 .select-container {
+	position: relative;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
-	width: 16%;
+	width: 20%;
 }
 
 select {
@@ -55,10 +62,37 @@ select {
 	outline: none;
 }
 
-.icon {
-	opacity: 0.5;
+form {
+	position: relative;
+}
+
+.achats-display, .ventes-display {
+	border-radius: 10px; 
+	width: 100%;
+	padding: 5px;
+	display: none;
+	flex-direction: row;
+	position: absolute;
+	top: 120px;
+	left: 50%;
+	transform: translateX(-50%);
+	background-color: white;
+}
+
+.achats-display.isShowed, .ventes-display.isShowed {
+	display: flex;
+	justify-content: space-around;
+}
+
+img {
 	height: 25px;
-	padding-right: 5px;
+}
+
+@media screen and (max-width: 1500px) {
+
+	form {
+		width: 70%;
+	}
 }
 
 /* tablette */
@@ -70,7 +104,7 @@ select {
 }
 
 /* mobile */
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 700px) {
 	nav ul {
 		flex-direction: column;
 	}

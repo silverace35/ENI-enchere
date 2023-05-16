@@ -1,17 +1,15 @@
 :root {
-  --green: #7b8950;
-  --yellow: #e8c43a;
-  --red: #e92626;
+  --yellow: rgb(251,209,129);
+  --red: rgb(241,107,75);
   --black: #131313;
-  --grey: #cbcbcb;
-  --white: #f1f1f1;
+  --white: rgb(250,247,237);
 
   --regularFont: "Segoe UI", Tahoma, Verdana, sans-serif;
 }
 
 ::selection {
-  background: var(--green);
-  color: var(--yellow);
+  background: var(--yellow);
+  color: var(--white);
 }
 
 * {
@@ -25,7 +23,7 @@ html {
 }
 
 body {
-    background-color: var(--green);
+    background-color: var(--white);
     font-family: var(--regularFont);
 }
 
@@ -37,6 +35,18 @@ main {
 
 a {
 	display: block;
+	font-weight: 700;
+}
+
+.bandeau {
+	background: var(--yellow);
+	box-shadow: -1px -1px 11px 0px rgba(0,0,0,0.58);
+	-webkit-box-shadow: -1px -1px 11px 0px rgba(0,0,0,0.58);
+	-moz-box-shadow: -1px -1px 11px 0px rgba(0,0,0,0.58);
+	position: absolute; 
+	top: 0;
+	width: 100%;
+    height: 70px;
 }
 
 nav {
@@ -53,12 +63,12 @@ nav {
 
 nav a, #desktop-menu a {
 	text-decoration: none;
-	color: var(--white);
+	color: var(--black);
 }
 
 nav a:hover, #desktop-menu a:hover {
 	text-decoration: underline;
-	color: var(--yellow);
+	color: var(--red);
 }
 
 #desktop-menu {
@@ -87,7 +97,7 @@ nav a:hover, #desktop-menu a:hover {
 }
 
 #menuToggle li:hover {
-  background-color: var(--yellow);
+  background-color: var(--red);
 }
 
 #menuToggle input {
@@ -109,7 +119,7 @@ nav a:hover, #desktop-menu a:hover {
   height: 4px;
   margin-bottom: 5px;
   position: relative;
-  background: var(--white);
+  background: var(--black);
   border-radius: 3px;
   z-index: 1;
   transform-origin: 4px 0px;
@@ -182,11 +192,16 @@ nav a:hover, #desktop-menu a:hover {
 	display: block;
 }
 
+#yellow {
+	height: 4px;
+	background: var(--yellow);
+}
+
 button {
 	font-size: 1rem;
 	cursor: pointer;
-    background: var(--yellow);
-    border: 3px solid var(--yellow);
+    background: var(--red);
+    border: 3px solid var(--red);
     border-radius: 30px;
     padding: 10px;
     margin-top: 15px;
@@ -195,11 +210,14 @@ button {
 
 button.form-btn {
 	margin-top: 0;
+  	align-items: center;
+    border-radius: 100%;
+    display: flex;
 }
 
 button:hover {
-    background: #e1b611;
-    border: 3px solid #e1b611;
+    background: rgb(241 66 24);
+    border: 3px solid rgb(241 66 24);
     
 }
 
@@ -207,15 +225,15 @@ a.link {
 	font-size: 1rem;
 	cursor: pointer;
     background: var(--white);
-    border: 3px solid var(--yellow);
+    border: 3px solid var(--red);
     border-radius: 30px;
     padding: 10px;
     transition: 200ms ease-in-out;
 }
 
 a.link:hover {
-    background: #e1b611;
-    border: 3px solid #e1b611;
+    background: rgb(241 66 24);
+    border: 3px solid rgb(241 66 24);
 }
 
 a.secondary-link {
@@ -233,7 +251,7 @@ a.secondary-link {
 }
 
 a.secondary-link:hover {
-	background-color: var(--yellow);
+	background-color: var(--red);
 	border: none;
 	color: var(--black);
 }
@@ -257,8 +275,12 @@ a.warning-link:hover {
 	color: var(--white);
 }
 
-input::placeholder {
+.error {
 	color: var(--red);
+}
+
+.success {
+	color: var(--green);
 }
 
 li {
@@ -266,7 +288,7 @@ li {
 }
 
 /* mobile */
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 700px) {
 	
 	#menuToggle {
   		display: block;
