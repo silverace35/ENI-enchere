@@ -48,7 +48,7 @@ public class ServletAjoutArticle extends HttpServlet {
 		CategorieManager catMgr = new CategorieManager();
 
 		try {
-			int noUtilisateur = (int)session.getAttribute("noUtilisateur");
+			Integer noUtilisateur = (Integer)session.getAttribute("noUtilisateur");
 			utilisateur = utilisateurMgr.getUtilisateurByNoUtilisateur(noUtilisateur);
 			request.setAttribute("rue", utilisateur.getRue());
 			request.setAttribute("codePostal", utilisateur.getCodePostal());
