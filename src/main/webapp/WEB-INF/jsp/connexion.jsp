@@ -38,8 +38,8 @@
 					<a id="mdpOublie" href="#">Mot de passe oublié</a>
 					<!-- TODO : ajouter un message de mail envoyé lors du click du lien -->
 				</div>
-				<p style="color:#b71616"><%=request.getAttribute(ErrorCodes.IDORPASSWORD.name()) != null ? ErrorCodes.IDORPASSWORD.getMessage() : "" %></p>
-				<p id="success" style="color:#66cf66"></p>
+				<p class="error"><%=request.getAttribute(ErrorCodes.IDORPASSWORD.name()) != null ? ErrorCodes.IDORPASSWORD.getMessage() : "" %></p>
+				<p id="success" class="success"></p>
 				<button type="submit">Connexion</button>
 			</form>
 

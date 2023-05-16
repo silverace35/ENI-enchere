@@ -12,7 +12,29 @@ const venteCours = document.getElementById("vente-cours");
 const venteDebutees = document.getElementById("vente-debutees");
 const venteTerminees = document.getElementById("vente-terminees");
 
+const achatsScreen = document.querySelector(".achats-display");
+const ventesScreen = document.querySelector(".ventes-display");
 
+window.onload = handleRadios();
+	
+function displayAchats() {
+	achatsScreen.classList.add("isShowed");
+	ventesScreen.classList.remove("isShowed");
+}
+
+function displayVentes() {
+	achatsScreen.classList.remove("isShowed");
+	ventesScreen.classList.add("isShowed");
+}
+
+function handleRadios() {
+	
+if (radioAchat.checked) {
+	displayAchats();
+} else if (radioVente.checked) {
+	displayVentes();
+}
+	
 radioAchat.addEventListener("change", () => {
     if (radioAchat.checked) {
         radioBtn.forEach(radio => radio.disabled = false);
@@ -38,21 +60,9 @@ radioVente.addEventListener("change", () => {
         displayVentes();
     }
 });
-
-const achatsScreen = document.querySelector(".achats-display");
-const ventesScreen = document.querySelector(".ventes-display");
-	
-function displayAchats() {
-	console.log("Je display achats");
-	achatsScreen.classList.add("isShowed");
-	ventesScreen.classList.remove("isShowed");
 }
 
-function displayVentes() {
-	console.log("Je display ventes");
-	achatsScreen.classList.remove("isShowed");
-	ventesScreen.classList.add("isShowed");
-}
+
 
 
 
