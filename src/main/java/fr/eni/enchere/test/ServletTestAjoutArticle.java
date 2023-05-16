@@ -45,6 +45,7 @@ public class ServletTestAjoutArticle extends HttpServlet {
 		CategorieManager catMgr = new CategorieManager();
 		UtilisateurManager utilisateurMgr = new UtilisateurManager();
 		Utilisateur utilisateur = null;
+		LocalDateTime d = LocalDateTime.now();
 		try {
 			int noUtilisateur = (int)session.getAttribute("noUtilisateur");
 			utilisateur = utilisateurMgr.getUtilisateurByNoUtilisateur(noUtilisateur);

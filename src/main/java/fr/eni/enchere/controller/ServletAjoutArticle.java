@@ -53,9 +53,9 @@ public class ServletAjoutArticle extends HttpServlet {
 			request.setAttribute("rue", utilisateur.getRue());
 			request.setAttribute("codePostal", utilisateur.getCodePostal());
 			request.setAttribute("ville", utilisateur.getVille());
-			request.setAttribute("ville", utilisateur.getVille());
-			List<Categorie> listCategories = catMgr.selectAllCategories();
-			request.setAttribute("listCategories", listCategories);
+			//List<Categorie> listCategories = catMgr.selectAllCategories();
+			
+			//request.setAttribute("listCategories", listCategories);
 			} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -100,15 +100,16 @@ public class ServletAjoutArticle extends HttpServlet {
 					e.printStackTrace();
 				}
 		} else {
-			CategorieManager catMgr = new CategorieManager();
-			List<Categorie> listCategories;
-			try {
-				listCategories = catMgr.selectAllCategories();
-				request.setAttribute("listCategories", listCategories);
-			} catch (BusinessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		
+//			CategorieManager catMgr = new CategorieManager();
+//			List<Categorie> listCategories;
+//			try {
+//				listCategories = catMgr.selectAllCategories();
+//				request.setAttribute("listCategories", listCategories);
+//			} catch (BusinessException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 			request.setAttribute("lstParam", lstParam);
 			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/ajoutVente.jsp");
 			rd.forward(request, response);

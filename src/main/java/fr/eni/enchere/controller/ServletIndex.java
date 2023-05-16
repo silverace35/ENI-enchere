@@ -10,11 +10,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import fr.eni.enchere.bll.ArticleManager;
 import fr.eni.enchere.bll.CategorieManager;
+import fr.eni.enchere.bll.UtilisateurManager;
 import fr.eni.enchere.bo.ArticleVendu;
 import fr.eni.enchere.bo.Categorie;
+import fr.eni.enchere.bo.Utilisateur;
 
 /**
  * Servlet implementation class ServletIndex
@@ -34,15 +37,28 @@ public class ServletIndex extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/index.jsp");
 		ArticleManager articleManager = new ArticleManager();
+		UtilisateurManager utilisateurMgr = new UtilisateurManager();
 		List<ArticleVendu> listArticle = new ArrayList<ArticleVendu>();
 		
 	
 		if (request.getSession() != null) {
-			Integer noUtilisateur = (Integer)request.getSession().getAttribute("noUtilisateur");
+			Integer noUtilisateur = (Integer)session.getAttribute("noUtilisateur");
 			if (noUtilisateur != null) {
 				listArticle.addAll(articleManager.getArticlesEnCoursPasEncherie(noUtilisateur));
+				try {
+					Utilisateur	u = utilisateurMgr.getUtilisateurByNoUtilisateur(noUtilisateur);
+					session.setAttribute("rue", u.getRue());
+					session.setAttribute("codePostal", u.getCodePostal());
+					session.setAttribute("ville", u.getVille());
+					//List<Categorie> listCategories = catMgr.selectAllCategories();
+					
+					//request.setAttribute("listCategories", listCategories);
+					} catch (Exception e) {
+					e.printStackTrace();
+				}
 			} else {
 				listArticle.addAll(articleManager.getArticlesEnCours());
 			}
@@ -54,7 +70,9 @@ public class ServletIndex extends HttpServlet {
 		CategorieManager catMgr = new CategorieManager();
 		try {
 			List<Categorie> listCategories = catMgr.selectAllCategories();
+			//TODO Virer l'un des deux xD
 			request.setAttribute("listCategories", listCategories);
+			session.setAttribute("listCategories", listCategories);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -129,13 +147,14 @@ public class ServletIndex extends HttpServlet {
 		}
 		
 		request.setAttribute("listArticle", listArticle);
-		CategorieManager catMgr = new CategorieManager();
-		try {
-			List<Categorie> listCategories = catMgr.selectAllCategories();
-			request.setAttribute("listCategories", listCategories);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		//TODO VIRER
+//		CategorieManager catMgr = new CategorieManager();
+//		try {
+//			List<Categorie> listCategories = catMgr.selectAllCategories();
+//			request.setAttribute("listCategories", listCategories);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 		
 		rd.forward(request, response);
 	}

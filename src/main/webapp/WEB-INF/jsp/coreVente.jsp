@@ -4,6 +4,8 @@
 <%@ page import="fr.eni.enchere.bo.Utilisateur"%>
 <%@page import="fr.eni.enchere.bo.ArticleVendu"%>
 <%@page import="fr.eni.enchere.bo.Categorie"%>
+<%@page import="java.time.LocalDateTime"%>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -20,13 +22,13 @@
 <body>
 	<%@ include file="connexionTest.jsp"%>
 	<%
-	Utilisateur u = (Utilisateur) request.getAttribute("utilisateur");
-	String rue = (String) request.getAttribute("rue");
-	String codePostal = (String) request.getAttribute("codePostal");
-	String ville = (String) request.getAttribute("ville");
 
+	String rue = (String) session.getAttribute("rue");
+	String codePostal = (String) session.getAttribute("codePostal");
+	String ville = (String) session.getAttribute("ville");
 	List<ErrorCodes> lstPara = (List<ErrorCodes>) request.getAttribute("lstParam");
-
+	List<Categorie> listCategories = (List<Categorie>) session.getAttribute("listCategories");
+	LocalDateTime now= LocalDateTime.now();
 	if (lstPara == null) {
 		lstPara = new ArrayList<>();
 	}
@@ -60,7 +62,7 @@
 					<label for="categorie">Catégorie : </label> <select
 						name="categorie" id="categorie">
 						<%
-						List<Categorie> listCategories = (List<Categorie>) request.getAttribute("listCategories");
+						
 						for (Categorie c : listCategories) {
 						%>
 						<option value="<%=c.getNoCategorie()%>"><%=c.getLibelle()%></option>
@@ -104,7 +106,7 @@
 						id="prixInitial" type="number" name="prixInitial" min="0"
 						value="<%=lstPara.contains(ErrorCodes.PRIX_INITIAL) ? 
 								"": request.getParameter("prixInitial") == null ? 
-										"" : request.getParameter("prixInitial")%>"
+										"0" : request.getParameter("prixInitial")%>"
 						placeholder="<%=lstPara.contains(ErrorCodes.PRIX_INITIAL) ? 
 								ErrorCodes.PRIX_INITIAL.getMessage() : ""%>" />
 				</div>
@@ -114,7 +116,7 @@
 						type="datetime-local" id="dateDebutEncheres"
 						name="dateDebutEncheres"
 						value="<%=request.getParameter("dateDebutEncheres") == null ? 
-								"" : request.getParameter("dateDebutEncheres")%>" 
+								now : request.getParameter("dateDebutEncheres")%>" 
 								required/>
 
 				</div>
