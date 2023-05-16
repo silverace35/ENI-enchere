@@ -87,7 +87,8 @@ public class ServletDetailVente extends HttpServlet {
 					request.setAttribute("encheres", encheres);
 					System.out.println(av.toString());
 					//Si l'utilisateur consulte une de ses ventes
-					if ((int)request.getSession().getAttribute("noUtilisateur") == av.getNoUtilisateur()) {
+					System.out.println(request.getSession().getAttribute("noUtilisateur"));
+					if ((Integer)request.getSession().getAttribute("noUtilisateur") == av.getNoUtilisateur()) {
 						RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/detailMaVente.jsp");
 						rd.forward(request, response);
 					} else {
