@@ -1,0 +1,64 @@
+USE enchere;
+
+INSERT INTO `utilisateurs` (`no_utilisateur`, `pseudo`, `nom`, `prenom`, `email`, `telephone`, `rue`, `code_postal`, `ville`, `mot_de_passe`, `credit`, `administrateur`) VALUES (NULL, 'silverace', 'woreth', 'zian', 'zian.woreth2023@campus-eni.fr', '0783139898', '50 route de nantes', '35131', 'Pont-péan', 'e05d84042427c43ee6c1d838742c34b6d0b155d8662d18df5c0340f1d04b854f', '100', b'1'),
+(NULL, 'klegall', 'legall', 'kevin', 'k.legall2023@campus-eni.fr', '0669420148', 'rennes centre', '35000', 'Rennes', 'e05d84042427c43ee6c1d838742c34b6d0b155d8662d18df5c0340f1d04b854f', '100', b'0'),
+(NULL, 'teck', 'hao', 'teck', 'teckhao.tea2023@campus-eni.fr', '0666998741', 'Cesson-sévigné', '35000', 'Rennes', 'e05d84042427c43ee6c1d838742c34b6d0b155d8662d18df5c0340f1d04b854f', '100', ''),
+(NULL, 'toto', 'toto', 'toto', 'toto@toto.fr', '0669707172', '50 route de nantes', '35000', 'Paris', 'e05d84042427c43ee6c1d838742c34b6d0b155d8662d18df5c0340f1d04b854f', '100', '');
+
+
+
+INSERT INTO categories (libelle) VALUES ('Sport'),
+('Informatique'),
+('Jardinage'),
+('Plein-air'),
+('Auto/moto'),
+('Musique/DVD');
+
+INSERT INTO `articles_vendus`(`nom_article`, `description`, `date_debut_encheres`, `date_fin_encheres`, `prix_initial`, `no_utilisateur`, `no_categorie`) VALUES 
+('Velo','VTT pas trop servi',DATE_ADD(NOW(), INTERVAL -20 DAY), DATE_ADD(NOW(), INTERVAL -5 DAY),50,1,1),
+('PC Eni','4Go de RAM... i3 1st Gen',DATE_ADD(NOW(), INTERVAL -20 DAY), DATE_ADD(NOW(), INTERVAL -5 DAY),10,1,2),
+('Dérouleur tuyau mural','A servi à siphonner des réservoir',DATE_ADD(NOW(), INTERVAL -20 DAY), DATE_ADD(NOW(), INTERVAL -5 DAY),20,2,3),
+('Sac de sable','Pour faire des chateaux ou poser son transat',DATE_ADD(NOW(), INTERVAL -20 DAY), DATE_ADD(NOW(), INTERVAL -5 DAY),30,2,4),
+('Casque de moto','Casque avec visière à remplacer',DATE_ADD(NOW(), INTERVAL -20 DAY), DATE_ADD(NOW(), INTERVAL -5 DAY),15,2,5),
+('Coffret Alien','Collector bon etat',DATE_ADD(NOW(), INTERVAL -20 DAY), DATE_ADD(NOW(), INTERVAL -5 DAY),50,3,6),
+('iPod fonctionnel','3e gen, bon aspect',DATE_ADD(NOW(), INTERVAL -20 DAY), DATE_ADD(NOW(), INTERVAL -5 DAY),70,3,2),
+('Rateau','Parfait pour ramasser les feuilles mortes',DATE_ADD(NOW(), INTERVAL -20 DAY), DATE_ADD(NOW(), INTERVAL -5 DAY),20,3,3),
+('CD concert Celine Dion','Cadeau pourri cédé gratuitement',DATE_ADD(NOW(), INTERVAL -20 DAY), DATE_ADD(NOW(), INTERVAL -5 DAY),0,4,6),
+
+('Velo enfant','Avec les petites roues',DATE_ADD(NOW(), INTERVAL -10 DAY), DATE_ADD(NOW(), INTERVAL 5 DAY),10,4,1),
+('PC gamer','32Go de RAM... i3 1st Gen. Pas content de mon achat',DATE_ADD(NOW(), INTERVAL -10 DAY), DATE_ADD(NOW(), INTERVAL 5 DAY),100,4,2),
+('Pompe à eau','Pour vider les réservoirs',DATE_ADD(NOW(), INTERVAL -10 DAY), DATE_ADD(NOW(), INTERVAL 5 DAY),10,3,3),
+('Pelle','Pour creuser des trous',DATE_ADD(NOW(), INTERVAL -10 DAY), DATE_ADD(NOW(), INTERVAL 5 DAY),15,3,4),
+('Casque de vélo enfant','Manque la sangle',DATE_ADD(NOW(), INTERVAL -10 DAY), DATE_ADD(NOW(), INTERVAL 5 DAY),5,2,5),
+('Collection disquettes 5"','Pour la déco',DATE_ADD(NOW(), INTERVAL -10 DAY), DATE_ADD(NOW(), INTERVAL 5 DAY),25,2,6),
+('GameBoy','LCD cassé',DATE_ADD(NOW(), INTERVAL -10 DAY), DATE_ADD(NOW(), INTERVAL 5 DAY),35,2,2),
+('Brouette','Roue à remplacer',DATE_ADD(NOW(), INTERVAL -10 DAY), DATE_ADD(NOW(), INTERVAL 5 DAY),35,1,3),
+('DVD intégrale Côte Ouest','Toutes les saisons',DATE_ADD(NOW(), INTERVAL -10 DAY), DATE_ADD(NOW(), INTERVAL 5 DAY),60,1,6),
+
+('Protège selle','Pour les jours de pluie',DATE_ADD(NOW(), INTERVAL +2 DAY), DATE_ADD(NOW(), INTERVAL 15 DAY),5,3,1),
+('Clavier Azerty','Café sous les touches à nettoyer',DATE_ADD(NOW(), INTERVAL +2 DAY), DATE_ADD(NOW(), INTERVAL 15 DAY),5,3,2),
+('Piscine','Avec quelques patches mais ne fuit pas',DATE_ADD(NOW(), INTERVAL +2 DAY), DATE_ADD(NOW(), INTERVAL 15 DAY),25,4,3),
+('Scie à bois','Coupe aussi le plâtre hein',DATE_ADD(NOW(), INTERVAL +2 DAY), DATE_ADD(NOW(), INTERVAL 15 DAY),8,4,4),
+('Trotteuse','Idéal pour enfant jusqu''à 36 mois',DATE_ADD(NOW(), INTERVAL +2 DAY), DATE_ADD(NOW(), INTERVAL 15 DAY),15,4,5),
+('Tablette HS','A démonter ou pour faire cale-livre',DATE_ADD(NOW(), INTERVAL +2 DAY), DATE_ADD(NOW(), INTERVAL 15 DAY),05,1,6),
+('Imprimante jet d''encre','Cartouches à remplacer',DATE_ADD(NOW(), INTERVAL +2 DAY), DATE_ADD(NOW(), INTERVAL 15 DAY),45,1,2),
+('Echelle 3 positions','Jusqu''à 5 mètres',DATE_ADD(NOW(), INTERVAL +2 DAY), DATE_ADD(NOW(), INTERVAL 15 DAY),65,2,3),
+('DVD spectacle des enfants 2006','Ecole des Peupliers à Bruz',DATE_ADD(NOW(), INTERVAL +2 DAY), DATE_ADD(NOW(), INTERVAL 15 DAY),5,2,6);
+
+
+
+INSERT INTO `encheres`(`date_enchere`, `montant_enchere`, `no_article`, `no_utilisateur`) VALUES 
+('2023-05-11 13:05:00',71,7,1),
+('2023-05-11 13:00:00',1,9,1),
+('2023-05-11 13:01:00',11,2,2),
+('2023-05-11 12:05:00',30,4,3),
+('2023-05-11 14:05:00',75,7,2),
+('2023-05-11 13:05:00',35,4,4),
+('2023-05-11 14:20:00',90,7,4),
+('2023-05-11 16:00:00',2,9,2),
+('2023-05-09 16:00:00',1,10,1),
+('2023-05-09 16:10:00',2,10,2),
+('2023-05-09 16:20:00',3,10,3);
+INSERT INTO `ENCHERES` (`no_enchere`, `date_enchere`, `montant_enchere`, `no_article`, `no_utilisateur`) VALUES (NULL, '2023-05-11 21:32:09.000000', '2', '8', '4');
+
+

@@ -36,7 +36,7 @@
 					<option value="0" selected>Toutes</option>
 					<%
 					boolean categorieFind = false;
-					List<Categorie> listCategories = (List<Categorie>) request.getAttribute("listCategories");
+					List<Categorie> listCategories = (List<Categorie>) session.getAttribute("listCategories");
 					for (Categorie c : listCategories) {
 						categorieFind = false;
 						if(request.getParameter("categorie") != null) {
