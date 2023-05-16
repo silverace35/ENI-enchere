@@ -89,8 +89,8 @@ public class ServletAjoutArticle extends HttpServlet {
 				if (!nouvelleAdresse) {
 					RetraitManager retraitMgr = new RetraitManager();
 					retraitMgr.insert(aV.getNoArticle(), rue, codePostal, ville);
-					response.sendRedirect("/ENI-enchere");
 				}
+				response.sendRedirect("/ENI-enchere");
 				} catch (Exception e) {
 					// TODO Gestion des erreurs de saisie
 					e.printStackTrace();
