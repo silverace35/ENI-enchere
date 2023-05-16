@@ -81,7 +81,7 @@ public class ServletIndex extends HttpServlet {
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/index.jsp");
 		List<ArticleVendu> listArticle = new ArrayList<ArticleVendu>();
 		ArticleManager articleManager = new ArticleManager();
-		Integer id = Integer.valueOf((String)request.getSession().getAttribute("noUtilisateur"));
+		Integer id = (Integer)request.getSession().getAttribute("noUtilisateur");
 		
 		request.setCharacterEncoding("UTF-8");
 		String radio = request.getParameter("radio");
