@@ -169,3 +169,16 @@ SELECT * FROM articles_vendus
 WHERE no_utilisateur = 1
 AND date_fin_encheres < now()
 AND no_categorie BETWEEN 1 AND 6;
+
+
+/*Ajout enchere*/
+SET @noUtilisateur=1,
+ @montantEnchere=32,
+ @noArticle=4,
+ @dateEnchere= DATE_ADD(NOW(), INTERVAL -11 DAY);
+SET @credit = (SELECT credit FROM utilisateurs WHERE (no_utilisateur = @noUtilisateur));
+UPDATE utilisateurs SET 
+credit = @credit-@montantEnchere
+WHERE no_utilisateur = @noUtilisateur;
+INSERT INTO encheres(`date_enchere`, `montant_enchere`, `no_article`, `no_utilisateur`) VALUES 
+(@dateEnchere,@montantEnchere,@noArticle,@noUtilisateur);

@@ -42,7 +42,6 @@ public class ServletIndex extends HttpServlet {
 		ArticleManager articleManager = new ArticleManager();
 		UtilisateurManager utilisateurMgr = new UtilisateurManager();
 		List<ArticleVendu> listArticle = new ArrayList<ArticleVendu>();
-		
 	
 		if (request.getSession() != null) {
 			Integer noUtilisateur = (Integer)session.getAttribute("noUtilisateur");
@@ -53,9 +52,6 @@ public class ServletIndex extends HttpServlet {
 					session.setAttribute("rue", u.getRue());
 					session.setAttribute("codePostal", u.getCodePostal());
 					session.setAttribute("ville", u.getVille());
-					//List<Categorie> listCategories = catMgr.selectAllCategories();
-					
-					//request.setAttribute("listCategories", listCategories);
 					} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -70,8 +66,6 @@ public class ServletIndex extends HttpServlet {
 		CategorieManager catMgr = new CategorieManager();
 		try {
 			List<Categorie> listCategories = catMgr.selectAllCategories();
-			//TODO Virer l'un des deux xD
-			request.setAttribute("listCategories", listCategories);
 			session.setAttribute("listCategories", listCategories);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -147,15 +141,6 @@ public class ServletIndex extends HttpServlet {
 		}
 		
 		request.setAttribute("listArticle", listArticle);
-		//TODO VIRER
-//		CategorieManager catMgr = new CategorieManager();
-//		try {
-//			List<Categorie> listCategories = catMgr.selectAllCategories();
-//			request.setAttribute("listCategories", listCategories);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-		
 		rd.forward(request, response);
 	}
 
