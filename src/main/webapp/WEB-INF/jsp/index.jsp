@@ -156,30 +156,27 @@
 			<button class="form-btn" type="submit"><img src="img/arrow-right.png"></button>
 		</form>
 
-		<%
-		List<ArticleVendu> listArticle = (List<ArticleVendu>) request.getAttribute("listArticle");
-		for (ArticleVendu av : listArticle) {
-		%>
 		<div class="list-encheres">
-			<div class="enchere">
-				<img style="height: 300px"
-					src="https://source.unsplash.com/random/100×100/?code">
-				<div class="details-enchere">
-					<h3>
-						<a href="/ENI-enchere/DetailVente/<%=av.getNoArticle()%>"><%=av.getNomArticle()%></a>
-					</h3>
-					<p><%=av.getPrixVente()%></p>
-					<p><%=av.getArticleStatus().getStatusMessage()%></p>
-					<p><%=av.getDateFinEncheres().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))%></p>
-					<p>
-						<a href="/ENI-enchere/InfosProfil/<%=av.getNoUtilisateur()%>"><%=av.getNomPrenomAuteur()%></a>
-					</p>
+			<%
+			List<ArticleVendu> listArticle = (List<ArticleVendu>) request.getAttribute("listArticle");
+			for (ArticleVendu av : listArticle) {
+			%>
+				<div class="enchere">
+					<img src="https://source.unsplash.com/random/100×100/?code">
+					<div class="details-enchere">
+						<h3><a href="/ENI-enchere/DetailVente/<%=av.getNoArticle()%>"><%=av.getNomArticle()%></a></h3>
+						<p><%=av.getPrixVente()%></p>
+						<p><%=av.getArticleStatus().getStatusMessage()%></p>
+						<p><%=av.getDateFinEncheres().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))%></p>
+						<p>
+							<a href="/ENI-enchere/InfosProfil/<%=av.getNoUtilisateur()%>"><%=av.getNomPrenomAuteur()%></a>
+						</p>
+					</div>
 				</div>
-			</div>
+			<%
+			}
+			%>
 		</div>
-		<%
-		}
-		%>
 
 	</main>
 

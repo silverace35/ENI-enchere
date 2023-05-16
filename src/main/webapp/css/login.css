@@ -82,7 +82,7 @@ input[type="checkbox"] {
 }
 
 .details-container a:hover {
-	color: var(--yellow);
+	color: var(--red);
 	text-decoration: underline;
 }
 
@@ -97,7 +97,7 @@ input[type="checkbox"] {
     width: 40%;
     margin: 0 auto;
     height: 1px;
-    background-color: var(--grey);
+    background-color: var(--black);
 }
 
 @media screen and (max-width: 600px) {
@@ -116,26 +116,22 @@ input[type="checkbox"] {
 	}
 }
 
-p:not(.line-container p) {
+p:not(.line-container p, .success, .error) {
 	padding-top: 10px;
 	font-size: 0.9rem;
-	color: var(--grey);
+	color: var(--black);
 }
 
 table {
   margin: 1em auto;
   min-width: 300px;
   width: 70%;
-  background: #464e2c;
+  background: var(--red3);
   color: var(--white);
   border-radius: .4em;
   overflow: hidden;
 }
-table tr {
-  border-top: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
-  border-color: #46637f;
-}
+
 table th {
   display: none;
 }
