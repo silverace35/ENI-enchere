@@ -13,7 +13,7 @@
 <%@ include file="head.jsp"%>
 <link rel="stylesheet" href="../css/settings.css">
 <link rel="stylesheet" href="../css/login.css">
-<title>Détail vente | ENI-enchere</title>
+<title>Détail ma vente | ENI-enchere</title>
 </head>
 <body>
 <%@ include file="navigation.jsp"%>
@@ -24,16 +24,13 @@
 	List<Enchere> encheres = (List<Enchere>)request.getAttribute("encheres");
 %>
 	<main>
-		<h1>Détail vente</h1>
+		<h1>Détail ma vente</h1>
 		<%if (av.getArticleStatus() == ArticleStatus.CR) { %>
 		<h2 style="color: black" class="">Enchere pas encore commencé</h2>
 		<%} %>
 		<%if (av.getArticleStatus() == ArticleStatus.ET) { %>
-		<h2 style="color: black" class="">Enchere terminer</h2>
+		<h2 style="color: black" class="">Enchere terminer <%=u!=null?u.getNom()+ " " +u.getPrenom():"" %></h2>
 		<%} %>
-		<%if (!encheres.isEmpty() && av.getArticleStatus() == ArticleStatus.ET && (Integer)session.getAttribute("noUtilisateur") == u.getNoUtilisateur()) { %>
-		<h2 style="color: black">Vous avez gagner !</h2>
-		<%}%>
 		<div class="vente">
 			<img style="height: 300px" src="https://source.unsplash.com/random/100×100/?code">
 			<div class="detail-vente">
@@ -58,6 +55,10 @@
 				<%} %>
 			</div>
 		</div>
+		
+		<%if ((av.getArticleStatus() == ArticleStatus.EC && (Integer)session.getAttribute("noUtilisateur") == av.getNoUtilisateur() && encheres.isEmpty()) || av.getArticleStatus() == ArticleStatus.CR) { %>
+		<a class="secondary-link" href="/ENI-enchere/annulationVente/<%=av.getNoArticle() %>">Annuler la vente</a>
+		<%} %>
 		
 		<div>
 			<% 

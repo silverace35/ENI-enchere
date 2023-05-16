@@ -17,6 +17,7 @@ import fr.eni.enchere.bll.ArticleManager;
 import fr.eni.enchere.bll.CategorieManager;
 import fr.eni.enchere.bll.EnchereManager;
 import fr.eni.enchere.bll.UtilisateurManager;
+import fr.eni.enchere.bo.ArticleStatus;
 import fr.eni.enchere.bo.ArticleVendu;
 import fr.eni.enchere.bo.Categorie;
 import fr.eni.enchere.bo.Enchere;
@@ -44,7 +45,6 @@ public class ServletDetailVente extends HttpServlet {
 			throws ServletException, IOException {
 
 		boolean erreur = false;
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/detailVente.jsp");
 		HttpSession session = request.getSession();
 
 		ArticleManager aMgr = new ArticleManager();
@@ -86,7 +86,14 @@ public class ServletDetailVente extends HttpServlet {
 					request.setAttribute("utilisateur", u);
 					request.setAttribute("encheres", encheres);
 					System.out.println(av.toString());
-					rd.forward(request, response);
+					//Si l'utilisateur consulte une de ses ventes
+					if ((int)request.getSession().getAttribute("noUtilisateur") == av.getNoUtilisateur()) {
+						RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/detailMaVente.jsp");
+						rd.forward(request, response);
+					} else {
+						RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/detailVente.jsp");
+						rd.forward(request, response);
+					}
 				} else {
 					response.sendRedirect("/ENI-enchere");
 				}
@@ -143,7 +150,7 @@ public class ServletDetailVente extends HttpServlet {
 				if (av == null || u == null) {
 					erreur = true;
 					System.out.println("Article ou user null");
-				} else if (proposition == null || proposition <= av.getPrixVente()) {
+				} else if (proposition == null || proposition <= av.getPrixVente() || av.getArticleStatus() != ArticleStatus.EC) {
 					System.out.println("proposition null ou proposition <= prix de vente");
 					System.out.println(proposition);
 					System.out.println(av.getPrixVente());
