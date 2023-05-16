@@ -80,8 +80,7 @@ public class ServletInscription extends HttpServlet {
 				request.setAttribute("utilisateur", u);
 				// HttpSession session = request.getSession();
 				request.getSession().setAttribute("noUtilisateur", u.getNoUtilisateur());
-				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/index.jsp");
-				rd.forward(request, response);
+				response.sendRedirect("/ENI-enchere");
 			} catch (BusinessException be) {
 				if (be.getMessage().contains(ErrorCodes.PSEUDO_OR_EMAIL_ALREADY_EXIST.getMessage())) {
 					lstParam.add(ErrorCodes.PSEUDO_OR_EMAIL_ALREADY_EXIST);
