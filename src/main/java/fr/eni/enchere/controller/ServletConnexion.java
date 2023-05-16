@@ -65,14 +65,11 @@ public class ServletConnexion extends HttpServlet {
 	        			userCookie.setMaxAge(60*60*24*365); //cookie d'une durée de 1 an
 	        			response.addCookie(userCookie);
 	        		}
-	        		HttpSession session = request.getSession(); 
 	        		request.getSession().setAttribute("noUtilisateur", u.getNoUtilisateur()); 
 	        		//SI VALID : httpSession.setAttribute("IdUser", idUser);
 	        		response.sendRedirect("/ENI-enchere");
 	        	} else {
-	        		request.setAttribute(ErrorCodes.IDORPASSWORD.name(), ErrorCodes.IDORPASSWORD.getMessage());
-	        		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/connexion.jsp");
-	    			rd.forward(request, response);
+	        		throw new Exception("Identifiant ou mot de passe invalide");
 	        	}
 	        	
 	        } else {
@@ -80,6 +77,9 @@ public class ServletConnexion extends HttpServlet {
 	        	throw new Exception("Identifiant ou mot de passe invalide");
 	        }
 		} catch (Exception e) {
+			request.setAttribute(ErrorCodes.IDORPASSWORD.name(), ErrorCodes.IDORPASSWORD.getMessage());
+    		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/connexion.jsp");
+			rd.forward(request, response);
 			e.printStackTrace();
 		}
 		

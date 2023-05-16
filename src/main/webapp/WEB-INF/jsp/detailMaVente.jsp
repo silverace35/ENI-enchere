@@ -26,13 +26,13 @@
 	<main>
 		<h1>Détail ma vente</h1>
 		<%if (av.getArticleStatus() == ArticleStatus.CR) { %>
-		<h2 style="color: black" class="">Enchere pas encore commencé</h2>
+		<h2 style="color: black" class="">Enchère pas encore commencée</h2>
 		<%} %>
 		<%if (av.getArticleStatus() == ArticleStatus.EC) { %>
-		<h2 style="color: black" class="">Enchere en cours</h2>
+		<h2 style="color: black" class="">Enchère en cours</h2>
 		<%} %>
 		<%if (av.getArticleStatus() == ArticleStatus.ET) { %>
-		<h2 style="color: black" class="">Enchere terminer <%=u!=null?u.getNom()+ " " +u.getPrenom():"" %></h2>
+		<h2 style="color: black" class="">Enchère terminée <%=u!=null?u.getNom()+ " " +u.getPrenom():"" %></h2>
 		<%} %>
 		<div class="vente">
 			<img style="height: 300px" src="https://source.unsplash.com/random/100×100/?code">
@@ -43,7 +43,7 @@
 				<% if (u!=null) {%>
 				<h3>Meilleure offre : </h3><span> <%=av.getPrixVente()%> par <a href="/ENI-enchere/InfosProfil/<%=u.getNoUtilisateur()%>"><%=u.getNom() + " " + u.getPrenom()%></a></span>
 				<%} else { %>
-				<h3>Aucun utilisateur n'as enchérie</h3>
+				<h3>Aucun utilisateur n'a enchéri</h3>
 				<%} %>
 				<h3>Mise à prix : <%=av.getPrixInitial() %></h3>
 				<h3>Fin de l'enchère : <%=av.getDateFinEncheres().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))%></h3>

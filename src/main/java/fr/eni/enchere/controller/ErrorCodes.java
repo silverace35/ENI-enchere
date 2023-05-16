@@ -5,8 +5,8 @@ public enum ErrorCodes {
 	PSEUDO("Caractères alphanumériques requis.", "^[\\w-]{2,30}$"),
 	NOM("Caractères alphanumériques requis.", "^[a-z A-Z\\'\\-]{2,30}$"),
 	PRENOM("Caractères alphanumériques requis.", "^[a-z A-Z\\'\\-]{2,30}$"),
-	EMAIL("Type de format possible xxxx-xxxx@xxxx.xxx.", "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$"),
-	TEL("+33123123112 ou 0110203040", "(^\\+{1}+[3]{2}+[0-9]{9}$)|(^0{1}+[0-9]{9}$)"),
+	EMAIL("Type de format possible xxxx-xxxx@xx-xx.xxx.", "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$"),
+	TEL("+33123123112 ou 0110203040.", "(^\\+{1}+[3]{2}+[0-9]{9}$)|(^0{1}+[0-9]{9}$)"),
 	RUE("Caractères alphanumériques requis.", "^[0-9 a-z A-Z\\'\\-]{2,30}$"),
 	CODEPOSTAL("Code postal incorrect.", "^[0-9]{5}$"),
 	VILLE("Caractères alphanumériques requis.", "^[a-z A-Z\\'\\-]{2,50}$"),
@@ -19,7 +19,7 @@ public enum ErrorCodes {
 	SQL_ERROR("Connexion à la base impossible."),
 	DESCRIPTION("Caractères non autorisés.", "^.{2,300}$"),
 	PRIX_INITIAL("Le prix ne peut pas être négatif."),
-	DATES_IMP("Date de fin doit être postérieure à celle de début."),
+	DATES_IMP("La date de fin doit être postérieure à celle de début."),
 	DATETIMEFORMAT("Format de date invalide aaaa-mm-jj hh:mm","")
 	;
 

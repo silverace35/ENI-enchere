@@ -35,20 +35,17 @@ public class UtilisateurManager {
 		return u;
 	}
 		
-	public Utilisateur validerPwd(String pseudoOrEmail, String pwd) {
+	public Utilisateur validerPwd(String pseudoOrEmail, String pwd) throws BusinessException {
 		Utilisateur u = null;
 		try {
 			
 			u = this.daoUtilisateur.checkPwd(pseudoOrEmail, pwd);
-			if (u!=null) {
-				System.out.println("MSG BLL j'ai trouvé un utilisateur");
-				
-			} else {
-				//TODO remonter msg erreur
-				System.out.println("MSG BLL Login ou mdp incorrect");
+			if (u==null) {
+				throw new BusinessException(ErrorCodes.IDORPASSWORD.getMessage());
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new BusinessException(e.getMessage());
+			//e.printStackTrace();
 		}
 		return u;
 	}
@@ -79,13 +76,11 @@ public class UtilisateurManager {
 			Utilisateur oldUser = this.daoUtilisateur.selectByNoUtilisateur(utilisateur.getNoUtilisateur());
 			if (!oldUser.getPseudo().equals(utilisateur.getPseudo())) {
 				if (this.daoUtilisateur.checkPseudo(utilisateur.getPseudo())) {
-					System.out.println("j'ai cramé le doublon pseudo existe");
 					throw new BusinessException(ErrorCodes.PSEUDO_ALREADY_EXIST.getMessage());
 				}
 			}
 			if (!oldUser.getEmail().equals(utilisateur.getEmail())) {
 				if (this.daoUtilisateur.checkEmail(utilisateur.getEmail())) {
-					System.out.println("j'ai cramé le doublon email existe");
 					throw new BusinessException(ErrorCodes.EMAIL_ALREADY_EXIST.getMessage());
 				}
 			}
@@ -94,7 +89,6 @@ public class UtilisateurManager {
 		}
 		try {
 			this.daoUtilisateur.update(utilisateur);
-			System.out.println("ça try d'update l'utilisateur");
 		}  catch (Exception e) {
 			e.printStackTrace();
 		}

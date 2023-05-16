@@ -306,21 +306,15 @@ public class UtilisateurDAOJdbcImpl implements DAOUtilisateur{
 						rs.getString("mot_de_passe"),
 						rs.getInt("credit"),
 						rs.getBoolean("administrateur"));
-				
-				System.out.println(u.toString());
-				System.out.println("MSG DAL j'ai trouvé un utilisateur");
 			} else {
 				//TODO remonter msg erreur
-				System.out.println("MSG DAL Login ou mdp incorrect");
+				throw new BusinessException(ErrorCodes.IDORPASSWORD.getMessage());
 			}
-			
-			
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
-			BusinessException businessException = new BusinessException();
-			throw businessException;
+			throw new BusinessException(ErrorCodes.IDORPASSWORD.getMessage());
 		}
 		return u;
 	}
