@@ -80,7 +80,7 @@ public class RetraitDAOJdbcImpl implements RetraitDAO {
 				listeRetraits.add(r);
 			}
 		} catch (Exception e) {
-			throw new BusinessException();
+			throw new BusinessException("Echec DAL : insertion retrait");
 		}
 		return listeRetraits;
 	}

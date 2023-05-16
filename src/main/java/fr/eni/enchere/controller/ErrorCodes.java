@@ -17,9 +17,10 @@ public enum ErrorCodes {
 	PSEUDO_ALREADY_EXIST("Le pseudo existe déjà."),
 	EMAIL_ALREADY_EXIST("l'email existe déjà."),
 	SQL_ERROR("Connexion à la base impossible."),
-	DESCRIPTION("Caractères non autorisés.", "^[0-9 a-z A-Z [&\\\"'(!)-*%+=?,.;/:<>€$]]{2,300}$"),
+	DESCRIPTION("Caractères non autorisés.", "^.{2,300}$"),
 	PRIX_INITIAL("Le prix ne peut pas être négatif."),
 	DATES_IMP("Date de fin doit être postérieure à celle de début."),
+	DATETIMEFORMAT("Format de date invalide aaaa-mm-jj hh:mm","")
 	;
 
 	private String message;
