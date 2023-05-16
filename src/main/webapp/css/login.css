@@ -5,11 +5,6 @@ h2 {
     padding-bottom: 30px;
 }
 
-form {
-	display: flex;
-	flex-direction: column;
-}
-
 .fields {
 	width: 100%;
 	display: flex;
@@ -34,6 +29,10 @@ label:not(label[for="souvenir"]) {
 	color: var(--grey);
 	font-size: 0.7rem;
 	padding-bottom: 5px;
+}
+
+.achats-display label, .ventes-display label {
+	font-size: 0.7rem;
 }
 
 label[for="souvenir"] {
