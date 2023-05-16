@@ -5,6 +5,7 @@
 <%@page import="fr.eni.enchere.bo.ArticleVendu"%>
 <%@page import="fr.eni.enchere.bo.Categorie"%>
 <%@page import="java.time.LocalDateTime"%>
+<%@page import="java.time.format.DateTimeFormatter"%>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -20,9 +21,9 @@
 </head>
 
 <body>
-	<%@ include file="connexionTest.jsp"%>
+	
 	<%
-
+	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 	String rue = (String) session.getAttribute("rue");
 	String codePostal = (String) session.getAttribute("codePostal");
 	String ville = (String) session.getAttribute("ville");
@@ -33,16 +34,10 @@
 		lstPara = new ArrayList<>();
 	}
 	%>
-	<nav>
-		<h1>
-			<a href="/ENI-enchere">ENI-Enchères</a>
-		</h1>
-		<ul></ul>
-	</nav>
+	<%@ include file="navigation.jsp"%>	
 
 	<main>
 		<h2>Nouvelle vente</h2>
-
 		<form action="/ENI-enchere/AjoutArticle" method="POST">
 
 			<div class="field">
@@ -116,7 +111,7 @@
 						type="datetime-local" id="dateDebutEncheres"
 						name="dateDebutEncheres"
 						value="<%=request.getParameter("dateDebutEncheres") == null ? 
-								now : request.getParameter("dateDebutEncheres")%>" 
+								LocalDateTime.now().format(formatter) : request.getParameter("dateDebutEncheres")%>" 
 								required/>
 
 				</div>

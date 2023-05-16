@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.tomcat.jni.Local;
+
 import fr.eni.enchere.bll.ArticleManager;
 import fr.eni.enchere.bll.CategorieManager;
 import fr.eni.enchere.bll.RetraitManager;
@@ -46,9 +48,9 @@ public class ServletAjoutArticle extends HttpServlet {
 		UtilisateurManager utilisateurMgr = new UtilisateurManager();
 		Utilisateur utilisateur = null;
 		CategorieManager catMgr = new CategorieManager();
-
+				
 		try {
-			int noUtilisateur = (int)session.getAttribute("noUtilisateur");
+			Integer noUtilisateur = (Integer)session.getAttribute("noUtilisateur");
 			utilisateur = utilisateurMgr.getUtilisateurByNoUtilisateur(noUtilisateur);
 			request.setAttribute("rue", utilisateur.getRue());
 			request.setAttribute("codePostal", utilisateur.getCodePostal());
@@ -76,6 +78,7 @@ public class ServletAjoutArticle extends HttpServlet {
 		
 		String nomArticle=request.getParameter("nomArticle");
 		String description=request.getParameter("description");
+		System.out.println(request.getParameter("dateDebutEncheres"));
 		LocalDateTime dateDebutEncheres=LocalDateTime.parse(request.getParameter("dateDebutEncheres"), DateTimeFormatter.ISO_DATE_TIME) ;
 		LocalDateTime dateFinEncheres=LocalDateTime.parse(request.getParameter("dateFinEncheres"), DateTimeFormatter.ISO_DATE_TIME);
 		Integer prixInitial=Integer.valueOf(request.getParameter("prixInitial"));
