@@ -27,7 +27,7 @@
 		  </tr>
 		</table>
 	
-	 	<% if(isConnected && (int)session.getAttribute("noUtilisateur") == u.getNoUtilisateur()) {%>
+	 	<% if(isConnected && Integer.valueOf((String)session.getAttribute("noUtilisateur")) == u.getNoUtilisateur()) {%>
 		<a class="secondary-link" href="/ENI-enchere/ServletModifierProfil">Modifier</a>
 		<%} %>
 	</main>
