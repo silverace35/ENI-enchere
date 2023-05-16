@@ -28,6 +28,9 @@
 		<%if (av.getArticleStatus() == ArticleStatus.CR) { %>
 		<h2 style="color: black" class="">Enchere pas encore commencé</h2>
 		<%} %>
+		<%if (av.getArticleStatus() == ArticleStatus.EC) { %>
+		<h2 style="color: black" class="">Enchere en cours</h2>
+		<%} %>
 		<%if (av.getArticleStatus() == ArticleStatus.ET) { %>
 		<h2 style="color: black" class="">Enchere terminer <%=u!=null?u.getNom()+ " " +u.getPrenom():"" %></h2>
 		<%} %>
