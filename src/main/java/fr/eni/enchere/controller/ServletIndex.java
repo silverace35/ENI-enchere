@@ -25,38 +25,43 @@ import fr.eni.enchere.bo.Utilisateur;
 @WebServlet("")
 public class ServletIndex extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ServletIndex() {
-        super();
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public ServletIndex() {
+		super();
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/index.jsp");
 		ArticleManager articleManager = new ArticleManager();
 		UtilisateurManager utilisateurMgr = new UtilisateurManager();
 		List<ArticleVendu> listArticle = new ArrayList<ArticleVendu>();
-		
-	
+
 		if (request.getSession() != null) {
-			Integer noUtilisateur = (Integer)session.getAttribute("noUtilisateur");
+			System.out.println((String) session.getAttribute("noUtilisateur"));
+			Integer noUtilisateur = null;
+			if ((String) session.getAttribute("noUtilisateur") != null) {
+				noUtilisateur = Integer.parseInt((String) session.getAttribute("noUtilisateur"));
+			}
 			if (noUtilisateur != null) {
 				listArticle.addAll(articleManager.getArticlesEnCoursPasEncherie(noUtilisateur));
 				try {
-					Utilisateur	u = utilisateurMgr.getUtilisateurByNoUtilisateur(noUtilisateur);
+					Utilisateur u = utilisateurMgr.getUtilisateurByNoUtilisateur(noUtilisateur);
 					session.setAttribute("rue", u.getRue());
 					session.setAttribute("codePostal", u.getCodePostal());
 					session.setAttribute("ville", u.getVille());
-					//List<Categorie> listCategories = catMgr.selectAllCategories();
-					
-					//request.setAttribute("listCategories", listCategories);
-					} catch (Exception e) {
+					// List<Categorie> listCategories = catMgr.selectAllCategories();
+
+					// request.setAttribute("listCategories", listCategories);
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			} else {
@@ -65,30 +70,32 @@ public class ServletIndex extends HttpServlet {
 		} else {
 			listArticle.addAll(articleManager.getArticlesEnCours());
 		}
-		
+
 		request.setAttribute("listArticle", listArticle);
 		CategorieManager catMgr = new CategorieManager();
 		try {
 			List<Categorie> listCategories = catMgr.selectAllCategories();
-			//TODO Virer l'un des deux xD
+			// TODO Virer l'un des deux xD
 			request.setAttribute("listCategories", listCategories);
 			session.setAttribute("listCategories", listCategories);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		rd.forward(request, response);
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/index.jsp");
 		List<ArticleVendu> listArticle = new ArrayList<ArticleVendu>();
 		ArticleManager articleManager = new ArticleManager();
-		Integer id = (Integer)request.getSession().getAttribute("noUtilisateur");
-		
+		Integer id = (Integer) request.getSession().getAttribute("noUtilisateur");
+
 		request.setCharacterEncoding("UTF-8");
 		String radio = request.getParameter("radio");
 		String barreRecherche = request.getParameter("barreRecherche");
@@ -99,7 +106,7 @@ public class ServletIndex extends HttpServlet {
 		String venteCours = request.getParameter("vente-cours");
 		String venteDebutees = request.getParameter("vente-debutees");
 		String venteTerminees = request.getParameter("vente-terminees");
-		
+
 		if ("achat".equals(radio)) {
 			if ("on".equals(enchereOuverte)) {
 				listArticle.addAll(articleManager.getArticlesEnCoursPasEncherie(id));
@@ -110,7 +117,7 @@ public class ServletIndex extends HttpServlet {
 			if ("on".equals(enchereRemportees)) {
 				listArticle.addAll(articleManager.getArticlesTerminerGagner(id));
 			}
-		} else if("vente".equals(radio)){
+		} else if ("vente".equals(radio)) {
 			if ("on".equals(venteCours)) {
 				listArticle.addAll(articleManager.getVentesEnCours(id));
 			}
@@ -123,9 +130,9 @@ public class ServletIndex extends HttpServlet {
 		} else {
 			listArticle.addAll(articleManager.getArticlesEnCours());
 		}
-		
+
 		List<ArticleVendu> toRemove = new ArrayList<ArticleVendu>();
-		
+
 		if (categorie != 0) {
 			System.out.println(categorie);
 			for (ArticleVendu articleVendu : listArticle) {
@@ -135,7 +142,7 @@ public class ServletIndex extends HttpServlet {
 			}
 			listArticle.removeAll(toRemove);
 		}
-		
+
 		if (!barreRecherche.equals("") || !barreRecherche.isEmpty() || !barreRecherche.isBlank()) {
 			toRemove = new ArrayList<ArticleVendu>();
 			for (ArticleVendu articleVendu : listArticle) {
@@ -145,9 +152,9 @@ public class ServletIndex extends HttpServlet {
 			}
 			listArticle.removeAll(toRemove);
 		}
-		
+
 		request.setAttribute("listArticle", listArticle);
-		//TODO VIRER
+		// TODO VIRER
 //		CategorieManager catMgr = new CategorieManager();
 //		try {
 //			List<Categorie> listCategories = catMgr.selectAllCategories();
@@ -155,7 +162,7 @@ public class ServletIndex extends HttpServlet {
 //		} catch (Exception e) {
 //			e.printStackTrace();
 //		}
-		
+
 		rd.forward(request, response);
 	}
 
