@@ -17,7 +17,7 @@ public class EnchereDAOJdbcImpl implements EnchereDAO {
 	private static final String INSERT_ENCHERE = "INSERT INTO encheres (date_enchere, montant_enchere, no_article, no_utilisateur) VALUES (?,?,?,?);";
 	private static final String SELECT_ENCHERE_BY_ID = "SELECT * FROM encheres WHERE no_enchere = ?;";
 	private static final String SELECT_ALL_ENCHERES = "SELECT * FROM encheres;";
-	private static final String SELECT_ALL_ENCHERES_BY_NO_ARTICLE = "SELECT * FROM encheres WHERE no_article=?;";
+	private static final String SELECT_ALL_ENCHERES_BY_NO_ARTICLE = "SELECT * FROM encheres WHERE no_article=? ORDER BY montant_enchere DESC;";
 	private static final String SELECT_ALL_ENCHERES_BY_NO_UTILISATEUR = "SELECT * FROM encheres WHERE no_utilisateur=?;";
 	private static final String UPDATE_ENCHERE= "UPDATE encheres SET (date_enchere=?, montant_enchere=?) WHERE no_enchere=?;";
 	private static final String DELETE_ENCHERE = "DELETE FROM encheres WHERE no_enchere=?;";

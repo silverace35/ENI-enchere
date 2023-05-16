@@ -21,6 +21,7 @@ public class UtilisateurDAOJdbcImpl implements DAOUtilisateur{
 	private static final String SELECTALL="SELECT * FROM utilisateurs";
 	private static final String UPDATE="UPDATE utilisateurs SET pseudo=?, nom=?, prenom=?, email=?, telephone=?,"
 			+ " rue=?, code_postal=?, ville=?, mot_de_passe=?, credit=?, administrateur=? WHERE no_utilisateur=?;";
+	private static final String UPDATE_CREDIT="UPDATE utilisateurs SET credit=? WHERE no_utilisateur=?;";
 	private static final String INSERT="INSERT INTO utilisateurs(pseudo, nom, prenom, email, telephone, rue,"
 			+ " code_postal, ville, mot_de_passe, credit, administrateur) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 	private static final String DELETEBYID="DELETE FROM utilisateurs WHERE no_utilisateur=?;";
@@ -141,6 +142,29 @@ public class UtilisateurDAOJdbcImpl implements DAOUtilisateur{
 			pstmt.setInt(10, u.getCredit());
 			pstmt.setBoolean(11, u.getAdministrateur());
 			pstmt.setInt(12, u.getNoUtilisateur());
+			pstmt.executeUpdate();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			throw businessException;
+		}
+	}
+	
+	@Override
+	public void updateCredit(Utilisateur u) throws BusinessException {
+		if(u==null)
+		{
+			BusinessException businessException = new BusinessException("L'utilisateur est null");
+			throw businessException;
+		}
+		
+		try(Connection cnx = ConnectionProvider.getConnection())
+		{
+			PreparedStatement pstmt = cnx.prepareStatement(UPDATE_CREDIT);
+			pstmt.setInt(1, u.getCredit());
+			pstmt.setInt(2, u.getNoUtilisateur());
 			pstmt.executeUpdate();
 		}
 		catch(Exception e)

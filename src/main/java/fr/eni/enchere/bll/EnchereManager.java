@@ -54,7 +54,15 @@ public class EnchereManager implements Serializable{
 		return lstEncheres;
 	}
 	
-//	List<Enchere> selectAllEncheresByNoArticle(int noArticle) throws BusinessException;
+	public List<Enchere> selectAllEncheresByNoArticle(int noArticle) {
+		List<Enchere> lstEncheres = new ArrayList<>();
+		try {
+			lstEncheres=this.enchereDAO.selectAllEncheresByNoArticle(noArticle);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return lstEncheres;
+	}
 	
 	public List<Enchere> selectAllEncheresByNoUtilisateur(int noUtilisateur) {
 		List<Enchere> lstEncheres = new ArrayList<>();

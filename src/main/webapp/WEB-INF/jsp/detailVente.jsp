@@ -1,3 +1,6 @@
+<%@page import="java.util.List"%>
+<%@page import="fr.eni.enchere.bo.Enchere"%>
+<%@page import="fr.eni.enchere.bo.Categorie"%>
 <%@ page import="fr.eni.enchere.bo.ArticleVendu"%>
 <%@ page import="fr.eni.enchere.bo.Utilisateur"%>
 <%@ page import="java.time.format.DateTimeFormatter" %> 
@@ -12,9 +15,13 @@
 <title>Détail vente | ENI-enchere</title>
 </head>
 <body>
-<%ArticleVendu av = (ArticleVendu) request.getAttribute("articleVendu");%>
-<%Utilisateur u = (Utilisateur) request.getAttribute("u");%>
 <%@ include file="navigation.jsp"%>
+<%
+	ArticleVendu av = (ArticleVendu)request.getAttribute("articleVendu");
+	Utilisateur u = (Utilisateur)request.getAttribute("utilisateur");
+	Categorie c = (Categorie)request.getAttribute("categorie");
+	List<Enchere> encheres = (List<Enchere>)request.getAttribute("encheres");
+%>
 	<main>
 		<h1>Détail vente</h1>
 		<div class="vente">
@@ -22,18 +29,33 @@
 			<div class="detail-vente">
 				<h3>Nom de l'article : <%=av.getNomArticle() %></h3>
 				<h3>Description : <%=av.getDescription() %></h3>
-				<h3>Catégorie :</h3>
-				<h3>Meilleure offre :<%=av.getPrixVente() %> par ?????</h3>
+				<h3>Catégorie : <%=c!=null?c.getLibelle():"La catégorie n'existe plus" %></h3>
+				<% if (u!=null) {%>
+				<h3>Meilleure offre : </h3><span> <%=av.getPrixVente()%> par <a href="/ENI-enchere/InfosProfil/<%=u.getNoUtilisateur()%>"><%=u.getNom() + " " + u.getPrenom()%></a></span>
+				<%} else { %>
+				<h3>Aucun utilisateur n'as enchérie</h3>
+				<%} %>
 				<h3>Mise à prix : <%=av.getPrixInitial() %></h3>
-				<h3>Fin de l'enchère : <%=av.getDateFinEncheres().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))%></h3>
+				<h3>Fin de l'enchère : <%=av.getDateFinEncheres().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))%></h3>
 				<h3>Retrait : </h3>
-				<h3>Vendeur : <%=av.getNomPrenomAuteur() %></h3>
+				<span>Vendeur : </span><a href="/ENI-enchere/InfosProfil/<%=av.getNoUtilisateur()%>"><%=av.getNomPrenomAuteur()%></a>
 				<form action="/ENI-enchere/DetailVente/<%=av.getNoArticle() %>" method="POST">				
 					<label for="proposition">Ma proposition</label>
 					<input id="proposition" name="proposition" step="10" type="number" value="<%=av.getPrixVente() + 10%>" min="<%=av.getPrixVente() + 10%>">
 					<button type="submit">Enchérir</button>
 				</form>
 			</div>
+		</div>
+		<div>
+			<% 
+			for(Enchere enchere : encheres) {
+			%>
+			<div>
+				<span><%=enchere.getDateEnchere().format(DateTimeFormatter.ofPattern("dd/MM/yyyy à HH:mm")) %> : <%=enchere.getMontantEnchere() %> crédits</span>
+			</div>
+			<%
+			}
+			%>
 		</div>
 	</main>
 

@@ -34,4 +34,6 @@ public interface DAOUtilisateur {
 	// Check if the email already exists
 	public boolean checkPseudo(String pseudo) throws BusinessException;
 
+	void updateCredit(Utilisateur u) throws BusinessException;
+
 }

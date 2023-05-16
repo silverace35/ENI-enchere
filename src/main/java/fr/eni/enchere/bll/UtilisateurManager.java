@@ -99,6 +99,15 @@ public class UtilisateurManager {
 			e.printStackTrace();
 		}
 	}
+	
+	public void updateCreditUtilisateur(Utilisateur utilisateur) throws BusinessException {
+		try {
+			this.daoUtilisateur.updateCredit(utilisateur);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new BusinessException();
+		}
+	}
 
 	
 }
