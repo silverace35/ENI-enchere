@@ -47,7 +47,7 @@ public class ServletTestAjoutArticle extends HttpServlet {
 		Utilisateur utilisateur = null;
 		LocalDateTime d = LocalDateTime.now();
 		try {
-			int noUtilisateur = Integer.valueOf((String)session.getAttribute("noUtilisateur"));
+			int noUtilisateur = (Integer)session.getAttribute("noUtilisateur");
 			utilisateur = utilisateurMgr.getUtilisateurByNoUtilisateur(noUtilisateur);
 			request.setAttribute("utilisateur", utilisateur);
 			List<Categorie> listCategories = catMgr.selectAllCategories();
@@ -73,7 +73,7 @@ public class ServletTestAjoutArticle extends HttpServlet {
 		String description=request.getParameter("description");
 		LocalDateTime dateDebutEncheres=LocalDateTime.parse(request.getParameter("dateDebutEncheres"), dt) ;
 		Integer prixInitial=Integer.valueOf(request.getParameter("prixInitial"));
-		int noUtilisateur = Integer.valueOf((String)session.getAttribute("noUtilisateur"));
+		int noUtilisateur = (Integer)session.getAttribute("noUtilisateur");
 		Integer noCategorie=Integer.valueOf( request.getParameter("categorie"));
 		
 		try {
