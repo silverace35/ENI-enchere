@@ -142,7 +142,9 @@ public class ServletDetailVente extends HttpServlet {
 					id = id.replace("/", "").trim();
 				}
 				try {
-					proposition = Integer.valueOf(request.getParameter("proposition"));
+					if (!request.getParameter("proposition").isEmpty() && !request.getParameter("proposition").isBlank()) {
+						proposition = Integer.valueOf(request.getParameter("proposition"));
+					}
 					Integer.valueOf(id);
 				} catch (Exception e) {
 					erreur = true;
@@ -150,13 +152,9 @@ public class ServletDetailVente extends HttpServlet {
 				u = uMgr.getUtilisateurByNoUtilisateur(noUtilisateur);
 				av = aMgr.getByNoArticle(Integer.valueOf(id));
 				encheres.addAll(eMgr.selectAllEncheresByNoArticle(av.getNoArticle()));
-				if (av == null || u == null) {
+				if (av == null || u == null || proposition == null) {
 					erreur = true;
-					System.out.println("Article ou user null");
-				} else if (proposition == null || proposition <= av.getPrixVente() || av.getArticleStatus() != ArticleStatus.EC) {
-					System.out.println("proposition null ou proposition <= prix de vente");
-					System.out.println(proposition);
-					System.out.println(av.getPrixVente());
+				} else if (proposition == null || proposition <= av.getPrixVente() || av.getArticleStatus() != ArticleStatus.EC || proposition < Integer.MIN_VALUE || proposition > Integer.MAX_VALUE || proposition == null) {
 					erreur = true;
 				} else {
 					//Rend l'argent au dernier top enchere
@@ -177,10 +175,13 @@ public class ServletDetailVente extends HttpServlet {
 					}
 					
 				}
-				if (proposition > u.getCredit()) {
+				if (proposition != null) {
+					if (proposition > u.getCredit()) {
+						erreur = true;
+					}
+				} else {
 					erreur = true;
 				}
-				
 
 				if (erreur) {
 					u = uMgr.getUtilisateurByNoUtilisateur(noUtilisateur);
