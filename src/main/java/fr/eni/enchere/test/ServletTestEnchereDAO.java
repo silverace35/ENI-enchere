@@ -1,9 +1,6 @@
 package fr.eni.enchere.test;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,10 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import fr.eni.enchere.bll.EnchereManager;
-import fr.eni.enchere.bo.Enchere;
-import fr.eni.enchere.dal.EnchereDAO;
-import fr.eni.enchere.dal.FactoryDAO;
+import fr.eni.enchere.bll.RetraitManager;
 
 /**
  * Servlet implementation class ServletTest
@@ -37,10 +31,10 @@ public class ServletTestEnchereDAO extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 	
-		EnchereDAO dao = FactoryDAO.getEnchereDAO();
-		DateTimeFormatter dt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-		Enchere en1 = new Enchere(LocalDateTime.parse("2023-05-12T13:01:00", dt),12, 2, 3);
-		Enchere en2 = new Enchere(LocalDateTime.parse("2023-05-12T14:01:00", dt),13, 2, 2);
+//		EnchereDAO dao = FactoryDAO.getEnchereDAO();
+//		DateTimeFormatter dt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+//		Enchere en1 = new Enchere(LocalDateTime.parse("2023-05-12T13:01:00", dt),12, 2, 3);
+//		Enchere en2 = new Enchere(LocalDateTime.parse("2023-05-12T14:01:00", dt),13, 2, 2);
 		try {
 			System.out.println(Utils.sha256("123"));
 			/*TEST DAO*/
@@ -65,7 +59,8 @@ public class ServletTestEnchereDAO extends HttpServlet {
 //			EnchereManager mgr = new EnchereManager();
 			//mgr.insert("2023-05-12 16:40:00", 15, 2, 3);
 //			System.out.println(mgr.selectAllEncheres());
-			
+			RetraitManager rMgr = new RetraitManager();
+			rMgr.insertAllRetraits();
 			
 			
 		} catch (Exception e) {

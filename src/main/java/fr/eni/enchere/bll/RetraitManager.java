@@ -1,6 +1,10 @@
 package fr.eni.enchere.bll;
 
+import java.util.List;
+
+import fr.eni.enchere.bo.ArticleVendu;
 import fr.eni.enchere.bo.Retrait;
+import fr.eni.enchere.bo.Utilisateur;
 import fr.eni.enchere.dal.FactoryDAO;
 import fr.eni.enchere.dal.RetraitDAO;
 import fr.eni.enchere.dal.exceptions.BusinessException;
@@ -49,6 +53,20 @@ public class RetraitManager {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-			
+	}
+	
+	/*Méthode pour insérer les articles déjà encours*/
+	public void insertAllRetraits() {
+		ArticleManager aMgr = new ArticleManager();
+		UtilisateurManager uMgr = new UtilisateurManager();
+		List<ArticleVendu> lstArticles = aMgr.getAllArticles();
+		for(ArticleVendu aV: lstArticles) {
+			try {
+				Utilisateur u = uMgr.getUtilisateurByNoUtilisateur(aV.getNoUtilisateur());
+				this.retraitDAO.insert(new Retrait(aV.getNoArticle(),u.getRue(),u.getCodePostal(),u.getVille())) ;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }

@@ -41,11 +41,11 @@ INSERT INTO `articles_vendus` (`no_article`, `nom_article`, `description`, `date
 (23, 'Piscine', 'Avec quelques patches mais ne fuit pas', '2023-05-18 15:01:06', '2023-05-31 15:01:06', 25, 25, 4, 3, b'0', b'0'),
 (24, 'Scie à bois', 'Coupe aussi le plâtre hein', '2023-05-18 15:01:06', '2023-05-31 15:01:06', 8, 8, 4, 4, b'0', b'0'),
 (25, 'Trotteuse', 'Idéal pour enfant jusqu\'à 36 mois', '2023-05-18 15:01:06', '2023-05-31 15:01:06', 15, 15, 4, 5, b'0', b'0'),
-(26, 'Tablette HS', 'A démonter ou pour faire cale-livre', '2023-05-18 15:01:06', '2023-05-31 15:01:06', 5, NULL, 1, 6, b'0', b'0'),
-(27, 'Imprimante jet d\'encre', 'Cartouches à remplacer', '2023-05-18 15:01:06', '2023-05-31 15:01:06', 45, NULL, 1, 2, b'0', b'0'),
-(28, 'Echelle 3 positions', 'Jusqu\'à 5 mètres', '2023-05-18 15:01:06', '2023-05-31 15:01:06', 65, NULL, 2, 3, b'0', b'0'),
-(29, 'DVD spectacle des enfants 2006', 'Ecole des Peupliers à Bruz', '2023-05-18 15:01:06', '2023-05-31 15:01:06', 5, NULL, 2, 6, b'0', b'0'),
-(30, 'Rétroviseur Peugeot SP103', 'Une antiquité !', '2023-05-18 15:01:06', '2023-05-31 15:01:06', 55, NULL, 2, 5, b'0', b'0');
+(26, 'Tablette HS', 'A démonter ou pour faire cale-livre', '2023-05-18 15:01:06', '2023-05-31 15:01:06', 5, 5, 1, 6, b'0', b'0'),
+(27, 'Imprimante jet d\'encre', 'Cartouches à remplacer', '2023-05-18 15:01:06', '2023-05-31 15:01:06', 45, 45, 1, 2, b'0', b'0'),
+(28, 'Echelle 3 positions', 'Jusqu\'à 5 mètres', '2023-05-18 15:01:06', '2023-05-31 15:01:06', 65, 65, 2, 3, b'0', b'0'),
+(29, 'DVD spectacle des enfants 2006', 'Ecole des Peupliers à Bruz', '2023-05-18 15:01:06', '2023-05-31 15:01:06', 5, 5, 2, 6, b'0', b'0'),
+(30, 'Rétroviseur Peugeot SP103', 'Une antiquité !', '2023-05-18 15:01:06', '2023-05-31 15:01:06', 55, 55, 2, 5, b'0', b'0');
 
 
 INSERT INTO `encheres` (`no_enchere`, `date_enchere`, `montant_enchere`, `no_article`, `no_utilisateur`) VALUES
@@ -91,4 +91,35 @@ INSERT INTO `encheres` (`no_enchere`, `date_enchere`, `montant_enchere`, `no_art
 (41, '2023-05-09 15:30:20', 13, 20, 2);
 
 
+INSERT INTO `retraits` (`no_article`, `rue`, `code_postal`, `ville`) VALUES
+(1, '50 route de nantes', '35131', 'Pont-péan'),
+(2, '50 route de nantes', '35131', 'Pont-péan'),
+(3, 'rennes centre', '35000', 'Rennes'),
+(4, 'rennes centre', '35000', 'Rennes'),
+(5, 'rennes centre', '35000', 'Rennes'),
+(6, 'Cesson-sévigné', '35000', 'Rennes'),
+(7, 'Cesson-sévigné', '35000', 'Rennes'),
+(8, 'Cesson-sévigné', '35000', 'Rennes'),
+(9, '50 route de nantes', '35000', 'Paris'),
+(10, '50 route de nantes', '35000', 'Paris'),
+(11, '50 route de nantes', '35000', 'Paris'),
+(12, '50 route de nantes', '35000', 'Paris'),
+(13, 'Cesson-sévigné', '35000', 'Rennes'),
+(14, 'Cesson-sévigné', '35000', 'Rennes'),
+(15, 'rennes centre', '35000', 'Rennes'),
+(16, 'rennes centre', '35000', 'Rennes'),
+(17, 'rennes centre', '35000', 'Rennes'),
+(18, '50 route de nantes', '35131', 'Pont-péan'),
+(19, '50 route de nantes', '35131', 'Pont-péan'),
+(20, '50 route de nantes', '35131', 'Pont-péan'),
+(21, 'Cesson-sévigné', '35000', 'Rennes'),
+(22, 'Cesson-sévigné', '35000', 'Rennes'),
+(23, '50 route de nantes', '35000', 'Paris'),
+(24, '50 route de nantes', '35000', 'Paris'),
+(25, '50 route de nantes', '35000', 'Paris'),
+(26, '50 route de nantes', '35131', 'Pont-péan'),
+(27, '50 route de nantes', '35131', 'Pont-péan'),
+(28, 'rennes centre', '35000', 'Rennes'),
+(29, 'rennes centre', '35000', 'Rennes'),
+(30, 'rennes centre', '35000', 'Rennes');
 
