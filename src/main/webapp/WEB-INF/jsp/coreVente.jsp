@@ -12,22 +12,32 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
-
+	
 <head>
+
 <meta charset="UTF-8">
 <link rel="stylesheet" href="css/settings.css">
 <link rel="stylesheet" href="css/login.css">
 <title>Ajout vente | ENI-enchere</title>
 </head>
+<script type="text/javascript">
+		function PreviewImage() {
+			var oFReader = new FileReader();
+			oFReader.readAsDataURL(document.getElementById("pictureFile").files[0]);
+			oFReader.onload = function (oFREvent) {
+				document.getElementById("uploadPreview").src = oFREvent.target.result;
+			};
+		};
+	</script>
 
 <body>
-
+	
 
 	<%@ include file="navigation.jsp"%>
 
 	<main>
 		<h2>Nouvelle vente</h2>
-		<form action=<%=request.getParameter("ServletCible")%> method="POST">
+		<form action=<%=request.getParameter("ServletCible")%> method="POST" enctype="multipart/form-data">
 
 			<%
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -47,7 +57,12 @@
 			}
 			%>
 			<div class="vente-form" >
-				<div class="img"><img src="https://source.unsplash.com/random/?photos"></div>
+				<!--  
+				<div class="img"><img src="https://source.unsplash.com/random/?photos">
+				</div>-->
+				<div class="img">
+<!--  -->					<img id="uploadPreview" />
+				</div>
 				<div class="vente-fields">
 					<div class="vente-field">
 						<label for="nomArticle">Article : </label> 
@@ -81,7 +96,7 @@
 					<p class="error"><%=lstPara.contains(ErrorCodes.DESCRIPTION) ? ErrorCodes.DESCRIPTION.getMessage() : ""%></p>
 		
 					<div class="vente-field">
-						<input type="file">
+<!--  -->						<input type="file" id="pictureFile" name="pictureFile" accept="image/png, image/jpeg" onchange="PreviewImage();"/>
 					</div>
 					
 				</div>
