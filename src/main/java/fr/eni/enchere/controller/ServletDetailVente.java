@@ -16,11 +16,13 @@ import javax.servlet.http.HttpSession;
 import fr.eni.enchere.bll.ArticleManager;
 import fr.eni.enchere.bll.CategorieManager;
 import fr.eni.enchere.bll.EnchereManager;
+import fr.eni.enchere.bll.RetraitManager;
 import fr.eni.enchere.bll.UtilisateurManager;
 import fr.eni.enchere.bo.ArticleStatus;
 import fr.eni.enchere.bo.ArticleVendu;
 import fr.eni.enchere.bo.Categorie;
 import fr.eni.enchere.bo.Enchere;
+import fr.eni.enchere.bo.Retrait;
 import fr.eni.enchere.bo.Utilisateur;
 
 /**
@@ -51,11 +53,13 @@ public class ServletDetailVente extends HttpServlet {
 		UtilisateurManager uMgr = new UtilisateurManager();
 		CategorieManager cMgr = new CategorieManager();
 		EnchereManager eMgr = new EnchereManager();
+		RetraitManager rMgr = new RetraitManager();
 		
 		ArticleVendu av = null;
 		Categorie c = null;
 		Utilisateur u = null;
 		List<Enchere> encheres = new ArrayList<Enchere>();
+		Retrait r = null;
 		
 		if (request.getSession().getAttribute("noUtilisateur") != null) {
 			String id = request.getPathInfo();
@@ -74,6 +78,8 @@ public class ServletDetailVente extends HttpServlet {
 				response.sendRedirect("/ENI-enchere");
 			} else {
 				av = aMgr.getByNoArticle(Integer.valueOf(id));
+				r = rMgr.getRetraitByNoRetrait(av.getNoArticle());
+				System.out.println(r.toString());
 				c = cMgr.getCategorieByNoCategorie(av.getNoCategorie());
 				encheres.addAll(eMgr.selectAllEncheresByNoArticle(av.getNoArticle()));
 				System.out.println(encheres.toString());
@@ -84,10 +90,10 @@ public class ServletDetailVente extends HttpServlet {
 					request.setAttribute("articleVendu", av);
 					request.setAttribute("categorie", c);
 					request.setAttribute("utilisateur", u);
+					request.setAttribute("retrait", r);
 					request.setAttribute("encheres", encheres);
-					System.out.println(av.toString());
 					//Si l'utilisateur consulte une de ses ventes
-					if ((Integer)request.getSession().getAttribute("noUtilisateur") == av.getNoUtilisateur()) {
+					if ((Integer)request.getSession().getAttribute("noUtilisateur") == (int)av.getNoUtilisateur()) {
 						RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/detailMaVente.jsp");
 						rd.forward(request, response);
 					} else {
@@ -115,12 +121,16 @@ public class ServletDetailVente extends HttpServlet {
 
 		ArticleManager aMgr = new ArticleManager();
 		EnchereManager eMgr = new EnchereManager();
+		CategorieManager cMgr = new CategorieManager();
 		UtilisateurManager uMgr = new UtilisateurManager();
+		RetraitManager rMgr = new RetraitManager();
 
 		Utilisateur u = null;
 		Utilisateur oldU = null;
 		ArticleVendu av = null;
 		boolean erreur = false;
+		Retrait r = null;
+		
 		List<Enchere> encheres = new ArrayList<Enchere>();
 
 		Integer noUtilisateur = (Integer)session.getAttribute("noUtilisateur");
@@ -140,7 +150,9 @@ public class ServletDetailVente extends HttpServlet {
 					id = id.replace("/", "").trim();
 				}
 				try {
-					proposition = Integer.valueOf(request.getParameter("proposition"));
+					if (!request.getParameter("proposition").isEmpty() && !request.getParameter("proposition").isBlank()) {
+						proposition = Integer.valueOf(request.getParameter("proposition"));
+					}
 					Integer.valueOf(id);
 				} catch (Exception e) {
 					erreur = true;
@@ -148,13 +160,11 @@ public class ServletDetailVente extends HttpServlet {
 				u = uMgr.getUtilisateurByNoUtilisateur(noUtilisateur);
 				av = aMgr.getByNoArticle(Integer.valueOf(id));
 				encheres.addAll(eMgr.selectAllEncheresByNoArticle(av.getNoArticle()));
-				if (av == null || u == null) {
+				r = rMgr.getRetraitByNoRetrait(av.getNoArticle());
+				
+				if (av == null || u == null || proposition == null) {
 					erreur = true;
-					System.out.println("Article ou user null");
-				} else if (proposition == null || proposition <= av.getPrixVente() || av.getArticleStatus() != ArticleStatus.EC) {
-					System.out.println("proposition null ou proposition <= prix de vente");
-					System.out.println(proposition);
-					System.out.println(av.getPrixVente());
+				} else if (proposition == null || proposition <= av.getPrixVente() || av.getArticleStatus() != ArticleStatus.EC || proposition < Integer.MIN_VALUE || proposition > Integer.MAX_VALUE || proposition == null) {
 					erreur = true;
 				} else {
 					//Rend l'argent au dernier top enchere
@@ -175,14 +185,27 @@ public class ServletDetailVente extends HttpServlet {
 					}
 					
 				}
-				if (proposition > u.getCredit()) {
+				if (proposition != null) {
+					if (proposition > u.getCredit()) {
+						erreur = true;
+					}
+				} else {
 					erreur = true;
 				}
-				
 
 				if (erreur) {
+					u = uMgr.getUtilisateurByNoUtilisateur(noUtilisateur);
+					av = aMgr.getByNoArticle(Integer.valueOf(id));
+					Categorie c = cMgr.getCategorieByNoCategorie(av.getNoCategorie());					
+					request.setAttribute("articleVendu", av);
+					request.setAttribute("categorie", c);
+					request.setAttribute("utilisateur", u);
+					request.setAttribute("retrait", r);
+					request.setAttribute("encheres", encheres);
+					
 					request.setAttribute("erreurMessage", erreurMessage);
-					response.sendRedirect("/ENI-enchere");
+					RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/detailVente.jsp");
+					rd.forward(request, response);
 				} else {
 					av.setPrixVente(proposition);
 					u.setCredit(u.getCredit() - proposition);

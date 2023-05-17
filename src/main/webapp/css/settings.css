@@ -1,6 +1,7 @@
 :root {
   --yellow: rgb(251,209,129);
   --yellow2: rgb(245 179 52);
+  --yellow3: rgb(143 118 73);
   --red: rgb(241,107,75);
   --red2: rgb(243 81 43);
   --red3: rgb(169 40 9);
@@ -39,7 +40,6 @@ main {
 
 a {
 	display: block;
-	font-weight: 700;
 }
 
 nav {
@@ -199,8 +199,8 @@ nav a:hover, #desktop-menu a:hover {
 button {
 	font-size: 1rem;
 	cursor: pointer;
-    background: var(--red);
-    border: 3px solid var(--red);
+    background: var(--yellow);
+    border: 3px solid var(--yellow);
     border-radius: 30px;
     padding: 10px;
     margin-top: 15px;
@@ -219,8 +219,8 @@ button.form-btn {
 }
 
 button:hover {
-    background: var(--red2);
-    border: 3px solid var(--red2);
+    background: var(--yellow2);
+    border: 3px solid var(--yellow2);
     
 }
 
@@ -239,10 +239,28 @@ a.link:hover {
     border: 3px solid var(--yellow2);
 }
 
+a.main-link {
+	font-size: 1rem;
+	cursor: pointer;
+	color: var(--black);
+    background: var(--yellow);
+    border: 3px solid var(--yellow);
+    border-radius: 30px;
+    padding: 10px;
+    text-decoration: none;
+    text-align: center;
+    transition: 200ms ease-in-out;
+}
+
+a.main-link:hover {
+    background: var(--yellow2);
+    border: 3px solid var(--yellow2);
+}
+
 a.secondary-link {
 	font-size: 1rem;
     margin-top: 15px;
-	background-color: var(--yellow);
+	background-color: #bdbdbd;
 	border: none;
 	color: var(--black);
 	cursor: pointer;
@@ -254,7 +272,7 @@ a.secondary-link {
 }
 
 a.secondary-link:hover {
-	background-color: var(--yellow2);
+	background-color: #9d9898;
 	border: none;
 	color: var(--black);
 }

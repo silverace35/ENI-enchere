@@ -1,3 +1,4 @@
+<%@page import="fr.eni.enchere.bo.Retrait"%>
 <%@page import="fr.eni.enchere.bo.ArticleStatus"%>
 <%@page import="java.util.List"%>
 <%@page import="fr.eni.enchere.bo.Enchere"%>
@@ -22,6 +23,7 @@
 	Utilisateur u = (Utilisateur)request.getAttribute("utilisateur");
 	Categorie c = (Categorie)request.getAttribute("categorie");
 	List<Enchere> encheres = (List<Enchere>)request.getAttribute("encheres");
+	Retrait r = (Retrait)request.getAttribute("retrait");
 %>
 	<main>
 		<h1>Détail vente</h1>
@@ -31,7 +33,7 @@
 		<%if (av.getArticleStatus() == ArticleStatus.ET) { %>
 		<h2 style="color: black" class="">Enchère terminée</h2>
 		<%} %>
-		<%if (!encheres.isEmpty() && av.getArticleStatus() == ArticleStatus.ET && (Integer)session.getAttribute("noUtilisateur") == u.getNoUtilisateur()) { %>
+		<%if (!encheres.isEmpty() && av.getArticleStatus() == ArticleStatus.ET && (Integer)session.getAttribute("noUtilisateur") == (int)u.getNoUtilisateur()) { %>
 		<h2 style="color: black">Vous avez gagné !</h2>
 		<%}%>
 		<div class="vente">
@@ -47,13 +49,13 @@
 				<%} %>
 				<h3>Mise à prix : <%=av.getPrixInitial() %></h3>
 				<h3>Fin de l'enchère : <%=av.getDateFinEncheres().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))%></h3>
-				<h3>Retrait : </h3>
+				<h3>Retrait : <%=r.getRue() + " " +r.getCodePostal() + " " + r.getVille() %></h3>
 				<span>Vendeur : </span><a href="/ENI-enchere/InfosProfil/<%=av.getNoUtilisateur()%>"><%=av.getNomPrenomAuteur()%></a>
-				<% if (av.getArticleStatus() == ArticleStatus.EC && av.getNoUtilisateur() !=  (Integer)session.getAttribute("noUtilisateur")){%>
+				<% if (av.getArticleStatus() == ArticleStatus.EC && (int)av.getNoUtilisateur() !=  (Integer)session.getAttribute("noUtilisateur")){%>
 					<form action="/ENI-enchere/DetailVente/<%=av.getNoArticle() %>" method="POST">				
 						<label for="proposition">Ma proposition</label>
 						<p><%=request.getAttribute("erreurMessage")!=null?request.getAttribute("erreurMessage"):""%></p>
-						<input id="proposition" name="proposition" type="number" min="<%=av.getPrixVente()%>" value="<%=av.getPrixVente()+1%>">
+						<input id="proposition" name="proposition" type="number" value="<%=av.getPrixVente()+1%>">
 						<button type="submit">Enchérir</button>
 					</form>
 				<%} %>

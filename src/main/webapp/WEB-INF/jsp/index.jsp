@@ -1,5 +1,7 @@
+<%@page import="fr.eni.enchere.bo.ArticleStatus"%>
 <%@page import="java.time.format.DateTimeFormatter"%>
 <%@page import="fr.eni.enchere.bo.ArticleVendu"%>
+<%@page import="fr.eni.enchere.bo.ArticleStatus"%>
 <%@page import="fr.eni.enchere.bo.Categorie"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -162,16 +164,26 @@
 			for (ArticleVendu av : listArticle) {
 			%>
 				<div class="enchere">
-					<img src="https://source.unsplash.com/random/100×100/?code">
-					<div class="details-enchere">
-						<h3><a href="/ENI-enchere/DetailVente/<%=av.getNoArticle()%>"><%=av.getNomArticle()%></a></h3>
-						<p><%=av.getPrixVente()%></p>
-						<p><%=av.getArticleStatus().getStatusMessage()%></p>
-						<p><%=av.getDateFinEncheres().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))%></p>
-						<p>
+					<div class="enchere-img"><img src="https://source.unsplash.com/random/?<%=av.getNomArticle()%>"></div>
+					<h3><%=av.getNomArticle()%></h3>
+					<p class="statut <%=av.getArticleStatus().getColor()%>"><%=av.getArticleStatus().getStatusMessage()%></p>
+					<div class="detail-enchere">
+						<div>
+							<label class="enchere-label">Vendeur</label>
 							<a href="/ENI-enchere/InfosProfil/<%=av.getNoUtilisateur()%>"><%=av.getNomPrenomAuteur()%></a>
-						</p>
+						</div>
+						<div>
+							<label class="enchere-label">Termine le</label>
+							<p><%=av.getDateFinEncheres().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))%></p>
+						</div>
 					</div>
+						<div class="btn-container">
+							<div>
+								<label class="enchere-label">Prix minimum</label>
+								<p><%=av.getPrixVente()%></p>
+							</div>
+							<a href="/ENI-enchere/DetailVente/<%=av.getNoArticle()%>">Voir l'article</a>
+						</div>
 				</div>
 			<%
 			}

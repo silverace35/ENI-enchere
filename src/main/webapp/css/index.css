@@ -38,6 +38,10 @@ label:not(.achats-container label, .ventes-container label) {
 	padding-bottom: 2px;
 }
 
+.achats-container label, .ventes-container label {
+	font-size: 0.9rem;
+}
+
 .achats-display div label, .ventes-display div label {
 	font-size: 0.8rem;
 }
@@ -84,8 +88,13 @@ form {
 	justify-content: space-around;
 }
 
-img {
+img:not(.enchere-img) {
 	height: 25px;
+}
+
+.article-img {
+	border-radius: 50%;
+	height: 20p;
 }
 
 @media screen and (max-width: 1500px) {
@@ -136,14 +145,125 @@ img {
 
 .list-encheres {
 	display: flex;
-	justify-content: space-evenly;
+	justify-content: start;
 	flex-wrap: wrap;
 	padding-top: 100px;
 }
 
 .enchere {
-	
+	position: relative;
+	background-color: var(--yellow2);
+	border-radius: 15px;
+	min-width: 300px;
+	min-height: 350px;
+	padding: 15px;
+	margin: 40px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	align-items: center;
+	text-align: center;
+	margin-bottom: 20px;
+	color: var(--white);
+	box-shadow: 0px 3px 28px -14px rgba(0,0,0,0.87);
+-webkit-box-shadow: 0px 3px 28px -14px rgba(0,0,0,0.87);
+-moz-box-shadow: 0px 3px 28px -14px rgba(0,0,0,0.87);
 }
+
+.enchere-img {
+	height: 120px;
+	width: 120px;
+	padding-top: 10px;
+	overflow: hidden;
+	border-radius: 50%;
+}
+
+.enchere-img img {
+	width: 100%;
+	height: 100%;
+	object-position: center;
+    object-fit: cover;
+	border-radius: 50%;
+}
+
+.enchere h3 {
+	font-size: 1.4rem;
+}
+
+.detail-enchere div a {
+	color: var(--white);
+	transition: all 200ms ease-in-out;
+}
+
+.detail-enchere div a:hover {
+	color: rgb(131 90 15);
+}
+
+.detail-enchere {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+}
+
+.detail-enchere div {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+.btn-container {
+	width: 100%;
+	display: flex;
+	justify-content: space-around;
+}
+
+.btn-container a {
+	background: rgb(205 144 30);
+	color: var(--white);
+    display: flex;
+	align-items: center;
+	border-radius: 10px;
+	text-decoration: none;
+	padding: 5px 15px;
+	transition: 200ms all ease-in-out;
+}
+.btn-container a:hover {
+	background: rgb(179 126 26);
+	color: var(--white);
+}
+
+.statut {
+	user-select: none;
+	position: absolute;
+	border-radius: 40px;
+	padding: 5px 10px;
+	top: 10px;
+	right: 10px;
+	font-size: 0.8rem;
+	color: var(--white);
+}
+.cr {
+
+	background: grey;
+}
+.ec {
+
+	background: #489748;
+}
+.et {
+
+	background: var(--red);
+}
+.rt {
+
+	background: var(--red);
+}
+.ds {
+
+	background: var(--black);
+}
+
 
 
 
