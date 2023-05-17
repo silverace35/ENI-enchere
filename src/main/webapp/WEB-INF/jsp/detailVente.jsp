@@ -31,7 +31,7 @@
 		<%if (av.getArticleStatus() == ArticleStatus.ET) { %>
 		<h2 style="color: black" class="">Enchère terminée</h2>
 		<%} %>
-		<%if (!encheres.isEmpty() && av.getArticleStatus() == ArticleStatus.ET && (Integer)session.getAttribute("noUtilisateur") == u.getNoUtilisateur()) { %>
+		<%if (!encheres.isEmpty() && av.getArticleStatus() == ArticleStatus.ET && (Integer)session.getAttribute("noUtilisateur") == (int)u.getNoUtilisateur()) { %>
 		<h2 style="color: black">Vous avez gagné !</h2>
 		<%}%>
 		<div class="vente">
@@ -49,7 +49,7 @@
 				<h3>Fin de l'enchère : <%=av.getDateFinEncheres().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))%></h3>
 				<h3>Retrait : </h3>
 				<span>Vendeur : </span><a href="/ENI-enchere/InfosProfil/<%=av.getNoUtilisateur()%>"><%=av.getNomPrenomAuteur()%></a>
-				<% if (av.getArticleStatus() == ArticleStatus.EC && av.getNoUtilisateur() !=  (Integer)session.getAttribute("noUtilisateur")){%>
+				<% if (av.getArticleStatus() == ArticleStatus.EC && (int)av.getNoUtilisateur() !=  (Integer)session.getAttribute("noUtilisateur")){%>
 					<form action="/ENI-enchere/DetailVente/<%=av.getNoArticle() %>" method="POST">				
 						<label for="proposition">Ma proposition</label>
 						<p><%=request.getAttribute("erreurMessage")!=null?request.getAttribute("erreurMessage"):""%></p>
