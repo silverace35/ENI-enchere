@@ -94,6 +94,8 @@ public class ServletIndex extends HttpServlet {
 		String venteDebutees = request.getParameter("vente-debutees");
 		String venteTerminees = request.getParameter("vente-terminees");
 		
+		List<ArticleVendu> toRemove = new ArrayList<ArticleVendu>();
+		
 		if ("achat".equals(radio)) {
 			if ("on".equals(enchereOuverte)) {
 				listArticle.addAll(articleManager.getArticlesEnCoursPasEncherie(id));
@@ -115,13 +117,14 @@ public class ServletIndex extends HttpServlet {
 				listArticle.addAll(articleManager.getVentesTerminer(id));
 			}
 		} else {
+			System.out.println("c'est dans le else");
 			listArticle.addAll(articleManager.getArticlesEnCours());
 		}
 		
-		List<ArticleVendu> toRemove = new ArrayList<ArticleVendu>();
+		
 		
 		if (categorie != 0) {
-			System.out.println(categorie);
+			toRemove = new ArrayList<ArticleVendu>();
 			for (ArticleVendu articleVendu : listArticle) {
 				if (articleVendu.getNoCategorie() != categorie) {
 					toRemove.add(articleVendu);

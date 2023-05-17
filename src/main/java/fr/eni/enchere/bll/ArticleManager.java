@@ -111,7 +111,14 @@ public class ArticleManager implements Serializable{
 		List<ArticleVendu> listArticle = new ArrayList<ArticleVendu>();
 		
 		try {
+			List<ArticleVendu> toRemove = new ArrayList<ArticleVendu>();
 			listArticle = this.articleVenduDAO.selectAllArticleVenduEnCoursPasEncherie(noUtilisateur);
+			for (ArticleVendu articleVendu : listArticle) {
+				if (articleVendu.getNoUtilisateur() == noUtilisateur) {
+					toRemove.add(articleVendu);
+				}
+			}
+			listArticle.removeAll(toRemove);
 		} catch (BusinessException e) {
 			e.printStackTrace();
 		}
