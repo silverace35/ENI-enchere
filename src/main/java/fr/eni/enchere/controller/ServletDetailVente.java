@@ -112,6 +112,7 @@ public class ServletDetailVente extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
+		String erreurMessage = "Saisie invalide";
 
 		ArticleManager aMgr = new ArticleManager();
 		EnchereManager eMgr = new EnchereManager();
@@ -181,6 +182,7 @@ public class ServletDetailVente extends HttpServlet {
 				
 
 				if (erreur) {
+					request.setAttribute("erreurMessage", erreurMessage);
 					response.sendRedirect("/ENI-enchere");
 				} else {
 					av.setPrixVente(proposition);
