@@ -66,6 +66,9 @@ public class ServletConnexion extends HttpServlet {
 	        			response.addCookie(userCookie);
 	        		}
 	        		request.getSession().setAttribute("noUtilisateur", u.getNoUtilisateur()); 
+	        		if(u.getAdministrateur()) {
+	        			request.getSession().setAttribute("admin", true);
+	        		}
 	        		//SI VALID : httpSession.setAttribute("IdUser", idUser);
 	        		response.sendRedirect("/ENI-enchere");
 	        	} else {
