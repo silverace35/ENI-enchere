@@ -22,11 +22,24 @@
 
 <body>
 	
-	<%
+	
+	<%@ include file="navigation.jsp"%>	
+
+	<main>
+		<h2>Nouvelle vente</h2>
+		<form action=<%=request.getParameter("ServletCible")%> method="POST">
+
+<%
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-	String rue = (String) session.getAttribute("rue");
-	String codePostal = (String) session.getAttribute("codePostal");
-	String ville = (String) session.getAttribute("ville");
+	String rue = request.getAttribute("rue")==null?"":(String) request.getAttribute("rue");
+	String codePostal = request.getAttribute("codePostal")==null?"":(String) request.getAttribute("codePostal");
+	String ville = request.getAttribute("ville")==null?"":(String) request.getAttribute("ville");
+	String nomArticle = request.getAttribute("nomArticle")==null?"":(String) request.getAttribute("nomArticle");
+	Integer categorie = request.getAttribute("categorie")==null?1:(Integer) request.getAttribute("categorie");
+	String description = request.getAttribute("description")==null?"":(String) request.getAttribute("description");
+	Integer prixInitial = request.getAttribute("prixInitial")==null?0:(Integer) request.getAttribute("prixInitial");
+
+	
 	List<ErrorCodes> lstPara = (List<ErrorCodes>) request.getAttribute("lstParam");
 	List<Categorie> listCategories = (List<Categorie>) session.getAttribute("listCategories");
 	LocalDateTime now= LocalDateTime.now();
@@ -34,19 +47,13 @@
 		lstPara = new ArrayList<>();
 	}
 	%>
-	<%@ include file="navigation.jsp"%>	
-
-	<main>
-		<h2>Nouvelle vente</h2>
-		<form action="/ENI-enchere/AjoutArticle" method="POST">
-
 			<div class="field">
 				<label for="nomArticle">Article : </label> <input type="text"
 					id="nomArticle" name="nomArticle" minlength="2" maxlength="30"
 					required
 					value="<%=lstPara.contains(ErrorCodes.RUE) ? 
 						"": request.getParameter("nomArticle") == null ? 
-						"" : request.getParameter("nomArticle")%>"
+						nomArticle : request.getParameter("nomArticle")%>"
 					placeholder="<%=lstPara.contains(ErrorCodes.RUE) ? 
 							ErrorCodes.RUE.getMessage() : ""%>" />
 			</div>
@@ -60,7 +67,7 @@
 						
 						for (Categorie c : listCategories) {
 						%>
-						<option value="<%=c.getNoCategorie()%>"><%=c.getLibelle()%></option>
+						<option value="<%=c.getNoCategorie()%>" <%=c.getNoCategorie()==categorie?"selected":"" %>><%=c.getLibelle()%> </option>
 						<%
 						}
 						%>
@@ -74,7 +81,7 @@
 					maxlength="300" required
 					value="<%=lstPara.contains(ErrorCodes.DESCRIPTION) ? 
 							"": request.getParameter("description") == null ? 
-									"" : request.getParameter("description")%>"
+									description : request.getParameter("description")%>"
 					placeholder="<%=lstPara.contains(ErrorCodes.DESCRIPTION) ? 
 							ErrorCodes.DESCRIPTION.getMessage() : ""%>" />
 			</div>
@@ -101,7 +108,7 @@
 						id="prixInitial" type="number" name="prixInitial" min="0"
 						value="<%=lstPara.contains(ErrorCodes.PRIX_INITIAL) ? 
 								"": request.getParameter("prixInitial") == null ? 
-										"0" : request.getParameter("prixInitial")%>"
+										prixInitial : request.getParameter("prixInitial")%>"
 						placeholder="<%=lstPara.contains(ErrorCodes.PRIX_INITIAL) ? 
 								ErrorCodes.PRIX_INITIAL.getMessage() : ""%>" />
 				</div>
@@ -121,7 +128,7 @@
 						type="datetime-local" id="dateFinEncheres" name="dateFinEncheres"
 						value="<%=lstPara.contains(ErrorCodes.DATES_IMP) ? 
 								"": request.getParameter("dateFinEncheres") == null ? 
-								"": request.getParameter("dateFinEncheres")%>"
+										"" : request.getParameter("dateFinEncheres")%>"
 								required/>
 
 				</div>
