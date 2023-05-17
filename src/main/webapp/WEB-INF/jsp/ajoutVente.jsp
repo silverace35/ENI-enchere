@@ -10,10 +10,9 @@
 
 <jsp:include page="./coreVente.jsp">
 	<jsp:param name="ServletCible" value="/ENI-enchere/AjoutArticle" />
+	<jsp:param name="typeVente" value="Nouvelle vente" />
 </jsp:include>
 
-<button type="submit">Enregistrer</button>
-</form>
 
 <div class="line-container">
 	<div class="line"></div>

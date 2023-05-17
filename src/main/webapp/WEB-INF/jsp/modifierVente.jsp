@@ -10,9 +10,8 @@
 
 <jsp:include page="./coreVente.jsp">
 	<jsp:param name="ServletCible" value="/ENI-enchere/ModifierVente" />
+	<jsp:param name="typeVente" value="Modifier ma vente" />
 </jsp:include>
-
-
 
 <form action="<%=request.getContextPath()%>/AnnulerVente" method="POST">
 <button type="submit">Annuler la vente</button>
