@@ -14,5 +14,7 @@ public interface EnchereDAO {
 	List<Enchere> selectAllEncheresByNoUtilisateur(int noUtilisateur) throws BusinessException;
 	void update(Enchere e) throws BusinessException;
 	void delete(int noEnchere) throws BusinessException;
+	void deleteByUserId(int noUtilisateur) throws BusinessException;
+	Integer getMaxEnchereForArticleId(Integer noArticle) throws BusinessException;
 	
 }

@@ -63,6 +63,15 @@ public class UtilisateurManager {
 		}
 			
 	}
+	
+	public void desactiveUtilisateur(int noUtilisateur) {
+		try {
+			this.daoUtilisateur.desactiveUtilisateur(noUtilisateur) ;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 
 	public Utilisateur getUtilisateurByNoUtilisateur(int noUtilisateur) {
 		// TODO Auto-generated method stub

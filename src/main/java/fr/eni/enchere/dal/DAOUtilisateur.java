@@ -36,4 +36,6 @@ public interface DAOUtilisateur {
 
 	void updateCredit(Utilisateur u) throws BusinessException;
 
+	void desactiveUtilisateur(Integer noUtilisateur) throws BusinessException;
+
 }

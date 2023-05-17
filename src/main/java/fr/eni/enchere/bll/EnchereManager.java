@@ -12,6 +12,7 @@ import java.util.Locale;
 import fr.eni.enchere.bo.Enchere;
 import fr.eni.enchere.dal.EnchereDAO;
 import fr.eni.enchere.dal.FactoryDAO;
+import fr.eni.enchere.dal.exceptions.BusinessException;
 
 public class EnchereManager implements Serializable{
 	private static final long serialVersionUID = 1L;
@@ -81,6 +82,24 @@ public class EnchereManager implements Serializable{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void deleteByUserId(int noUtilisateur) {
+		try {
+			this.enchereDAO.deleteByUserId(noUtilisateur);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public Integer getMaxEnchereForArticleId(Integer noArticle) {
+		Integer result = null;
+		try {
+			result = this.enchereDAO.getMaxEnchereForArticleId(noArticle);
+		} catch (BusinessException e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 	
 }
