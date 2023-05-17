@@ -182,7 +182,11 @@
 								<label class="enchere-label">Prix minimum</label>
 								<p><%=av.getPrixVente()%></p>
 							</div>
-							<a href="/ENI-enchere/DetailVente/<%=av.getNoArticle()%>">Voir l'article</a>
+							<%
+								if (isConnected) {
+									%><a href="/ENI-enchere/DetailVente/<%=av.getNoArticle()%>">Voir l'article</a><%
+								}
+							%>
 						</div>
 				</div>
 			<%

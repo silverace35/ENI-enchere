@@ -11,7 +11,9 @@
 		<%
 			if (isConnected) {
 			%>
-			<li class="menu-links" id="hidden"><a href="#">Enchères</a></li>
+			<%if (session.getAttribute("admin")!= null) {%>
+				<li class="menu-links"><a href="/ENI-enchere/administration">Espace admin</a></li>
+			<%} %>
 			<li class="menu-links"><a href="/ENI-enchere/AjoutArticle">Vendre un article</a></li>
 			<li class="menu-links"><a href="/ENI-enchere/InfosProfil/<%=session.getAttribute("noUtilisateur") %>">Mon profil</a></li>
 			<li class="menu-links"><a href="/ENI-enchere/ServletDeconnexion">Déconnexion</a></li>
@@ -34,7 +36,9 @@
 
 			if (isConnected) {
 			%>
-			<li id="hidden"><a href="#">Enchères</a></li>
+			<%if (session.getAttribute("admin")!= null) {%>
+				<li class="menu-links"><a href="/ENI-enchere/administration">Espace admin</a></li>
+			<%} %>
 			<li class="menu-links"><a href="/ENI-enchere/AjoutArticle">Vendre un article</a></li>
 			<li class="menu-links"><a href="/ENI-enchere/InfosProfil/<%=session.getAttribute("noUtilisateur") %>">Mon profil</a></li>
 			<li class="menu-links"><a href="/ENI-enchere/ServletDeconnexion">Déconnexion</a></li>
