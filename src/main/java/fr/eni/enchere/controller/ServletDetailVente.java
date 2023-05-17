@@ -79,7 +79,7 @@ public class ServletDetailVente extends HttpServlet {
 			} else {
 				av = aMgr.getByNoArticle(Integer.valueOf(id));
 				r = rMgr.getRetraitByNoRetrait(av.getNoArticle());
-				System.out.println(r.toString());
+//				System.out.println(r.toString());
 				c = cMgr.getCategorieByNoCategorie(av.getNoCategorie());
 				encheres.addAll(eMgr.selectAllEncheresByNoArticle(av.getNoArticle()));
 				System.out.println(encheres.toString());
