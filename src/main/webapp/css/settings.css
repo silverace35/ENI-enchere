@@ -239,6 +239,24 @@ a.link:hover {
     border: 3px solid var(--yellow2);
 }
 
+a.main-link {
+	font-size: 1rem;
+	cursor: pointer;
+	color: var(--black);
+    background: var(--yellow);
+    border: 3px solid var(--yellow);
+    border-radius: 30px;
+    padding: 10px;
+    text-decoration: none;
+    text-align: center;
+    transition: 200ms ease-in-out;
+}
+
+a.main-link:hover {
+    background: var(--yellow2);
+    border: 3px solid var(--yellow2);
+}
+
 a.secondary-link {
 	font-size: 1rem;
     margin-top: 15px;
@@ -254,9 +272,9 @@ a.secondary-link {
 }
 
 a.secondary-link:hover {
-	background-color: grey;
+	background-color: #9d9898;
 	border: none;
-	color: var(--white);
+	color: var(--black);
 }
 
 a.warning-link {

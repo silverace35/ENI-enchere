@@ -164,7 +164,7 @@
 			for (ArticleVendu av : listArticle) {
 			%>
 				<div class="enchere">
-					<div class="enchere-img"><img src="https://source.unsplash.com/random/100×100/?<%=av.getNomArticle()%>"></div>
+					<div class="enchere-img"><img src="https://source.unsplash.com/random/?<%=av.getNomArticle()%>"></div>
 					<h3><%=av.getNomArticle()%></h3>
 					<p class="statut <%=av.getArticleStatus().getColor()%>"><%=av.getArticleStatus().getStatusMessage()%></p>
 					<div class="detail-enchere">
