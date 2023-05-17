@@ -120,7 +120,7 @@ public class ServletModifierArticle extends HttpServlet {
 				aMgr.update(aV);
 				rMgr.update(new Retrait(noArticle, rue, codePostal, ville));
 				
-				response.sendRedirect("/ENI-enchere");
+				response.sendRedirect("/ENI-enchere/DetailVente/"+noArticle);
 				
 				} catch (Exception e) {
 					System.out.println("Echec d'update");
