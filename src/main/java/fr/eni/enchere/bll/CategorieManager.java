@@ -76,7 +76,7 @@ public class CategorieManager {
 		}
 	}
 	
-	public void deleteUtilisateur(int noCategorie) {
+	public void deleteCategorie(int noCategorie) {
 		try {
 			this.categorieDAO.delete(noCategorie) ;
 		} catch (Exception e) {

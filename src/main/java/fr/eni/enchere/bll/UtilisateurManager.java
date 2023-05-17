@@ -1,5 +1,9 @@
 package fr.eni.enchere.bll;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import fr.eni.enchere.bo.ArticleVendu;
 import fr.eni.enchere.bo.Utilisateur;
 import fr.eni.enchere.controller.ErrorCodes;
 import fr.eni.enchere.dal.DAOUtilisateur;
@@ -101,6 +105,17 @@ public class UtilisateurManager {
 			e.printStackTrace();
 			throw new BusinessException();
 		}
+	}
+	
+	public List<Utilisateur> getAllUtilisateur() throws BusinessException {
+		List<Utilisateur> listUser = new ArrayList<Utilisateur>();
+		try {
+			listUser.addAll(this.daoUtilisateur.selectAll());
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new BusinessException();
+		}
+		return listUser;
 	}
 
 	
