@@ -116,6 +116,7 @@ public class ServletDetailVente extends HttpServlet {
 
 		ArticleManager aMgr = new ArticleManager();
 		EnchereManager eMgr = new EnchereManager();
+		CategorieManager cMgr = new CategorieManager();
 		UtilisateurManager uMgr = new UtilisateurManager();
 
 		Utilisateur u = null;
@@ -182,8 +183,17 @@ public class ServletDetailVente extends HttpServlet {
 				
 
 				if (erreur) {
+					u = uMgr.getUtilisateurByNoUtilisateur(noUtilisateur);
+					av = aMgr.getByNoArticle(Integer.valueOf(id));
+					Categorie c = cMgr.getCategorieByNoCategorie(av.getNoCategorie());					
+					request.setAttribute("articleVendu", av);
+					request.setAttribute("categorie", c);
+					request.setAttribute("utilisateur", u);
+					request.setAttribute("encheres", encheres);
+					
 					request.setAttribute("erreurMessage", erreurMessage);
-					response.sendRedirect("/ENI-enchere");
+					RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/detailVente.jsp");
+					rd.forward(request, response);
 				} else {
 					av.setPrixVente(proposition);
 					u.setCredit(u.getCredit() - proposition);
