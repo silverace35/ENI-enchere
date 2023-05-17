@@ -146,4 +146,14 @@ public class ArticleManager implements Serializable{
 		}
 	}
 	
+	public List<ArticleVendu> getAllArticles() {
+		List<ArticleVendu> listArticle = new ArrayList<ArticleVendu>();
+		try {
+			listArticle = this.articleVenduDAO.selectAllArticleVendu();
+		} catch (BusinessException e) {
+			e.printStackTrace();
+		}
+		return listArticle;
+	}
+	
 }
