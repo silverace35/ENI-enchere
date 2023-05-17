@@ -18,7 +18,7 @@ public enum ErrorCodes {
 	EMAIL_ALREADY_EXIST("l'email existe déjà."),
 	SQL_ERROR("Connexion à la base impossible."),
 	DESCRIPTION("Caractères non autorisés.", "^.{2,300}$"),
-	PRIX_INITIAL("Le prix ne peut pas être négatif."),
+	PRIX_INITIAL("Saisie invalide."),
 	DATES_IMP("La date de fin doit être postérieure à celle de début."),
 	DATETIMEFORMAT("Format de date invalide aaaa-mm-jj hh:mm","")
 	;

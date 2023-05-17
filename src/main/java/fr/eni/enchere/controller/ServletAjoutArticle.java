@@ -114,7 +114,7 @@ public class ServletAjoutArticle extends HttpServlet {
 		valider(codePostal, ErrorCodes.CODEPOSTAL, lstParam);
 		valider(ville, ErrorCodes.VILLE, lstParam);
 
-		if (prixInitial<0) {
+		if (prixInitial<0 || prixInitial > Integer.MAX_VALUE || prixInitial == null) {
 			lstParam.add(ErrorCodes.PRIX_INITIAL);
 		}
 		
