@@ -1,3 +1,4 @@
+<%@page import="fr.eni.enchere.bo.Retrait"%>
 <%@page import="fr.eni.enchere.bo.ArticleStatus"%>
 <%@page import="java.util.List"%>
 <%@page import="fr.eni.enchere.bo.Enchere"%>
@@ -22,6 +23,7 @@
 	Utilisateur u = (Utilisateur)request.getAttribute("utilisateur");
 	Categorie c = (Categorie)request.getAttribute("categorie");
 	List<Enchere> encheres = (List<Enchere>)request.getAttribute("encheres");
+	Retrait r = (Retrait)request.getAttribute("retrait");
 %>
 	<main>
 		<h1>Détail vente</h1>
@@ -47,7 +49,7 @@
 				<%} %>
 				<h3>Mise à prix : <%=av.getPrixInitial() %></h3>
 				<h3>Fin de l'enchère : <%=av.getDateFinEncheres().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))%></h3>
-				<h3>Retrait : </h3>
+				<h3>Retrait : <%=r.getRue() + " " +r.getCodePostal() + " " + r.getVille() %></h3>
 				<span>Vendeur : </span><a href="/ENI-enchere/InfosProfil/<%=av.getNoUtilisateur()%>"><%=av.getNomPrenomAuteur()%></a>
 				<% if (av.getArticleStatus() == ArticleStatus.EC && (int)av.getNoUtilisateur() !=  (Integer)session.getAttribute("noUtilisateur")){%>
 					<form action="/ENI-enchere/DetailVente/<%=av.getNoArticle() %>" method="POST">				
