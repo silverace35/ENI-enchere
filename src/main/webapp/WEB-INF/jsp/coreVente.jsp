@@ -10,15 +10,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html>
-<html>
 
-<head>
-<meta charset="UTF-8">
-<link rel="stylesheet" href="css/settings.css">
-<link rel="stylesheet" href="css/login.css">
-<title>Ajout vente | ENI-enchere</title>
-</head>
 
 <body>
 	
@@ -39,7 +31,6 @@
 	String description = request.getAttribute("description")==null?"":(String) request.getAttribute("description");
 	Integer prixInitial = request.getAttribute("prixInitial")==null?0:(Integer) request.getAttribute("prixInitial");
 
-	
 	List<ErrorCodes> lstPara = (List<ErrorCodes>) request.getAttribute("lstParam");
 	List<Categorie> listCategories = (List<Categorie>) session.getAttribute("listCategories");
 	LocalDateTime now= LocalDateTime.now();
@@ -118,7 +109,9 @@
 						type="datetime-local" id="dateDebutEncheres"
 						name="dateDebutEncheres"
 						value="<%=request.getParameter("dateDebutEncheres") == null ? 
-								LocalDateTime.now().format(formatter) : request.getParameter("dateDebutEncheres")%>" 
+								(request.getAttribute("dateDebutEncheres")==null ? LocalDateTime.now().format(formatter) 
+								:request.getAttribute("dateDebutEncheres"))
+								 : request.getParameter("dateDebutEncheres")%>" 
 								required/>
 
 				</div>
@@ -128,7 +121,7 @@
 						type="datetime-local" id="dateFinEncheres" name="dateFinEncheres"
 						value="<%=lstPara.contains(ErrorCodes.DATES_IMP) ? 
 								"": request.getParameter("dateFinEncheres") == null ? 
-										"" : request.getParameter("dateFinEncheres")%>"
+										request.getAttribute("dateFinEncheres") : request.getParameter("dateFinEncheres")%>"
 								required/>
 
 				</div>
@@ -164,3 +157,7 @@
 					placeholder="<%=lstPara.contains(ErrorCodes.VILLE) ? 
 							ErrorCodes.VILLE.getMessage() : ""%>" />
 			</div>
+			
+			
+<button type="submit">Enregistrer</button>
+</form>

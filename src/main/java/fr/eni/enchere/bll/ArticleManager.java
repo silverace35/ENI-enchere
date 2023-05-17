@@ -149,4 +149,22 @@ public class ArticleManager implements Serializable{
 		return listArticle;
 	}
 	
+	public boolean checkArticleUtilisateur(int noArticle, int noUtilisateur) {
+		boolean res = false;
+		try {
+			 res=this.articleVenduDAO.checkArticleUtilisateur(noArticle, noUtilisateur);
+		} catch (BusinessException e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+
+	public void delete(int noArticle) {
+		try {
+			this.articleVenduDAO.delete(noArticle);
+		}  catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }
