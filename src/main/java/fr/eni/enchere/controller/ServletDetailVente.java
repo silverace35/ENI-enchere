@@ -87,8 +87,7 @@ public class ServletDetailVente extends HttpServlet {
 					request.setAttribute("encheres", encheres);
 					System.out.println(av.toString());
 					//Si l'utilisateur consulte une de ses ventes
-					System.out.println(request.getSession().getAttribute("noUtilisateur"));
-					if (Integer.valueOf(String.valueOf(request.getSession().getAttribute("noUtilisateur"))) == av.getNoUtilisateur()) {
+					if ((Integer)request.getSession().getAttribute("noUtilisateur") == av.getNoUtilisateur()) {
 						RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/detailMaVente.jsp");
 						rd.forward(request, response);
 					} else {
@@ -124,7 +123,7 @@ public class ServletDetailVente extends HttpServlet {
 		boolean erreur = false;
 		List<Enchere> encheres = new ArrayList<Enchere>();
 
-		Integer noUtilisateur = Integer.valueOf(String.valueOf(session.getAttribute("noUtilisateur")));
+		Integer noUtilisateur = (Integer)session.getAttribute("noUtilisateur");
 
 		if (request.getSession().getAttribute("noUtilisateur") == null) {
 			response.sendRedirect("/ENI-enchere");

@@ -44,7 +44,7 @@ public class ServletIndex extends HttpServlet {
 		List<ArticleVendu> listArticle = new ArrayList<ArticleVendu>();
 	
 		if (request.getSession() != null) {
-			Integer noUtilisateur = Integer.valueOf(String.valueOf(session.getAttribute("noUtilisateur")));
+			Integer noUtilisateur = (Integer)session.getAttribute("noUtilisateur");
 			if (noUtilisateur != null) {
 				listArticle.addAll(articleManager.getArticlesEnCoursPasEncherie(noUtilisateur));
 				try {
@@ -81,7 +81,7 @@ public class ServletIndex extends HttpServlet {
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/index.jsp");
 		List<ArticleVendu> listArticle = new ArrayList<ArticleVendu>();
 		ArticleManager articleManager = new ArticleManager();
-		Integer id = Integer.valueOf(String.valueOf(request.getSession().getAttribute("noUtilisateur")));
+		Integer id = (Integer)request.getSession().getAttribute("noUtilisateur");
 		
 		request.setCharacterEncoding("UTF-8");
 		String radio = request.getParameter("radio");

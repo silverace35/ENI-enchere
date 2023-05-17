@@ -10,7 +10,7 @@
 		for (Cookie cookie : cookies) {
 			if (cookie.getName().equals("cookieLogin")) {
 				isConnected = true;
-				session.setAttribute("noUtilisateur", cookie.getValue());
+				session.setAttribute("noUtilisateur", cookie.getValue().trim());
 			}
 		}
 	}
