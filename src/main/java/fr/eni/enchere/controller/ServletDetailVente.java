@@ -124,7 +124,7 @@ public class ServletDetailVente extends HttpServlet {
 		boolean erreur = false;
 		List<Enchere> encheres = new ArrayList<Enchere>();
 
-		Integer noUtilisateur = (Integer)session.getAttribute("noUtilisateur");
+		Integer noUtilisateur = Integer.valueOf(String.valueOf(session.getAttribute("noUtilisateur")));
 
 		if (request.getSession().getAttribute("noUtilisateur") == null) {
 			response.sendRedirect("/ENI-enchere");

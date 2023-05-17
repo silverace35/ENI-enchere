@@ -46,7 +46,7 @@ public class ServletAjoutArticle extends HttpServlet {
 		CategorieManager catMgr = new CategorieManager();
 				
 		try {
-			Integer noUtilisateur = (Integer)session.getAttribute("noUtilisateur");
+			Integer noUtilisateur = Integer.valueOf(String.valueOf(session.getAttribute("noUtilisateur")));
 			utilisateur = utilisateurMgr.getUtilisateurByNoUtilisateur(noUtilisateur);
 			request.setAttribute("rue", utilisateur.getRue());
 			request.setAttribute("codePostal", utilisateur.getCodePostal());
@@ -82,7 +82,7 @@ public class ServletAjoutArticle extends HttpServlet {
 		
 		if(validerChamps(lstParam,nomArticle,description, dateDebutEncheres, dateFinEncheres, prixInitial, rue, codePostal, ville)) {
 			try {
-				Integer noUtilisateur = (Integer)session.getAttribute("noUtilisateur");
+				Integer noUtilisateur = Integer.valueOf(String.valueOf(session.getAttribute("noUtilisateur")));
 				ArticleVendu aV = mgr.insert(nomArticle, description, dateDebutEncheres, dateFinEncheres, prixInitial, null, noUtilisateur, noCategorie, false, false, "");
 				Utilisateur u = utilisateurMgr.getUtilisateurByNoUtilisateur(noUtilisateur);
 				boolean nouvelleAdresse = (rue.equals(u.getRue()))&&(codePostal.toString().equals(u.getCodePostal()))&&(ville.equals(u.getVille()));

@@ -44,7 +44,7 @@ public class ServletIndex extends HttpServlet {
 		List<ArticleVendu> listArticle = new ArrayList<ArticleVendu>();
 	
 		if (request.getSession() != null) {
-			Integer noUtilisateur = (Integer)session.getAttribute("noUtilisateur");
+			Integer noUtilisateur = Integer.valueOf(String.valueOf(session.getAttribute("noUtilisateur")));
 			if (noUtilisateur != null) {
 				listArticle.addAll(articleManager.getArticlesEnCoursPasEncherie(noUtilisateur));
 				try {

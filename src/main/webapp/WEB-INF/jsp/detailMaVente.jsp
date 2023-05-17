@@ -52,7 +52,7 @@
 			</div>
 		</div>
 		
-		<%if ((av.getArticleStatus() == ArticleStatus.EC && (Integer)session.getAttribute("noUtilisateur") == av.getNoUtilisateur() && encheres.isEmpty()) || av.getArticleStatus() == ArticleStatus.CR) { %>
+		<%if ((av.getArticleStatus() == ArticleStatus.EC && Integer.valueOf(String.valueOf(session.getAttribute("noUtilisateur"))) == av.getNoUtilisateur() && encheres.isEmpty()) || av.getArticleStatus() == ArticleStatus.CR) { %>
 		<a class="secondary-link" href="/ENI-enchere/ModifierVente/<%=av.getNoArticle() %>">Modifier la vente</a>
 		<%} %>
 		
