@@ -38,6 +38,10 @@ label:not(.achats-container label, .ventes-container label) {
 	padding-bottom: 2px;
 }
 
+.achats-container label, .ventes-container label {
+	font-size: 0.9rem;
+}
+
 .achats-display div label, .ventes-display div label {
 	font-size: 0.8rem;
 }

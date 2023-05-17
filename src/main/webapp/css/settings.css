@@ -40,7 +40,6 @@ main {
 
 a {
 	display: block;
-	font-weight: 700;
 }
 
 nav {
@@ -200,8 +199,8 @@ nav a:hover, #desktop-menu a:hover {
 button {
 	font-size: 1rem;
 	cursor: pointer;
-    background: var(--red);
-    border: 3px solid var(--red);
+    background: var(--yellow);
+    border: 3px solid var(--yellow);
     border-radius: 30px;
     padding: 10px;
     margin-top: 15px;
@@ -220,8 +219,8 @@ button.form-btn {
 }
 
 button:hover {
-    background: var(--red2);
-    border: 3px solid var(--red2);
+    background: var(--yellow2);
+    border: 3px solid var(--yellow2);
     
 }
 
@@ -243,7 +242,7 @@ a.link:hover {
 a.secondary-link {
 	font-size: 1rem;
     margin-top: 15px;
-	background-color: var(--yellow);
+	background-color: #bdbdbd;
 	border: none;
 	color: var(--black);
 	cursor: pointer;
@@ -255,9 +254,9 @@ a.secondary-link {
 }
 
 a.secondary-link:hover {
-	background-color: var(--yellow2);
+	background-color: grey;
 	border: none;
-	color: var(--black);
+	color: var(--white);
 }
 
 a.warning-link {

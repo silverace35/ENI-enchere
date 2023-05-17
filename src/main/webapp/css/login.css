@@ -25,6 +25,11 @@ input:not(input[type="checkbox"]) {
 	outline: none;
 }
 
+input[type="checkbox"] {
+	cursor: pointer;
+	user-select: none;
+}
+
 label:not(label[for="souvenir"]) {
 	color: var(--grey);
 	font-size: 0.7rem;
@@ -38,6 +43,7 @@ label:not(label[for="souvenir"]) {
 label[for="souvenir"] {
 	color: var(--black);
 	font-size: 0.7rem;
+	cursor: pointer;
 }
 
 input[type="checkbox"] {
