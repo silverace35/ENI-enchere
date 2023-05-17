@@ -119,7 +119,7 @@ public class ServletModifierArticle extends HttpServlet {
 		if(validerChamps(lstParam,nomArticle,description, dateDebutEncheres, dateFinEncheres, prixInitial, rue, codePostal, ville)) {
 			try {
 				Integer noUtilisateur = (Integer)session.getAttribute("noUtilisateur");
-				Integer noArticle=/*(Integer)session.getAttribute("noArticle")*/23;
+				Integer noArticle=/*Integer.valueOf(String.valueOf(session.getAttribute("noArticle")))*/23;
 				
 				ArticleVendu aV = new ArticleVendu(noArticle, nomArticle, description, dateDebutEncheres, dateFinEncheres, prixInitial, null, noUtilisateur, noCategorie, false, false, "");
 				aMgr.update(aV);
