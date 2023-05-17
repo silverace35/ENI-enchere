@@ -28,7 +28,6 @@
 
 	<main>
 		<h2><%=request.getParameter("typeVente")%></h2>
-		<form action=<%=request.getParameter("ServletCible")%> method="POST" enctype="multipart/form-data">
 
 			<%
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -47,13 +46,20 @@
 				lstPara = new ArrayList<>();
 			}
 			%>
+			<form method="POST" action="" enctype="multipart/form-data">
+				<div class="vente-field">
+					<div class="img">
+<!--  -->				<img id="uploadPreview" />
+					</div>
+<!--  -->			<input type="file" id="pictureFile" name="pictureFile" accept="image/png, image/jpeg" onchange="PreviewImage();"/>
+				</div>
+			</form>
+		<form action=<%=request.getParameter("ServletCible")%> method="POST">
 			<div class="vente-form" >
 				<!--  
 				<div class="img"><img src="https://source.unsplash.com/random/?photos">
 				</div>-->
-				<div class="img">
-<!--  -->					<img id="uploadPreview" />
-				</div>
+				
 				<div class="vente-fields">
 					<div class="vente-field">
 						<label for="nomArticle">Article : </label> 
@@ -88,9 +94,6 @@
 		
 					<p class="error"><%=lstPara.contains(ErrorCodes.DESCRIPTION) ? ErrorCodes.DESCRIPTION.getMessage() : ""%></p>
 		
-					<div class="vente-field">
-<!--  -->						<input type="file" id="pictureFile" name="pictureFile" accept="image/png, image/jpeg" onchange="PreviewImage();"/>
-					</div>
 					
 				</div>
 			</div>
@@ -129,7 +132,7 @@
 					<input type="text" id="rue" name="rue" min="2" max="30" required value="<%=lstPara.contains(ErrorCodes.RUE) ? "": request.getParameter("rue") == null ? rue : request.getParameter("rue")%>"/>
 				</div>
 				
-					<p class="error"><%=lstPara.contains(ErrorCodes.DATES_IMP) ? ErrorCodes.DATES_IMP.getMessage() : ""%></p>
+					<p class="error"><%=lstPara.contains(ErrorCodes.RUE) ? ErrorCodes.RUE.getMessage() : ""%></p>
 				
 				<div class="vente-field">
 					<label for="codePostal">Code postal : </label> 
@@ -144,7 +147,7 @@
 				</div>
 				
 				<p class="error"><%=lstPara.contains(ErrorCodes.VILLE) ? ErrorCodes.VILLE.getMessage() : ""%></p>
-			</div>
+				</div>
 			</div>
 			
 
