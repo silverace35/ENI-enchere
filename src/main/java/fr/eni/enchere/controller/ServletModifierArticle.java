@@ -48,17 +48,18 @@ public class ServletModifierArticle extends HttpServlet {
 		RetraitManager rMgr = new RetraitManager();
 		Retrait r = null;
 		
-		
 		boolean erreur = false;
 		
 		String id = request.getPathInfo();
 		if (id != null) {
 			id = id.replace("/", "").trim();
-			session.setAttribute("noArticle",id);
 		}
 		try {
-			System.out.println(id);
+			System.out.println("|"+id+"|");
 			Integer.valueOf(id);
+			System.out.println("Cast |"+Integer.valueOf(id)+"|");
+			session.setAttribute("noArticle",Integer.valueOf(id));
+			
 		} catch (Exception e) {
 			erreur = true;
 			e.printStackTrace();
@@ -74,16 +75,9 @@ public class ServletModifierArticle extends HttpServlet {
 			request.setAttribute("dateFinEncheres", aV.getDateFinEncheres());
 			System.out.println(aV.getDateDebutEncheres());
 			r = rMgr.getRetraitByNoRetrait(Integer.valueOf(id));
-			if(r!=null) {
 				request.setAttribute("rue", r.getRue());
 				request.setAttribute("codePostal", r.getCodePostal());
 				request.setAttribute("ville", r.getVille());
-			} else {
-				u = uMgr.getUtilisateurByNoUtilisateur((Integer)session.getAttribute("noUtilisateur"));
-				request.setAttribute("rue", u.getRue());
-				request.setAttribute("codePostal", u.getCodePostal());
-				request.setAttribute("ville", u.getVille());
-			}
 			} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -103,7 +97,6 @@ public class ServletModifierArticle extends HttpServlet {
 		UtilisateurManager uMgr = new UtilisateurManager();
 		List<ErrorCodes> lstParam = new ArrayList<>();
 		RetraitManager rMgr = new RetraitManager();
-		Retrait r = null;
 		
 		String nomArticle=request.getParameter("nomArticle");
 		String description=request.getParameter("description");
@@ -119,40 +112,25 @@ public class ServletModifierArticle extends HttpServlet {
 		if(validerChamps(lstParam,nomArticle,description, dateDebutEncheres, dateFinEncheres, prixInitial, rue, codePostal, ville)) {
 			try {
 				Integer noUtilisateur = (Integer)session.getAttribute("noUtilisateur");
-				Integer noArticle=/*Integer.valueOf(String.valueOf(session.getAttribute("noArticle")))*/23;
-				
+				System.out.println("noUtilisateur : "+noUtilisateur);
+				Integer noArticle=(Integer)session.getAttribute("noArticle");
+				System.out.println("noArticle : "+noArticle);
+				System.out.println("noArticle après validerChamps() "+noArticle);
 				ArticleVendu aV = new ArticleVendu(noArticle, nomArticle, description, dateDebutEncheres, dateFinEncheres, prixInitial, null, noUtilisateur, noCategorie, false, false, "");
 				aMgr.update(aV);
+				rMgr.update(new Retrait(noArticle, rue, codePostal, ville));
 				
-				r = rMgr.getRetraitByNoRetrait(noArticle);
-				if(r!=null) {
-					boolean nouvelleAdresse = (rue.equals(r.getRue()))&&(codePostal.toString().equals(r.getCodePostal()))&&(ville.equals(r.getVille()));
-					if (!nouvelleAdresse) {
-						r.setRue(rue);
-						r.setCodePostal(codePostal);
-						r.setVille(ville);
-						rMgr.update(r);
-					}
-				
-				} else {
-					Utilisateur u = uMgr.getUtilisateurByNoUtilisateur(noUtilisateur);
-					boolean nouvelleAdresse = (rue.equals(u.getRue()))&&(codePostal.toString().equals(u.getCodePostal()))&&(ville.equals(u.getVille()));
-					if (!nouvelleAdresse) {
-						RetraitManager retraitMgr = new RetraitManager();
-						retraitMgr.insert(noArticle, rue, codePostal, ville);
-					}
-				}
-				
-				response.sendRedirect("/ENI-enchere");
+				response.sendRedirect("/ENI-enchere/DetailVente/"+noArticle);
 				
 				} catch (Exception e) {
-					// TODO Gestion des erreurs de saisie
+					System.out.println("Echec d'update");
 					e.printStackTrace();
 					request.setAttribute("lstParam", lstParam);
 					RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/modifierVente.jsp");
 					rd.forward(request, response);
 				}
 		} else {
+			System.out.println("Les champs ne sont pas validés");
 			request.setAttribute("lstParam", lstParam);
 			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/modifierVente.jsp");
 			rd.forward(request, response);

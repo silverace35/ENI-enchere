@@ -83,6 +83,7 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO{
 			+ " description=?, date_debut_encheres=?, date_fin_encheres=?, prix_initial=?,"
 			+ " prix_vente=?, no_utilisateur=?, no_categorie=?, retrait_ok_vendeur=?,"
 			+ " retrait_ok_acheteur=? WHERE no_article=?;";
+	private static final String CHECK_ARTICLE_UTIL= "SELECT * FROM articles_vendus WHERE no_article=? and no_utilisateur=?;";
 	
 	public static ArticleVenduDAOJdbcImpl getInstance() {
 		if (instance == null) {
@@ -571,4 +572,30 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO{
 			throw businessException;
 		}
 	}
+
+	@Override
+	public boolean checkArticleUtilisateur(int noArticle, int noUtilisateur) throws BusinessException {
+		try(Connection cnx = ConnectionProvider.getConnection())
+		{
+			PreparedStatement pstmt = cnx.prepareStatement(CHECK_ARTICLE_UTIL);
+			pstmt.setInt(1, noArticle);
+			pstmt.setInt(2, noArticle);
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+				System.out.println("L'article appartient bien à l'utilisateur");
+				return true;
+			} else {
+				System.out.println("L'article appartient bien à l'utilisateur");
+			}
+			
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			throw businessException;
+		}
+		return false;
+	}
+
 }
