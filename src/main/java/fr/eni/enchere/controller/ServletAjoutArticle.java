@@ -83,7 +83,7 @@ public class ServletAjoutArticle extends HttpServlet {
 		if(validerChamps(lstParam,nomArticle,description, dateDebutEncheres, dateFinEncheres, prixInitial, rue, codePostal, ville)) {
 			try {
 				Integer noUtilisateur = (Integer)session.getAttribute("noUtilisateur");
-				ArticleVendu aV = mgr.insert(nomArticle, description, dateDebutEncheres, dateFinEncheres, prixInitial, null, noUtilisateur, noCategorie, false, false, "");
+				ArticleVendu aV = mgr.insert(nomArticle, description, dateDebutEncheres, dateFinEncheres, prixInitial, prixInitial, noUtilisateur, noCategorie, false, false, "");
 				Utilisateur u = utilisateurMgr.getUtilisateurByNoUtilisateur(noUtilisateur);
 				boolean nouvelleAdresse = (rue.equals(u.getRue()))&&(codePostal.toString().equals(u.getCodePostal()))&&(ville.equals(u.getVille()));
 				RetraitManager retraitMgr = new RetraitManager();
