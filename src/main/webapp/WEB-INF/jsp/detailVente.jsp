@@ -51,7 +51,7 @@
 				<h3>Fin de l'enchère : <%=av.getDateFinEncheres().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))%></h3>
 				<h3>Retrait : <%=r.getRue() + " " +r.getCodePostal() + " " + r.getVille() %></h3>
 				<span>Vendeur : </span><a href="/ENI-enchere/InfosProfil/<%=av.getNoUtilisateur()%>"><%=av.getNomPrenomAuteur()%></a>
-				<% if (av.getArticleStatus() == ArticleStatus.EC && (int)av.getNoUtilisateur() !=  (Integer)session.getAttribute("noUtilisateur")){%>
+				<% if (av.getArticleStatus() == ArticleStatus.EC && (int)av.getNoUtilisateur() !=  (Integer)session.getAttribute("noUtilisateur") && session.getAttribute("desactive") == null) {%>
 					<form action="/ENI-enchere/DetailVente/<%=av.getNoArticle() %>" method="POST">				
 						<label for="proposition">Ma proposition</label>
 						<p><%=request.getAttribute("erreurMessage")!=null?request.getAttribute("erreurMessage"):""%></p>
