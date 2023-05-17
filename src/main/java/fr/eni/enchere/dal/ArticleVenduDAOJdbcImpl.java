@@ -16,7 +16,7 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO{
 	private static ArticleVenduDAOJdbcImpl instance;
 	
 	private static final String SELECT_ALL = "SELECT no_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, a.no_utilisateur, no_categorie, retrait_ok_vendeur, retrait_ok_acheteur, u.nom, u.prenom FROM articles_vendus a INNER JOIN utilisateurs u ON u.no_utilisateur = a.no_utilisateur";
-	private static final String SELECT_ALL_EN_COURS = "SELECT no_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, a.no_utilisateur, no_categorie, retrait_ok_vendeur, retrait_ok_acheteur, u.nom, u.prenom FROM articles_vendus a INNER JOIN utilisateurs u ON u.no_utilisateur = a.no_utilisateur WHERE date_debut_encheres < now() AND date_fin_encheres > now()";
+	private static final String SELECT_ALL_EN_COURS = "SELECT no_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, a.no_utilisateur, no_categorie, retrait_ok_vendeur, retrait_ok_acheteur, u.nom, u.prenom FROM articles_vendus a INNER JOIN utilisateurs u ON u.no_utilisateur = a.no_utilisateur WHERE u.desactive=0 AND date_debut_encheres < now() AND date_fin_encheres > now()";
 	private static final String SELECT_ALL_EN_COURS_ENCHERIE = "SELECT"
 			+ " a.no_article, nom_article, description, date_debut_encheres,"
 			+ " date_fin_encheres, prix_initial, prix_vente, a.no_utilisateur,"
@@ -27,6 +27,7 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO{
 			+ " ON u.no_utilisateur = a.no_utilisateur"
 			+ " WHERE e.no_utilisateur = ?"
 			+ " AND date_debut_encheres < now() AND date_fin_encheres > now()"
+			+ " AND u.desactive = 0"
 			+ " GROUP BY a.no_article;";
 	private static final String SELECT_ALL_EN_COURS_PAS_ENCHERIE = "SELECT"
 			+ " a.no_article, nom_article, description, date_debut_encheres,"
@@ -36,7 +37,8 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO{
 			+ " ON u.no_utilisateur = a.no_utilisateur"
 			+ " WHERE no_article NOT IN"
 			+ " (SELECT no_article FROM encheres where no_utilisateur = ?)"
-			+ " AND date_debut_encheres < now() AND date_fin_encheres > now();";
+			+ " AND date_debut_encheres < now() AND date_fin_encheres > now()"
+			+ " AND u.desactive = 0";
 
 	private static final String SELECT_ALL_TERMINER_GAGNER = "SELECT"
 			+ " a.no_article, a.nom_article, a.description, a.date_debut_encheres,"
@@ -47,7 +49,8 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO{
 			+ " ON u.no_utilisateur = a.no_utilisateur"
 			+ " WHERE (e.montant_enchere, e.no_article) IN"
 			+ " (SELECT MAX(montant_enchere), no_article FROM encheres GROUP BY no_article)"
-			+ " AND a.date_fin_encheres <= now() AND e.no_utilisateur = ?;";
+			+ " AND a.date_fin_encheres <= now() AND e.no_utilisateur = ?"
+			+ " AND u.desactive = 0";
 	private static final String SELECT_ALL_VENTE_EN_COURS = "SELECT"
 			+ " a.no_article, nom_article, description, date_debut_encheres,"
 			+ " date_fin_encheres, prix_initial, prix_vente, a.no_utilisateur,"
@@ -56,7 +59,8 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO{
 			+ " ON u.no_utilisateur = a.no_utilisateur"
 			+ " WHERE a.no_utilisateur = ?"
 			+ " AND date_debut_encheres <= now()"
-			+ " AND date_fin_encheres > now()";
+			+ " AND date_fin_encheres > now()"
+			+ " AND u.desactive = 0;";
 	private static final String SELECT_ALL_VENTE_NON_DEBUTE = "SELECT"
 			+ " a.no_article, nom_article, description, date_debut_encheres,"
 			+ " date_fin_encheres, prix_initial, prix_vente, a.no_utilisateur,"
@@ -64,6 +68,7 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO{
 			+ " INNER JOIN utilisateurs u"
 			+ " ON u.no_utilisateur = a.no_utilisateur"
 			+ " WHERE a.no_utilisateur = ?"
+			+ " AND u.desactive = 0"
 			+ " AND date_debut_encheres > now();";
 	private static final String SELECT_ALL_VENTE_TERMINER = "SELECT"
 			+ " a.no_article, nom_article, description, date_debut_encheres,"
@@ -72,6 +77,7 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO{
 			+ " INNER JOIN utilisateurs u"
 			+ " ON u.no_utilisateur = a.no_utilisateur"
 			+ " WHERE a.no_utilisateur = ?"
+			+ " AND u.desactive = 0"
 			+ " AND date_fin_encheres <= now();";
 	private static final String SELECT_ARTICLEVENDU_BY_ID = "SELECT no_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, a.no_utilisateur, no_categorie, retrait_ok_vendeur, retrait_ok_acheteur, u.nom, u.prenom FROM articles_vendus a INNER JOIN utilisateurs u ON u.no_utilisateur = a.no_utilisateur WHERE no_article=?";
 	private static final String INSERT = "INSERT INTO articles_vendus (nom_article, description,"
@@ -79,11 +85,13 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO{
 			+ " no_utilisateur, no_categorie, retrait_ok_vendeur, retrait_ok_acheteur)"
 			+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String DELETE_ARTICLE = "DELETE FROM articles_vendus WHERE no_article=?;";
+	private static final String DELETE_ARTICLE_BY_USER_ID = "DELETE FROM articles_vendus WHERE no_utilisateur=?;";
 	private static final String UPDATE_ARTICLE= "UPDATE articles_vendus SET nom_article=?,"
 			+ " description=?, date_debut_encheres=?, date_fin_encheres=?, prix_initial=?,"
 			+ " prix_vente=?, no_utilisateur=?, no_categorie=?, retrait_ok_vendeur=?,"
 			+ " retrait_ok_acheteur=? WHERE no_article=?;";
 	private static final String CHECK_ARTICLE_UTIL= "SELECT * FROM articles_vendus WHERE no_article=? and no_utilisateur=?;";
+	private static final String UPDATE_PRIX_DE_VENTE= "UPDATE articles_vendus SET prix_vente=? WHERE no_article=?";
 	
 	public static ArticleVenduDAOJdbcImpl getInstance() {
 		if (instance == null) {
@@ -572,6 +580,22 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO{
 			throw businessException;
 		}
 	}
+	
+	@Override
+	public void deleteByUserId(int noUtilisateur) throws BusinessException {
+		try(Connection cnx = ConnectionProvider.getConnection())
+		{
+			PreparedStatement pstmt = cnx.prepareStatement(DELETE_ARTICLE_BY_USER_ID);
+			pstmt.setInt(1, noUtilisateur);
+			pstmt.executeUpdate();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			throw businessException;
+		}
+	}
 
 	@Override
 	public boolean checkArticleUtilisateur(int noArticle, int noUtilisateur) throws BusinessException {
@@ -596,6 +620,23 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO{
 			throw businessException;
 		}
 		return false;
+	}
+
+	@Override
+	public void updatePrixDeVente(Integer prixDeVente, Integer noArticle) throws BusinessException {
+		try(Connection cnx = ConnectionProvider.getConnection())
+		{
+			PreparedStatement pstmt = cnx.prepareStatement(UPDATE_PRIX_DE_VENTE);
+			pstmt.setInt(1, prixDeVente);
+			pstmt.setInt(2, noArticle);
+			pstmt.executeUpdate();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			throw businessException;
+		}
 	}
 
 }

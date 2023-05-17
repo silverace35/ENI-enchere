@@ -21,6 +21,8 @@ public class EnchereDAOJdbcImpl implements EnchereDAO {
 	private static final String SELECT_ALL_ENCHERES_BY_NO_UTILISATEUR = "SELECT * FROM encheres WHERE no_utilisateur=?;";
 	private static final String UPDATE_ENCHERE= "UPDATE encheres SET (date_enchere=?, montant_enchere=?) WHERE no_enchere=?;";
 	private static final String DELETE_ENCHERE = "DELETE FROM encheres WHERE no_enchere=?;";
+	private static final String DELETE_ENCHERE_BY_USER_ID = "DELETE FROM encheres WHERE no_utilisateur=?;";
+	private static final String GET_MAX_ENCHERE_FOR_ARTICLE = "SELECT MAX(montant_enchere) max_enchere FROM encheres WHERE no_article=?";
 	
 	private EnchereDAOJdbcImpl() {
 	}
@@ -169,5 +171,32 @@ public class EnchereDAOJdbcImpl implements EnchereDAO {
 		} catch (Exception e) {
 			throw new BusinessException("Echec DAL : delete enchere");		}
 	}
+	
+	@Override
+	public void deleteByUserId(int noUtilisateur) throws BusinessException {
+		try (Connection cnx = ConnectionProvider.getConnection()){
+			PreparedStatement pstmt = cnx.prepareStatement(DELETE_ENCHERE_BY_USER_ID);
+			pstmt.setInt(1, noUtilisateur);
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			throw new BusinessException("Echec DAL : delete enchere");		}
+	}
 
+	@Override
+	public Integer getMaxEnchereForArticleId(Integer noArticle) throws BusinessException {
+		Integer result = null;
+		try (Connection cnx = ConnectionProvider.getConnection()){
+			PreparedStatement pstmt = cnx.prepareStatement(GET_MAX_ENCHERE_FOR_ARTICLE);
+			pstmt.setInt(1, noArticle);
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+				result = rs.getInt("max_enchere");
+			}
+		} catch (Exception e) {
+			throw new BusinessException("Echec DAL : delete enchere");		
+		}
+		return result;
+	}		
 }
+
+

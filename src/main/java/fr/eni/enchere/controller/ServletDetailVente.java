@@ -135,7 +135,7 @@ public class ServletDetailVente extends HttpServlet {
 
 		Integer noUtilisateur = (Integer)session.getAttribute("noUtilisateur");
 
-		if (request.getSession().getAttribute("noUtilisateur") == null) {
+		if (session.getAttribute("desactive") != null || session.getAttribute("noUtilisateur")== null) {
 			response.sendRedirect("/ENI-enchere");
 			System.out.println("utilisateur est null");
 		} else {

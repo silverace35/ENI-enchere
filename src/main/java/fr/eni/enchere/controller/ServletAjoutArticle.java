@@ -47,18 +47,24 @@ public class ServletAjoutArticle extends HttpServlet {
 		Utilisateur utilisateur = null;
 		CategorieManager catMgr = new CategorieManager();
 				
-		try {
-			Integer noUtilisateur = (Integer)session.getAttribute("noUtilisateur");
-			utilisateur = utilisateurMgr.getUtilisateurByNoUtilisateur(noUtilisateur);
-			request.setAttribute("rue", utilisateur.getRue());
-			request.setAttribute("codePostal", utilisateur.getCodePostal());
-			request.setAttribute("ville", utilisateur.getVille());
-			} catch (Exception e) {
-			e.printStackTrace();
+		if (session.getAttribute("desactive") == null && session.getAttribute("noUtilisateur")!= null) {
+			try {
+				Integer noUtilisateur = (Integer)session.getAttribute("noUtilisateur");
+				utilisateur = utilisateurMgr.getUtilisateurByNoUtilisateur(noUtilisateur);
+				request.setAttribute("rue", utilisateur.getRue());
+				request.setAttribute("codePostal", utilisateur.getCodePostal());
+				request.setAttribute("ville", utilisateur.getVille());
+				} catch (Exception e) {
+				e.printStackTrace();
+			}
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/ajoutVente.jsp");
+			rd.forward(request, response);
+			response.getWriter().append("Served at: ").append(request.getContextPath());
+		} else {
+			response.sendRedirect("/ENI-enchere");
 		}
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/ajoutVente.jsp");
-		rd.forward(request, response);
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		
+		
 	}
 
 	/**
