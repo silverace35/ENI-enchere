@@ -1,12 +1,20 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="<%=request.getContextPath()+"/css/settings.css"%>">
+<link rel="stylesheet" href="<%=request.getContextPath()+"/css/login.css"%>">
+<title>Modifier vente | ENI-enchere</title>
+</head>
+
 <jsp:include page="./coreVente.jsp">
 	<jsp:param name="ServletCible" value="/ENI-enchere/ModifierVente" />
 </jsp:include>
 
 
-<button type="submit">Enregistrer</button>
-</form>
 
-<form action="/ENI-enchere/AnnulerArticle" method="POST">
+<form action="<%=request.getContextPath()%>/AnnulerVente" method="POST">
 <button type="submit">Annuler la vente</button>
 </form>
 
