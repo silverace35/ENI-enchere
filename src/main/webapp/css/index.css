@@ -107,16 +107,8 @@ img:not(.enchere-img) {
 	}
 }
 
-/* tablette */
-@media screen and (max-width: 900px) {
-
-	form {
-		width: 90%;
-	}
-}
-
 /* mobile */
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 900px) {
 	nav ul {
 		flex-direction: column;
 	}
@@ -141,6 +133,57 @@ img:not(.enchere-img) {
 	.search-container {
 		width: 100%;
 		flex-direction: row;
+		align-items: center;
+	}
+	
+	.search-container label {
+		width: 50%;
+	}
+	
+	.select-container {
+		justify-content: start;
+	}
+	
+	.select-container label {
+		width: 40%;
+	}
+	
+	.radio-container {
+		display: flex;
+    	width: 100%;
+    	justify-content: start;
+	}
+	
+	.radio-container label {
+		width: 30%;
+	}
+	
+	.radio-container .achats-container {
+		width: 20%;
+	}
+	
+	button.form-btn {
+		border-radius: 30px;
+		justify-content: center;
+	}
+	
+	.achats-display, .ventes-display {
+		top: 320px;
+	}
+}
+
+@media screen and (max-width: 700px) {
+	
+	form {
+		width: 100% !important;
+	}
+	
+	.radio-container {
+		display: block;
+	}
+	
+	.achats-display, .ventes-display {
+		flex-direction: column;
 	}
 }
 
@@ -148,7 +191,7 @@ img:not(.enchere-img) {
 
 .list-encheres {
 	display: flex;
-	justify-content: start;
+	justify-content: center;
 	flex-wrap: wrap;
 	padding-top: 100px;
 }
@@ -234,6 +277,12 @@ img:not(.enchere-img) {
 .btn-container a:hover {
 	background: rgb(179 126 26);
 	color: var(--white);
+}
+
+.btn-container div div {
+	display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .statut {

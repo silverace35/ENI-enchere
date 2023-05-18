@@ -179,8 +179,8 @@
 					</div>
 						<div class="btn-container">
 							<div>
-								<label class="enchere-label">Prix minimum</label>
-								<p><%=av.getPrixVente()%></p>
+								<label class="enchere-label">Meilleur offre</label>
+								<div><%=av.getPrixVente()%><div class="icon"><img src="img/eni-coin.png"></div></div>
 							</div>
 							<%
 								if (isConnected) {
