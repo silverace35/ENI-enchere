@@ -236,6 +236,12 @@ img:not(.enchere-img) {
 	color: var(--white);
 }
 
+.btn-container div div {
+	display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .statut {
 	user-select: none;
 	position: absolute;

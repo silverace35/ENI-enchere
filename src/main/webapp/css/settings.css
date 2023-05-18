@@ -14,7 +14,7 @@
 
 ::selection {
   background: var(--yellow);
-  color: var(--white);
+  color: var(--black);
 }
 
 * {
@@ -36,6 +36,14 @@ main {
   width: 90%;
   margin: 0 auto;
   padding-top: 100px; 
+}
+
+h1 {
+	font-size: 3rem;
+}
+
+nav h1 {
+	font-size: 2em;
 }
 
 a {
@@ -310,6 +318,19 @@ a.warning-link:hover {
 
 li {
 	list-style: none;
+}
+
+.icon {
+	display: flex;
+	align-items: center;
+	width: 35px;
+	height: 30px;
+	padding: 0 5px;
+}
+
+.icon img {
+	width: 100%;
+	height: 100%;
 }
 
 /* mobile */
