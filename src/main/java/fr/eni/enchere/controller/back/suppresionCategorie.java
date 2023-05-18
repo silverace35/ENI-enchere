@@ -1,6 +1,8 @@
 package fr.eni.enchere.controller.back;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -56,7 +58,8 @@ public class suppresionCategorie extends HttpServlet {
 						cMgr.deleteCategorie(Integer.valueOf(id));
 						response.sendRedirect(request.getContextPath()+"/administration/categorie");
 					} else {
-						response.sendRedirect(request.getContextPath());
+						RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/Error403.jsp");
+						rd.forward(request, response);
 					}
 				}
 			}

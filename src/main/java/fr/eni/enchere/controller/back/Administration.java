@@ -55,13 +55,16 @@ public class Administration extends HttpServlet {
 						e.printStackTrace();
 					}
 				} else {
-					response.sendRedirect(request.getContextPath());
+					RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/Error403.jsp");
+					rd.forward(request, response);
 				}
 			} else {
-				response.sendRedirect(request.getContextPath());
+				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/Error403.jsp");
+				rd.forward(request, response);
 			}
 		} else {
-			response.sendRedirect(request.getContextPath());
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/Error403.jsp");
+			rd.forward(request, response);
 		}
 	}
 

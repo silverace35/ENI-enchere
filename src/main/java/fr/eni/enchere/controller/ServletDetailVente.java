@@ -110,7 +110,8 @@ public class ServletDetailVente extends HttpServlet {
 						rd.forward(request, response);
 					}
 				} else {
-					response.sendRedirect("/ENI-enchere");
+					RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/Error404.jsp");
+					rd.forward(request, response);
 				}
 			}
 		} else {

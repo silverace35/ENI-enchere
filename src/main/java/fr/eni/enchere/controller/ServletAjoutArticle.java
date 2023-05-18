@@ -73,7 +73,8 @@ public class ServletAjoutArticle extends HttpServlet {
 			rd.forward(request, response);
 			response.getWriter().append("Served at: ").append(request.getContextPath());
 		} else {
-			response.sendRedirect("/ENI-enchere");
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/Error403.jsp");
+			rd.forward(request, response);
 		}
 		
 		

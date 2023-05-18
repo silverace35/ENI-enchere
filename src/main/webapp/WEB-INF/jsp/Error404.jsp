@@ -12,8 +12,8 @@
 <html>
 <head>
 <%@ include file="head.jsp"%>
-<link rel="stylesheet" href="../css/settings.css">
-<link rel="stylesheet" href="../css/login.css">
+<link rel="stylesheet" href="<%=request.getContextPath()+"/css/settings.css"%>">
+<link rel="stylesheet" href="<%=request.getContextPath()+"/css/login.css"%>">
 <title>404 | ENI-enchere</title>
 </head>
 <body>
