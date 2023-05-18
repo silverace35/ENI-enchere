@@ -270,6 +270,10 @@ table th, table td:before {
     	padding-left: 0; 
 	}
 	
+	.vente-form {
+		display: block;
+	}
+	
 }
 
 @media screen and (max-width: 600px) {
@@ -278,9 +282,36 @@ table th, table td:before {
 		height: 200px !important;
 		width: 200px !important;
 	}
+	
+	.img img {
+		width: 80%;
+	}
+	
+	textarea {
+		width: 232px;
+	}
+	
+	table {
+		min-width: 230px;
+	}
 }
 
+@media screen and (max-width: 400px) {
+	
+	h1 {
+		font-size: 1rem;
+	}
+	
 
+	h2 {
+	    font-size: 2.3rem !important;
+	}
+	
+	.detail-vente {
+		padding: 0 !important;
+	}
+
+}
 /* Détail vente */
 
 .vente {

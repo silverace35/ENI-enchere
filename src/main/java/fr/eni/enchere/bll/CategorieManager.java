@@ -22,7 +22,7 @@ public class CategorieManager {
 	public Categorie insert(String libelle) throws Exception {
 		Categorie c = null;
 		try {
-			if (this.categorieDAO.checkLibelle(libelle)) {
+			if (!this.categorieDAO.checkLibelle(libelle)) {
 				throw new BusinessException("Cette catégorie existe déjà, veuillez en choisir une autre");
 			}
 

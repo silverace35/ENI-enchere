@@ -115,7 +115,7 @@ img:not(.enchere-img) {
 	
 	form {
 		flex-direction : column;
-		min-height: 30vh;
+		min-height: 50vh;
 		justify-content: space-around;
 		padding: 20px;
 	}
@@ -159,7 +159,7 @@ img:not(.enchere-img) {
 	}
 	
 	.radio-container .achats-container {
-		width: 20%;
+		width: 30%;
 	}
 	
 	button.form-btn {
@@ -168,7 +168,7 @@ img:not(.enchere-img) {
 	}
 	
 	.achats-display, .ventes-display {
-		top: 320px;
+		top: 277px;
 	}
 }
 
@@ -184,6 +184,21 @@ img:not(.enchere-img) {
 	
 	.achats-display, .ventes-display {
 		flex-direction: column;
+	}
+}
+
+@media screen and (max-width: 300px) {
+
+	h1 a {
+		font-size: 1.2rem ;
+	}
+	
+	h2 {
+		font-size: 2.3rem;
+	}
+	
+	.enchere {
+		min-width: 240px !important;
 	}
 }
 
@@ -316,7 +331,36 @@ img:not(.enchere-img) {
 	background: var(--black);
 }
 
-
+@media screen and (max-height: 1000px) {
+	
+	.achats-display, .ventes-display {
+		top: 489px;
+	}
+}
+@media screen and (max-height: 900px) {
+	
+	.achats-display, .ventes-display {
+		top: 440px;
+	}
+}
+@media screen and (max-height: 800px) {
+	
+	.achats-display, .ventes-display {
+		top: 397px;
+	}
+}
+@media screen and (max-height: 700px) {
+	
+	.achats-display, .ventes-display {
+		top: 350px;
+	}
+}
+@media screen and (max-height: 600px) {
+	
+	.achats-display, .ventes-display {
+		top: 286px;
+	}
+}
 
 
 

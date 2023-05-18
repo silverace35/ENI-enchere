@@ -482,7 +482,7 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO{
 			}
 			if (av.getPrixVente() == null) {
 				if (av.getPrixInitial() == null) {
-					pstmt.setNull(6, 0);
+					pstmt.setInt(6, 0);
 				} else {
 					pstmt.setInt(6, av.getPrixInitial());
 				}
@@ -538,7 +538,11 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO{
 				pstmt.setInt(5, av.getPrixInitial());
 			}
 			if (av.getPrixVente() == null) {
-				pstmt.setNull(6, 0);
+				if (av.getPrixInitial() == null) {
+					pstmt.setInt(6, 0);
+				} else {
+					pstmt.setInt(6, av.getPrixInitial());
+				}
 			} else {
 				pstmt.setInt(6, av.getPrixVente());
 			}

@@ -186,7 +186,8 @@
 					</div>
 						<div class="btn-container">
 							<div>
-								<label class="enchere-label">Prix de départ</label>
+
+								<label class="enchere-label">Prix minimum</label>
 								<div><%=av.getPrixVente()%><div class="icon"><img src="img/eni-coin.png"></div></div>
 							</div>
 							<%

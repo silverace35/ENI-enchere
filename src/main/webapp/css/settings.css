@@ -332,6 +332,7 @@ li {
 .icon img {
 	width: 100%;
 	height: 100%;
+	object-fit: contain;
 }
 
 /* mobile */
@@ -339,10 +340,6 @@ li {
 	
 	#menuToggle {
   		display: block;
-	}
-	
-	#menuToggle input ~ ul {
-		
 	}
 	
 	#desktop-menu {
@@ -362,6 +359,17 @@ li {
 	}
 }
 
+@media screen and (max-width: 400px) {
+	
+	
+	h1 a {
+		font-size: 1.2rem ;
+	}
+	
+	h2 {
+		font-size: 2.3rem;
+	}
+}
 
 
 

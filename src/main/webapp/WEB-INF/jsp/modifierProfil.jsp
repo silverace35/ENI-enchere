@@ -8,7 +8,7 @@
 	<html>
 
 	<head>
-		<meta charset="UTF-8">
+		<%@ include file="head.jsp"%>
 		<link rel="stylesheet" href="css/settings.css">
         <link rel="stylesheet" href="css/login.css">
 		<title>Modification de profil | ENI-enchere</title>

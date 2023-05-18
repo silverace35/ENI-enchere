@@ -119,6 +119,8 @@ public class ServletIndex extends HttpServlet {
 			}
 		} else if("vente".equals(radio)){
 			if ("on".equals(venteCours)) {
+				System.out.println(listArticle);
+				System.out.println(id);
 				listArticle.addAll(articleManager.getVentesEnCours(id));
 			}
 			if ("on".equals(venteDebutees)) {
