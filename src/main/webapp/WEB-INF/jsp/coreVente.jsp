@@ -9,7 +9,8 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <script type="text/javascript">
 		function PreviewImage() {
@@ -38,7 +39,8 @@
 			Integer categorie = request.getAttribute("categorie") == null ? 1 : (Integer) request.getAttribute("categorie");
 			String description = request.getAttribute("description") == null ? "" : (String) request.getAttribute("description");
 			Integer prixInitial = request.getAttribute("prixInitial") == null ? 0 : (Integer) request.getAttribute("prixInitial");
-
+			String imgLocation = request.getAttribute("imageLocation") == null? "https://source.unsplash.com/random/100×100/?code":(String)request.getAttribute("imageLocation");
+			
 			List<ErrorCodes> lstPara = (List<ErrorCodes>) request.getAttribute("lstParam");
 			List<Categorie> listCategories = (List<Categorie>) session.getAttribute("listCategories");
 			LocalDateTime now = LocalDateTime.now();
@@ -46,16 +48,16 @@
 				lstPara = new ArrayList<>();
 			}
 			%>
-			<form method="POST" action="" enctype="multipart/form-data">
+		<form action=<%=request.getParameter("ServletCible")%> method="POST" enctype="multipart/form-data">
+			<div class="vente-form" >
 				<div class="vente-field">
 					<div class="img">
 <!--  -->				<img id="uploadPreview" />
+							<img src="<%=imgLocation%>" alt=""/>
 					</div>
+
 <!--  -->			<input type="file" id="pictureFile" name="pictureFile" accept="image/png, image/jpeg" onchange="PreviewImage();"/>
 				</div>
-			</form>
-		<form action=<%=request.getParameter("ServletCible")%> method="POST">
-			<div class="vente-form" >
 				<!--  
 				<div class="img"><img src="https://source.unsplash.com/random/?photos">
 				</div>-->

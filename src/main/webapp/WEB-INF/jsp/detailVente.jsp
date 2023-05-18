@@ -24,6 +24,8 @@
 	Categorie c = (Categorie)request.getAttribute("categorie");
 	List<Enchere> encheres = (List<Enchere>)request.getAttribute("encheres");
 	Retrait r = (Retrait)request.getAttribute("retrait");
+	String imgLocation = request.getAttribute("imageLocation") == null? "https://source.unsplash.com/random/100×100/?code":(String)request.getAttribute("imageLocation");
+	
 %>
 	<main>
 		<h1>Détail vente</h1>
@@ -37,7 +39,8 @@
 		<h2 style="color: black">Vous avez gagné !</h2>
 		<%}%>
 		<div class="vente">
-			<img style="height: 300px" src="https://source.unsplash.com/random/100×100/?code">
+			<!--  <img style="height: 300px" src="https://source.unsplash.com/random/100×100/?code">-->
+			<img style="height: 300px" src="<%=imgLocation%>">
 			<div class="detail-vente">
 				<h3>Nom de l'article : <%=av.getNomArticle() %></h3>
 				<h3>Description : <%=av.getDescription() %></h3>

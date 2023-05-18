@@ -1,10 +1,12 @@
 package fr.eni.enchere.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,22 +18,30 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
 import fr.eni.enchere.bll.ArticleManager;
 import fr.eni.enchere.bll.CategorieManager;
+import fr.eni.enchere.bll.ImageManager;
 import fr.eni.enchere.bll.RetraitManager;
 import fr.eni.enchere.bll.UtilisateurManager;
 import fr.eni.enchere.bo.ArticleVendu;
+import fr.eni.enchere.bo.Image;
 import fr.eni.enchere.bo.Utilisateur;
+import fr.eni.enchere.test.Utils;
 
 /**
  * Servlet implementation class ServletTestAjoutArticle
  */
 @WebServlet("/AjoutArticle")
-@MultipartConfig 
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+				maxFileSize = 1024 * 1024 * 10, // 10MB
+				maxRequestSize = 1024 * 1024 * 50) // 50MB
 public class ServletAjoutArticle extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+    
+	public static final String SAVE_DIRECTORY = "uploads";
+	
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -89,6 +99,14 @@ public class ServletAjoutArticle extends HttpServlet {
 		String codePostal=request.getParameter("codePostal");
 		String ville=request.getParameter("ville");
 		
+		// Gets absolute path to root directory of web app.
+        String appPath = request.getServletContext().getRealPath("");
+        // Gets image informations
+        
+        Part part = request.getPart("pictureFile");
+       
+       
+		
 		if(validerChamps(lstParam,nomArticle,description, dateDebutEncheres, dateFinEncheres, prixInitial, rue, codePostal, ville)) {
 			try {
 				Integer noUtilisateur = (Integer)session.getAttribute("noUtilisateur");
@@ -96,14 +114,24 @@ public class ServletAjoutArticle extends HttpServlet {
 				Utilisateur u = utilisateurMgr.getUtilisateurByNoUtilisateur(noUtilisateur);
 				boolean nouvelleAdresse = (rue.equals(u.getRue()))&&(codePostal.toString().equals(u.getCodePostal()))&&(ville.equals(u.getVille()));
 				RetraitManager retraitMgr = new RetraitManager();
+				// Save image File and get fileName
+				String fileName = Utils.saveFile(SAVE_DIRECTORY,appPath, part);
+				// Save image in database
+				ImageManager iMgr = new ImageManager();
+				iMgr.insert(aV.getNoArticle(),fileName);
+				
 				if (!nouvelleAdresse) {
 					retraitMgr.insert(aV.getNoArticle(), rue, codePostal, ville);
 				} else {
 					retraitMgr.insert(aV.getNoArticle(), u.getRue(), u.getCodePostal(), u.getVille());
 				}
 				
-				response.sendRedirect("/ENI-enchere");
+				response.sendRedirect("/ENI-enchere/DetailVente/"+aV.getNoArticle());
+				//response.sendRedirect("/ENI-enchere");
 				} catch (Exception e) {
+					request.setAttribute("lstParam", lstParam);
+					RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/ajoutVente.jsp");
+					rd.forward(request, response);
 					// TODO Gestion des erreurs de saisie
 					e.printStackTrace();
 				}
@@ -139,6 +167,6 @@ public class ServletAjoutArticle extends HttpServlet {
 			lstParam.add(errorCode);
 		}
 	}
-
+	
 }
 

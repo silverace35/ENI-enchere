@@ -10,26 +10,32 @@ import java.util.regex.Pattern;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
 import fr.eni.enchere.bll.ArticleManager;
+import fr.eni.enchere.bll.ImageManager;
 import fr.eni.enchere.bll.RetraitManager;
 import fr.eni.enchere.bll.UtilisateurManager;
 import fr.eni.enchere.bo.ArticleVendu;
+import fr.eni.enchere.bo.Image;
 import fr.eni.enchere.bo.Retrait;
 import fr.eni.enchere.bo.Utilisateur;
+import fr.eni.enchere.test.Utils;
 
 /**
  * Servlet implementation class ServletTestAjoutArticle
  */
 @WebServlet("/ModifierVente/*")
+@MultipartConfig
 public class ServletModifierArticle extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+	public static final String SAVE_DIRECTORY = "uploads";   
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -50,7 +56,8 @@ public class ServletModifierArticle extends HttpServlet {
 		ArticleVendu aV = null;
 		RetraitManager rMgr = new RetraitManager();
 		Retrait r = null;
-		
+		ImageManager iMgr = new ImageManager();
+		Image i = null;
 		boolean erreur = false;
 		
 		String id = request.getPathInfo();
@@ -78,6 +85,11 @@ public class ServletModifierArticle extends HttpServlet {
 				request.setAttribute("rue", r.getRue());
 				request.setAttribute("codePostal", r.getCodePostal());
 				request.setAttribute("ville", r.getVille());
+			i=iMgr.getImageBynoArticle(Integer.valueOf(id));
+			//request.setAttribute("image", i);
+			//${pageContext.request.contextPath}/uploads/${image.picture}
+			request.setAttribute("imageLocation", request.getContextPath()+"/uploads/"+i.getPicture());
+			System.out.println(request.getContextPath()+"/uploads/"+i.getPicture());
 			} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -107,6 +119,13 @@ public class ServletModifierArticle extends HttpServlet {
 		String rue=(String)request.getParameter("rue");
 		String codePostal=(String)request.getParameter("codePostal");
 		String ville=(String)request.getParameter("ville");
+		
+		// Gets absolute path to root directory of web app.
+        String appPath = request.getServletContext().getRealPath("");
+        // Gets image informations
+        Part part = request.getPart("pictureFile");
+        // Save image File and get fileName
+        String fileName = Utils.saveFile(SAVE_DIRECTORY, appPath, part);
 		
 		if(validerChamps(lstParam,nomArticle,description, dateDebutEncheres, dateFinEncheres, prixInitial, rue, codePostal, ville)) {
 			try {
