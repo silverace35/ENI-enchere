@@ -261,6 +261,8 @@ table th, table td:before {
 }
 
 .detail-vente {
+	width: 50%;
+	padding-left: 10px;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-evenly;

@@ -27,13 +27,13 @@
 %>
 	<main>
 		<%if (av.getArticleStatus() == ArticleStatus.CR) { %>
-		<h2 style="color: black" class="">Enchère pas encore commencée</h2>
+		<h2 style="color: black" class="">Enchère bientôt ouverte</h2>
 		<%} %>
 		<%if (av.getArticleStatus() == ArticleStatus.ET) { %>
 		<h2 style="color: black" class="">Enchère terminée</h2>
 		<%} %>
 		<%if (!encheres.isEmpty() && av.getArticleStatus() == ArticleStatus.ET && (Integer)session.getAttribute("noUtilisateur") == (int)u.getNoUtilisateur()) { %>
-		<h2 style="color: black">Vous avez gagné !</h2>
+		<h2 style="color: black">Vous avez gagné cette enchère, félicitations !</h2>
 		<%}%>
 		<div class="vente">
 			<div class="img vente-img">		
@@ -52,9 +52,10 @@
 				<div class="fields-container">	
 				<div class="vente-fields">				
 					<label>Mise à prix : <%=av.getPrixInitial() %> <div class="icon"><img src="../img/eni-coin.png"></div></label>
-					<div class="name">Meilleure offre : <%=av.getPrixVente()%> <div class="icon"><img src="../img/eni-coin.png"></div> par<a href="/ENI-enchere/InfosProfil/<%=u.getNoUtilisateur()%>"><%=" "+u.getNom() + " " + u.getPrenom()%></a></div>
 					
 					<% if (u!=null) {%>
+					<div class="name">Meilleure offre : <%=av.getPrixVente()%> <div class="icon"><img src="../img/eni-coin.png"></div> par<a href="/ENI-enchere/InfosProfil/<%=u.getNoUtilisateur()%>"><%=u.getNom()%> <%=u.getPrenom()%></a></div>
+						
 					<%} else { %>
 					<label>Aucun utilisateur n'a enchéri</label>
 					<%} %>
