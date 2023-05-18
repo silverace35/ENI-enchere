@@ -26,23 +26,24 @@
 	Retrait r = (Retrait)request.getAttribute("retrait");
 	String imgLoc = request.getAttribute("imageLocation") == null? 
 			("https://source.unsplash.com/random/"+av.getNomArticle()):(String)request.getAttribute("imageLocation");
+	
 %>
 	<main>
-			<%if (av.getArticleStatus() == ArticleStatus.CR) { %>
-			<h2 style="color: black" class="">Enchère bientôt ouverte</h2>
+		<%if (av.getArticleStatus() == ArticleStatus.CR) { %>
+		<h2 style="color: black" class="">Enchère bientôt ouverte</h2>
 		<%} %>
 		<%if (av.getArticleStatus() == ArticleStatus.EC) { %>
 		<h2 style="color: black" class="">Enchère en cours</h2>
 		<%} %>
 		<%if (av.getArticleStatus() == ArticleStatus.ET) { %>
-				<h2 style="color: black" class="">Enchère terminée <%=u!=null?" par "+ u.getNom()+ " " +u.getPrenom():"" %></h2>
+		<h2 style="color: black" class="">Enchère terminée <%=u!=null?" par "+ u.getNom()+ " " +u.getPrenom():"" %></h2>
 		<%} %>
 		<div class="vente">
-					<div class="img vente-img">		
+			<div class="img vente-img">		
 				<img src="<%=imgLoc%>">
-			</dimgLiv>
+			</div>
 			<div class="detail-vente">
-						<h1><%=av.getNomArticle() %></h1>
+			<h1><%=av.getNomArticle() %></h1>
 				<h5>(<%=c!=null?c.getLibelle():"La catégorie n'existe plus" %>)</h5>
 					<p>Description : <%=av.getDescription() %></p>
 				<div class="line"></div>
@@ -68,7 +69,8 @@
 		<%if ((av.getArticleStatus() == ArticleStatus.CR && (Integer)session.getAttribute("noUtilisateur") == (int)av.getNoUtilisateur())) { %>
 		<a class="secondary-link" href="/ENI-enchere/ModifierVente/<%=av.getNoArticle() %>">Modifier la vente</a>
 		<%} %>
-				<div class="history">
+
+		<div class="history">
 			<% if (u!=null) {%>	
 				<h3>Historique des offres :</h3>
 			<ul class="history-ul">			
@@ -88,4 +90,3 @@
 
 </body>
 </html>
-			
