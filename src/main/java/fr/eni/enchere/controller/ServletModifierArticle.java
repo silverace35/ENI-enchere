@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -40,6 +42,7 @@ public class ServletModifierArticle extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//request.setCharacterEncoding("UTF-8");
 		HttpSession session = request.getSession();
 		UtilisateurManager uMgr = new UtilisateurManager();
 		Utilisateur u = null;
@@ -55,9 +58,7 @@ public class ServletModifierArticle extends HttpServlet {
 			id = id.replace("/", "").trim();
 		}
 		try {
-			System.out.println("|"+id+"|");
 			Integer.valueOf(id);
-			System.out.println("Cast |"+Integer.valueOf(id)+"|");
 			session.setAttribute("noArticle",Integer.valueOf(id));
 			
 		} catch (Exception e) {
@@ -73,7 +74,6 @@ public class ServletModifierArticle extends HttpServlet {
 			request.setAttribute("prixInitial", aV.getPrixInitial());
 			request.setAttribute("dateDebutEncheres", aV.getDateDebutEncheres());
 			request.setAttribute("dateFinEncheres", aV.getDateFinEncheres());
-			System.out.println(aV.getDateDebutEncheres());
 			r = rMgr.getRetraitByNoRetrait(Integer.valueOf(id));
 				request.setAttribute("rue", r.getRue());
 				request.setAttribute("codePostal", r.getCodePostal());
@@ -91,31 +91,27 @@ public class ServletModifierArticle extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
+		//request.setCharacterEncoding("UTF-8");
 		HttpSession session = request.getSession();
 		ArticleManager aMgr = new ArticleManager();
 		UtilisateurManager uMgr = new UtilisateurManager();
 		List<ErrorCodes> lstParam = new ArrayList<>();
 		RetraitManager rMgr = new RetraitManager();
 		
-		String nomArticle=request.getParameter("nomArticle");
-		String description=request.getParameter("description");
-		System.out.println(request.getParameter("dateDebutEncheres"));
+		String nomArticle=(String)request.getParameter("nomArticle");
+		String description=(String)request.getParameter("description");
 		LocalDateTime dateDebutEncheres=LocalDateTime.parse(request.getParameter("dateDebutEncheres"), DateTimeFormatter.ISO_DATE_TIME) ;
 		LocalDateTime dateFinEncheres=LocalDateTime.parse(request.getParameter("dateFinEncheres"), DateTimeFormatter.ISO_DATE_TIME);
 		Integer prixInitial=Integer.valueOf(request.getParameter("prixInitial"));
 		Integer noCategorie=Integer.valueOf( request.getParameter("categorie"));
-		String rue=request.getParameter("rue");
-		String codePostal=request.getParameter("codePostal");
-		String ville=request.getParameter("ville");
+		String rue=(String)request.getParameter("rue");
+		String codePostal=(String)request.getParameter("codePostal");
+		String ville=(String)request.getParameter("ville");
 		
 		if(validerChamps(lstParam,nomArticle,description, dateDebutEncheres, dateFinEncheres, prixInitial, rue, codePostal, ville)) {
 			try {
 				Integer noUtilisateur = (Integer)session.getAttribute("noUtilisateur");
-				System.out.println("noUtilisateur : "+noUtilisateur);
 				Integer noArticle=(Integer)session.getAttribute("noArticle");
-				System.out.println("noArticle : "+noArticle);
-				System.out.println("noArticle après validerChamps() "+noArticle);
 				ArticleVendu aV = new ArticleVendu(noArticle, nomArticle, description, dateDebutEncheres, dateFinEncheres, prixInitial, null, noUtilisateur, noCategorie, false, false, "");
 				aMgr.update(aV);
 				rMgr.update(new Retrait(noArticle, rue, codePostal, ville));
@@ -156,9 +152,15 @@ public class ServletModifierArticle extends HttpServlet {
 		return lstParam.size()==0;
 	}
 	public void valider(String text, ErrorCodes errorCode, List<ErrorCodes> lstParam) {
-		if (!text.matches(errorCode.getPattern())) {
+//		if (!text.matches(errorCode.getPattern())) {
+//			lstParam.add(errorCode);
+//		}
+		Pattern pattern = Pattern.compile(errorCode.getPattern());
+		Matcher matcher = pattern.matcher(text);
+		if (!matcher.matches()) {
 			lstParam.add(errorCode);
 		}
+		
 	}
 
 }

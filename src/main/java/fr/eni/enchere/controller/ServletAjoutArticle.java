@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -71,7 +73,7 @@ public class ServletAjoutArticle extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
+		//request.setCharacterEncoding("UTF-8");
 		HttpSession session = request.getSession();
 		ArticleManager mgr = new ArticleManager();
 		UtilisateurManager utilisateurMgr = new UtilisateurManager();
@@ -79,7 +81,6 @@ public class ServletAjoutArticle extends HttpServlet {
 		
 		String nomArticle=request.getParameter("nomArticle");
 		String description=request.getParameter("description");
-		System.out.println(request.getParameter("dateDebutEncheres"));
 		LocalDateTime dateDebutEncheres=LocalDateTime.parse(request.getParameter("dateDebutEncheres"), DateTimeFormatter.ISO_DATE_TIME) ;
 		LocalDateTime dateFinEncheres=LocalDateTime.parse(request.getParameter("dateFinEncheres"), DateTimeFormatter.ISO_DATE_TIME);
 		Integer prixInitial=Integer.valueOf(request.getParameter("prixInitial"));
@@ -132,7 +133,9 @@ public class ServletAjoutArticle extends HttpServlet {
 		return lstParam.size()==0;
 	}
 	public void valider(String text, ErrorCodes errorCode, List<ErrorCodes> lstParam) {
-		if (!text.matches(errorCode.getPattern())) {
+		Pattern pattern = Pattern.compile(errorCode.getPattern());
+		Matcher matcher = pattern.matcher(text);
+		if (!matcher.matches()) {
 			lstParam.add(errorCode);
 		}
 	}
