@@ -21,4 +21,8 @@ public class FactoryDAO {
 	public static EnchereDAO getEnchereDAO() {
 		return EnchereDAOJdbcImpl.getInstance();
 	}
+	
+	public static ImageDAO getImageDAO() {
+		return ImageDAOJdbcImpl.getInstance();
+	}
 }
