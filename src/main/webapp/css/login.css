@@ -231,7 +231,7 @@ table th, table td:before {
   color: var(--yellow);
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 900px) {
 	table {
 		width: 90%;
 	}
@@ -240,6 +240,43 @@ table th, table td:before {
 	  width: auto;
 	  padding-right: 5px;
 	  text-align: end;
+	}
+	
+	.fields-container {
+		flex-direction: column;
+	}
+	
+	.detail-vente {
+		width: 100% !important;
+	}
+	
+	.vente-fields {
+		padding-bottom: 20px;
+	}
+	
+	.vente {
+		flex-direction: column;
+	}
+	
+	h5 {
+		padding: 10px;
+	}
+	
+	.line {
+		margin: 20px;
+	}
+	
+	.vente-form .vente-fields {
+    	padding-left: 0; 
+	}
+	
+}
+
+@media screen and (max-width: 600px) {
+	
+	.vente-img {
+		height: 200px !important;
+		width: 200px !important;
 	}
 }
 
