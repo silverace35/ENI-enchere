@@ -17,7 +17,6 @@
 <title>Détail ma vente | ENI-enchere</title>
 </head>
 <body>
-<<<<<<< HEAD
 <%@ include file="navigation.jsp"%>
 <%
 	ArticleVendu av = (ArticleVendu)request.getAttribute("articleVendu");
@@ -29,6 +28,17 @@
 			("https://source.unsplash.com/random/"+av.getNomArticle()):(String)request.getAttribute("imageLocation");
 	
 %>
+	<%@ include file="navigation.jsp"%>
+	<%
+	ArticleVendu av = (ArticleVendu) request.getAttribute("articleVendu");
+	Utilisateur u = (Utilisateur) request.getAttribute("utilisateur");
+	Categorie c = (Categorie) request.getAttribute("categorie");
+	List<Enchere> encheres = (List<Enchere>) request.getAttribute("encheres");
+	Retrait r = (Retrait) request.getAttribute("retrait");
+	String imgLoc = request.getAttribute("imageLocation") == null
+			? ("https://source.unsplash.com/random/" + av.getNomArticle())
+			: (String) request.getAttribute("imageLocation");
+	%>
 	<main>
 		<%if (av.getArticleStatus() == ArticleStatus.CR) { %>
 		<h2 style="color: black" class="">Enchère bientôt ouverte</h2>
