@@ -37,6 +37,8 @@ public class ImageDAOJdbcImpl implements ImageDAO {
 		}
 
 		try (Connection cnx = ConnectionProvider.getConnection()) {
+			System.out.println("noArticle " +i.getNoArticle());
+			System.out.println("picture " +i.getPicture());
 			PreparedStatement pstmt = cnx.prepareStatement(INSERT_IMAGE);
 			pstmt.setInt(1, i.getNoArticle());
 			pstmt.setString(2, i.getPicture());
