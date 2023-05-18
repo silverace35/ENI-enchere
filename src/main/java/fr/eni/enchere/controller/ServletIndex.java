@@ -14,9 +14,11 @@ import javax.servlet.http.HttpSession;
 
 import fr.eni.enchere.bll.ArticleManager;
 import fr.eni.enchere.bll.CategorieManager;
+import fr.eni.enchere.bll.ImageManager;
 import fr.eni.enchere.bll.UtilisateurManager;
 import fr.eni.enchere.bo.ArticleVendu;
 import fr.eni.enchere.bo.Categorie;
+import fr.eni.enchere.bo.Image;
 import fr.eni.enchere.bo.Utilisateur;
 
 /**
@@ -42,6 +44,11 @@ public class ServletIndex extends HttpServlet {
 		ArticleManager articleManager = new ArticleManager();
 		UtilisateurManager utilisateurMgr = new UtilisateurManager();
 		List<ArticleVendu> listArticle = new ArrayList<ArticleVendu>();
+		ImageManager iMgr = new ImageManager();
+		List<Image> lstImages = new ArrayList<>();
+		lstImages = iMgr.selectAll();
+		System.out.println(lstImages.toString());
+		request.setAttribute("lstImages",lstImages);
 	
 		if (request.getSession() != null) {
 			Integer noUtilisateur = (Integer)session.getAttribute("noUtilisateur");
@@ -61,7 +68,6 @@ public class ServletIndex extends HttpServlet {
 		} else {
 			listArticle.addAll(articleManager.getArticlesEnCours());
 		}
-		
 		request.setAttribute("listArticle", listArticle);
 		CategorieManager catMgr = new CategorieManager();
 		try {
@@ -95,6 +101,11 @@ public class ServletIndex extends HttpServlet {
 		String venteTerminees = request.getParameter("vente-terminees");
 		
 		List<ArticleVendu> toRemove = new ArrayList<ArticleVendu>();
+		ImageManager iMgr = new ImageManager();
+		List<Image> lstImages = new ArrayList<>();
+		lstImages = iMgr.selectAll();
+		System.out.println(lstImages.toString());
+		request.setAttribute("lstImages",lstImages);
 		
 		if ("achat".equals(radio)) {
 			if ("on".equals(enchereOuverte)) {

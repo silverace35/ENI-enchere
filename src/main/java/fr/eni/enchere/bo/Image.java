@@ -1,7 +1,7 @@
 package fr.eni.enchere.bo;
 
 public class Image {
-	private Integer noArticle;
+	private int noArticle;
 	private String picture;
 	
 	public Image() {

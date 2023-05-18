@@ -1,11 +1,9 @@
 package fr.eni.enchere.bll;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import fr.eni.enchere.bo.ArticleVendu;
 import fr.eni.enchere.bo.Image;
-import fr.eni.enchere.bo.Retrait;
-import fr.eni.enchere.bo.Utilisateur;
 import fr.eni.enchere.dal.FactoryDAO;
 import fr.eni.enchere.dal.ImageDAO;
 import fr.eni.enchere.dal.exceptions.BusinessException;
@@ -54,6 +52,16 @@ public class ImageManager {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public List<Image> selectAll() {
+		List<Image> lstImages = new ArrayList<>();
+		try {
+			lstImages = this.imageDAO.selectAll();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return lstImages;
 	}
 
 }

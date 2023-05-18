@@ -18,6 +18,7 @@ public class ImageDAOJdbcImpl implements ImageDAO {
 	private static final String SELECT_IMAGE_BY_ID = "SELECT * FROM images WHERE no_article=?;";
 	private static final String UPDATE_IMAGE = "UPDATE images SET picture=? WHERE no_article=?;";
 	private static final String DELETE_IMAGE = "DELETE FROM images WHERE no_article=?;";
+	private static final String SELECT_ALL_IMAGES = "SELECT * FROM images";
 	
 	private ImageDAOJdbcImpl() {
 	}
@@ -90,6 +91,24 @@ public class ImageDAOJdbcImpl implements ImageDAO {
 		} catch (Exception e) {
 			throw new BusinessException();
 		}
+	}
+
+	@Override
+	public List<Image> selectAll() throws BusinessException {
+		List<Image> lstImages = new ArrayList<>();
+		Image i = new Image();
+		
+		try (Connection cnx = ConnectionProvider.getConnection()) {
+			PreparedStatement pstmt = cnx.prepareStatement(SELECT_ALL_IMAGES);
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				i = new Image(rs.getInt("no_article"), rs.getString("picture"));
+				lstImages.add(i);
+			}
+		} catch (Exception e) {
+			throw new BusinessException("Echec DAL : insertion retrait");
+		}
+		return lstImages;
 	}
 
 }

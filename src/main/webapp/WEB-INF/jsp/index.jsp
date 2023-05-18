@@ -3,6 +3,7 @@
 <%@page import="fr.eni.enchere.bo.ArticleVendu"%>
 <%@page import="fr.eni.enchere.bo.ArticleStatus"%>
 <%@page import="fr.eni.enchere.bo.Categorie"%>
+<%@page import="fr.eni.enchere.bo.Image"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -160,11 +161,17 @@
 
 		<div class="list-encheres">
 			<%
+			List<Image> lstImages = (List<Image>) request.getAttribute("lstImages");
 			List<ArticleVendu> listArticle = (List<ArticleVendu>) request.getAttribute("listArticle");
 			for (ArticleVendu av : listArticle) {
+				Image picture = lstImages.stream()
+						.filter((a) -> av.getNoArticle()==a.getNoArticle())
+						.findAny()
+						.orElse(null);
+				String imgLoc = picture == null ? "https://source.unsplash.com/random/?"+av.getNomArticle() : request.getContextPath()+"/uploads/"+picture.getPicture();
 			%>
 				<div class="enchere">
-					<div class="img"><img src="https://source.unsplash.com/random/?<%=av.getNomArticle()%>"></div>
+					<div class="img"><img src="<%=imgLoc%>"></div>
 					<h3><%=av.getNomArticle()%></h3>
 					<p class="statut <%=av.getArticleStatus().getColor()%>"><%=av.getArticleStatus().getStatusMessage()%></p>
 					<div class="detail-enchere">
@@ -179,7 +186,7 @@
 					</div>
 						<div class="btn-container">
 							<div>
-								<label class="enchere-label">Meilleure offre</label>
+								<label class="enchere-label">Prix de départ</label>
 								<div><%=av.getPrixVente()%><div class="icon"><img src="img/eni-coin.png"></div></div>
 							</div>
 							<%
