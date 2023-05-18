@@ -40,7 +40,10 @@
 	</nav>
 
 
-
+	<form action="ajoutCategorie" method="POST">
+		<input name="libelle" type="text" placeholder="Ajoutez une catégorie ...">
+	  	<input type="submit" value="Ajouter">
+	</form>
 
 	<table class="table table-striped">
 		<thead>
