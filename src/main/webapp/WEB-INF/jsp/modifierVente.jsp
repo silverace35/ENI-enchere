@@ -2,7 +2,7 @@
 <html>
 
 <head>
-<meta charset="UTF-8">
+<%@ include file="head.jsp"%>
 <link rel="stylesheet" href="<%=request.getContextPath()+"/css/settings.css"%>">
 <link rel="stylesheet" href="<%=request.getContextPath()+"/css/login.css"%>">
 <title>Modifier vente | ENI-enchere</title>

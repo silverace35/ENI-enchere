@@ -87,9 +87,8 @@
 		
 					<div class="field-container">
 						<label for="description">Description : </label>
-						<textarea id="description" name="description" minlength="10" maxlength="300" required >
-						<%=lstPara.contains(ErrorCodes.DESCRIPTION) ? "" : request.getParameter("description") == null ? description : request.getParameter("description")%>
-						</textarea>
+						<textarea id="description" name="description" minlength="10" maxlength="300" required ><%=lstPara.contains(ErrorCodes.DESCRIPTION) ? "" : request.getParameter("description") == null ? 
+								description : request.getParameter("description")%></textarea>
 					</div>
 		
 					<p class="error"><%=lstPara.contains(ErrorCodes.DESCRIPTION) ? ErrorCodes.DESCRIPTION.getMessage() : ""%></p>
