@@ -25,7 +25,7 @@
 	List<Enchere> encheres = (List<Enchere>)request.getAttribute("encheres");
 	Retrait r = (Retrait)request.getAttribute("retrait");
 	String imgLoc = request.getAttribute("imageLocation") == null? 
-			("https://source.unsplash.com/random/"+av.getNomArticle()):(String)request.getAttribute("imageLocation");
+			("https://source.unsplash.com/random?"+av.getNomArticle()):(String)request.getAttribute("imageLocation");
 %>
 	<main>
 		<%if (av.getArticleStatus() == ArticleStatus.CR) { %>

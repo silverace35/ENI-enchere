@@ -134,7 +134,8 @@ public class ServletModifierArticle extends HttpServlet {
 				ArticleVendu aV = new ArticleVendu(noArticle, nomArticle, description, dateDebutEncheres, dateFinEncheres, prixInitial, null, noUtilisateur, noCategorie, false, false, "");
 				aMgr.update(aV);
 				rMgr.update(new Retrait(noArticle, rue, codePostal, ville));
-				
+				ImageManager iMgr = new ImageManager();
+				iMgr.update(new Image(aV.getNoArticle(),fileName));
 				response.sendRedirect("/ENI-enchere/DetailVente/"+noArticle);
 				
 				} catch (Exception e) {
