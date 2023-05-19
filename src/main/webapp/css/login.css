@@ -186,6 +186,7 @@ textarea {
     height: 123px;
     resize: none;
     border: none;
+    font-family: var(--regularFont);
 }
 
 table {
