@@ -4,7 +4,7 @@ public enum ArticleStatus {
 	CR("bientôt ouverte", "cr"), //Created
 	EC("En cours", "ec"), //En cours
 	ET("Enchère terminée", "et"), //Enchere terminer
-	RT("Enchère terminée et clos", "rt"), //Retrait effectuer
+	RT("Enchère terminée et close", "rt"), //Retrait effectuer
 	DS("Désactivée par un administrateur", "ds");
 
 	private String statusMessage;

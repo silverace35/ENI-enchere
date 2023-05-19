@@ -336,7 +336,7 @@ img:not(.enchere-img) {
 }
 .rt {
 
-	background: var(--red);
+	background: rgb(32 142 195);
 }
 .ds {
 

@@ -75,13 +75,12 @@ public class ArticleVendu implements Serializable{
 		} else if (diffDepart <= 0 && diffFin > 0) {
 			//Cas ou la date de depart est passer mais pas celle de fin
 			this.articleStatus = ArticleStatus.EC;
-		} else if (diffFin <= 0) {
-			//Cas ou la date de fin est depasser
-			this.articleStatus = ArticleStatus.ET;
 		} else if (this.retraitOkAcheteur && this.retraitOkVendeur) {
 			//Cas ou l'acheteur et le vendeur ont valider le retrait
 			this.articleStatus = ArticleStatus.RT;
-		} else {
+		} else if (diffFin <= 0) {
+			//Cas ou la date de fin est depasser
+			this.articleStatus = ArticleStatus.ET;
 			//?
 		}
 	}
