@@ -9,25 +9,26 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html>
-<html>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
-<head>
-<meta charset="UTF-8">
-<link rel="stylesheet" href="css/settings.css">
-<link rel="stylesheet" href="css/login.css">
-<title>Ajout vente | ENI-enchere</title>
-</head>
+<script type="text/javascript">
+		function PreviewImage() {
+			var oFReader = new FileReader();
+			oFReader.readAsDataURL(document.getElementById("pictureFile").files[0]);
+			oFReader.onload = function (oFREvent) {
+				document.getElementById("uploadPreview").src = oFREvent.target.result;
+			};
+		};
+	</script>
 
 <body>
-
+	
 
 	<%@ include file="navigation.jsp"%>
 
 	<main>
-		<h2>Nouvelle vente</h2>
-		<form action=<%=request.getParameter("ServletCible")%> method="POST">
+		<h2><%=request.getParameter("typeVente")%></h2>
 
 			<%
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -38,7 +39,8 @@
 			Integer categorie = request.getAttribute("categorie") == null ? 1 : (Integer) request.getAttribute("categorie");
 			String description = request.getAttribute("description") == null ? "" : (String) request.getAttribute("description");
 			Integer prixInitial = request.getAttribute("prixInitial") == null ? 0 : (Integer) request.getAttribute("prixInitial");
-
+			String imgLoc = request.getAttribute("imageLocation") == null? "https://source.unsplash.com/random/100×100/?code":(String)request.getAttribute("imageLocation");
+			
 			List<ErrorCodes> lstPara = (List<ErrorCodes>) request.getAttribute("lstParam");
 			List<Categorie> listCategories = (List<Categorie>) session.getAttribute("listCategories");
 			LocalDateTime now = LocalDateTime.now();
@@ -46,8 +48,20 @@
 				lstPara = new ArrayList<>();
 			}
 			%>
+		<form action=<%=request.getParameter("ServletCible")%> method="POST" enctype="multipart/form-data">
 			<div class="vente-form" >
-				<div class="img"><img src="https://source.unsplash.com/random/?photos"></div>
+				<div class="vente-field">
+					<div class="img">
+<!--  -->				<img id="uploadPreview" />
+							<img src="<%=imgLoc%>" alt=""/>
+					</div>
+
+<!--  -->			<input type="file" id="pictureFile" name="pictureFile" accept="image/png, image/jpeg" onchange="PreviewImage();"/>
+				</div>
+				<!--  
+				<div class="img"><img src="https://source.unsplash.com/random/?photos">
+				</div>-->
+				
 				<div class="vente-fields">
 					<div class="vente-field">
 						<label for="nomArticle">Article : </label> 
@@ -75,14 +89,12 @@
 		
 					<div class="field-container">
 						<label for="description">Description : </label>
-						<textarea id="description" name="description" minlength="10" maxlength="300" required <%=lstPara.contains(ErrorCodes.DESCRIPTION) ? "" : request.getParameter("description") == null ? description : request.getParameter("description")%>"></textarea>
+						<textarea id="description" name="description" minlength="10" maxlength="300" required ><%=lstPara.contains(ErrorCodes.DESCRIPTION) ? "" : request.getParameter("description") == null ? 
+								description : request.getParameter("description")%></textarea>
 					</div>
 		
 					<p class="error"><%=lstPara.contains(ErrorCodes.DESCRIPTION) ? ErrorCodes.DESCRIPTION.getMessage() : ""%></p>
 		
-					<div class="vente-field">
-						<input type="file">
-					</div>
 					
 				</div>
 			</div>
@@ -98,12 +110,18 @@
 					
 				<div class="vente-field">			
 					<label for="dateDebutEncheres">Début de l'enchère </label> 
-					<input type="datetime-local" id="dateDebutEncheres" name="dateDebutEncheres" value="<%=request.getParameter("dateDebutEncheres") == null ? LocalDateTime.now().format(formatter): request.getParameter("dateDebutEncheres")%>" required />
+					<input type="datetime-local" id="dateDebutEncheres" name="dateDebutEncheres" value="<%=request.getParameter("dateDebutEncheres") == null ? 
+							(request.getAttribute("dateDebutEncheres")==null ? LocalDateTime.now().format(formatter) 
+									:request.getAttribute("dateDebutEncheres"))
+									 : request.getParameter("dateDebutEncheres")%>" 
+							required />
 				</div>
 	
 				<div class="vente-field">
 					<label for="dateFinEncheres">Fin de l'enchère </label> 
-					<input type="datetime-local" id="dateFinEncheres" name="dateFinEncheres" value="<%=lstPara.contains(ErrorCodes.DATES_IMP) ? "": request.getParameter("dateFinEncheres") == null ? "" : request.getParameter("dateFinEncheres")%>"required />
+					<input type="datetime-local" id="dateFinEncheres" name="dateFinEncheres" value="<%=lstPara.contains(ErrorCodes.DATES_IMP) ? 
+								"": request.getParameter("dateFinEncheres") == null ? 
+										request.getAttribute("dateFinEncheres") : request.getParameter("dateFinEncheres")%>"required />
 				</div>
 	
 				<p class="error"><%=lstPara.contains(ErrorCodes.DATES_IMP) ? ErrorCodes.DATES_IMP.getMessage() : ""%></p>
@@ -115,7 +133,7 @@
 					<input type="text" id="rue" name="rue" min="2" max="30" required value="<%=lstPara.contains(ErrorCodes.RUE) ? "": request.getParameter("rue") == null ? rue : request.getParameter("rue")%>"/>
 				</div>
 				
-					<p class="error"><%=lstPara.contains(ErrorCodes.DATES_IMP) ? ErrorCodes.DATES_IMP.getMessage() : ""%></p>
+					<p class="error"><%=lstPara.contains(ErrorCodes.RUE) ? ErrorCodes.RUE.getMessage() : ""%></p>
 				
 				<div class="vente-field">
 					<label for="codePostal">Code postal : </label> 
@@ -130,9 +148,12 @@
 				</div>
 				
 				<p class="error"><%=lstPara.contains(ErrorCodes.VILLE) ? ErrorCodes.VILLE.getMessage() : ""%></p>
-			</div>
+				</div>
 			</div>
 			
+
+<button type="submit">Enregistrer</button>
+</form>
 
 			
 			

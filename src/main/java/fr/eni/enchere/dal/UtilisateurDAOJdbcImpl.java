@@ -22,6 +22,7 @@ public class UtilisateurDAOJdbcImpl implements DAOUtilisateur{
 	private static final String UPDATE="UPDATE utilisateurs SET pseudo=?, nom=?, prenom=?, email=?, telephone=?,"
 			+ " rue=?, code_postal=?, ville=?, mot_de_passe=?, credit=?, administrateur=? WHERE no_utilisateur=?;";
 	private static final String UPDATE_CREDIT="UPDATE utilisateurs SET credit=? WHERE no_utilisateur=?;";
+	private static final String DESACTIVE_UTILISATEUR="UPDATE utilisateurs SET desactive=1 WHERE no_utilisateur=?;";
 	private static final String INSERT="INSERT INTO utilisateurs(pseudo, nom, prenom, email, telephone, rue,"
 			+ " code_postal, ville, mot_de_passe, credit, administrateur) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 	private static final String DELETEBYID="DELETE FROM utilisateurs WHERE no_utilisateur=?;";
@@ -66,7 +67,8 @@ public class UtilisateurDAOJdbcImpl implements DAOUtilisateur{
 						rs.getString("ville"),
 						rs.getString("mot_de_passe"),
 						rs.getInt("credit"),
-						rs.getBoolean("administrateur")
+						rs.getBoolean("administrateur"),
+						rs.getBoolean("desactive")
 				);
 			}
 		}
@@ -104,7 +106,8 @@ public class UtilisateurDAOJdbcImpl implements DAOUtilisateur{
 						rs.getString("ville"),
 						rs.getString("mot_de_passe"),
 						rs.getInt("credit"),
-						rs.getBoolean("administrateur")
+						rs.getBoolean("administrateur"),
+						rs.getBoolean("desactive")
 				);
 				listUtilisateur.add(u);
 			}
@@ -165,6 +168,24 @@ public class UtilisateurDAOJdbcImpl implements DAOUtilisateur{
 			PreparedStatement pstmt = cnx.prepareStatement(UPDATE_CREDIT);
 			pstmt.setInt(1, u.getCredit());
 			pstmt.setInt(2, u.getNoUtilisateur());
+			pstmt.executeUpdate();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			throw businessException;
+		}
+	}
+	
+	
+	
+	@Override
+	public void desactiveUtilisateur(Integer noUtilisateur) throws BusinessException {
+		try(Connection cnx = ConnectionProvider.getConnection())
+		{
+			PreparedStatement pstmt = cnx.prepareStatement(DESACTIVE_UTILISATEUR);
+			pstmt.setInt(1, noUtilisateur);
 			pstmt.executeUpdate();
 		}
 		catch(Exception e)
@@ -305,7 +326,8 @@ public class UtilisateurDAOJdbcImpl implements DAOUtilisateur{
 						rs.getString("ville"),
 						rs.getString("mot_de_passe"),
 						rs.getInt("credit"),
-						rs.getBoolean("administrateur"));
+						rs.getBoolean("administrateur"),
+						rs.getBoolean("desactive"));
 			} else {
 				//TODO remonter msg erreur
 				throw new BusinessException(ErrorCodes.IDORPASSWORD.getMessage());

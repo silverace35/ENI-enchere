@@ -174,4 +174,22 @@ public class ArticleManager implements Serializable{
 			e.printStackTrace();
 		}
 	}
+	
+	public void deleteByUserId(int noUtilisateur) {
+		try {
+			this.articleVenduDAO.deleteByUserId(noUtilisateur);
+		}  catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void updatePrixDeVente(Integer prixDeVente, Integer noArticle) {
+		try {
+			if (prixDeVente != null) {
+				this.articleVenduDAO.updatePrixDeVente(prixDeVente, noArticle);
+			}
+		}  catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

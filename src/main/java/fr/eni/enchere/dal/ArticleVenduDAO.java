@@ -20,4 +20,6 @@ public interface ArticleVenduDAO {
 	List<ArticleVendu> selectAllVenteNonDebute(int noUtilisateur) throws BusinessException;
 	List<ArticleVendu> selectAllVenteTerminer(int noUtilisateur) throws BusinessException;
 	boolean checkArticleUtilisateur(int noArticle, int noUtilisateur) throws BusinessException;
+	void deleteByUserId(int noUtilisateur) throws BusinessException;
+	void updatePrixDeVente(Integer prixDeVente, Integer noArticle) throws BusinessException;
 }

@@ -3,6 +3,7 @@
 <%@page import="fr.eni.enchere.bo.ArticleVendu"%>
 <%@page import="fr.eni.enchere.bo.ArticleStatus"%>
 <%@page import="fr.eni.enchere.bo.Categorie"%>
+<%@page import="fr.eni.enchere.bo.Image"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -29,7 +30,7 @@
 		<form action="" method="POST">
 			<div class="search-container">
 				<label for="searchBar">Mots clés</label> 
-				<input id="searchBar" name="barreRecherche" type="search" placeholder="Que recherchez vous ?"/>
+				<input id="searchBar" name="barreRecherche" type="search" placeholder="Que recherchez vous ?" value="<%=request.getParameter("barreRecherche")!=null?request.getParameter("barreRecherche"):""%>"/>
 			</div>
 			<div class="bar"></div>
 
@@ -160,36 +161,48 @@
 
 		<div class="list-encheres">
 			<%
+			List<Image> lstImages = (List<Image>) request.getAttribute("lstImages");
 			List<ArticleVendu> listArticle = (List<ArticleVendu>) request.getAttribute("listArticle");
-			for (ArticleVendu av : listArticle) {
-			%>
-				<div class="enchere">
-					<div class="img"><img src="https://source.unsplash.com/random/?<%=av.getNomArticle()%>"></div>
-					<h3><%=av.getNomArticle()%></h3>
-					<p class="statut <%=av.getArticleStatus().getColor()%>"><%=av.getArticleStatus().getStatusMessage()%></p>
-					<div class="detail-enchere">
-						<div>
-							<label class="enchere-label">Vendeur</label>
-							<a href="/ENI-enchere/InfosProfil/<%=av.getNoUtilisateur()%>"><%=av.getNomPrenomAuteur()%></a>
-						</div>
-						<div>
-							<label class="enchere-label">Termine le</label>
-							<p><%=av.getDateFinEncheres().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))%></p>
-						</div>
-					</div>
-						<div class="btn-container">
+			if(listArticle.isEmpty()) {
+				out.print("<p>Aucun résultat trouvé</p>");
+			} else {
+				
+				for (ArticleVendu av : listArticle) {
+					Image picture = lstImages.stream()
+							.filter((a) -> av.getNoArticle()==a.getNoArticle())
+							.findAny()
+							.orElse(null);
+					String imgLoc = picture == null ? "https://source.unsplash.com/random/?"+av.getNomArticle() : request.getContextPath()+"/uploads/"+picture.getPicture();
+				%>
+					<div class="enchere">
+						<div class="img"><img src="<%=imgLoc%>"></div>
+						<h3><%=av.getNomArticle()%></h3>
+						<p class="statut <%=av.getArticleStatus().getColor()%>"><%=av.getArticleStatus().getStatusMessage()%></p>
+						<div class="detail-enchere">
 							<div>
-								<label class="enchere-label">Prix minimum</label>
-								<p><%=av.getPrixVente()%></p>
+								<label class="enchere-label">Vendeur</label>
+								<a href="/ENI-enchere/InfosProfil/<%=av.getNoUtilisateur()%>"><%=av.getNomPrenomAuteur()%></a>
 							</div>
-							<%
-								if (isConnected) {
-									%><a href="/ENI-enchere/DetailVente/<%=av.getNoArticle()%>">Voir l'article</a><%
-								}
-							%>
+							<div>
+								<label class="enchere-label">Termine le</label>
+								<p><%=av.getDateFinEncheres().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))%></p>
+							</div>
 						</div>
-				</div>
+							<div class="btn-container">
+								<div>
+	
+									<label class="enchere-label">Prix minimum</label>
+									<div><%=av.getPrixVente()%><div class="icon"><img src="img/eni-coin.png"></div></div>
+								</div>
+								<%
+									if (isConnected) {
+										%><a href="/ENI-enchere/DetailVente/<%=av.getNoArticle()%>">Voir l'article</a><%
+									}
+								%>
+							</div>
+					</div>
 			<%
+				}
 			}
 			%>
 		</div>

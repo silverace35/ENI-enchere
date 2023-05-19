@@ -13,7 +13,7 @@ import fr.eni.enchere.dal.exceptions.BusinessException;
 public class CategorieDAOJdbcImpl implements CategorieDAO {
 	private static CategorieDAOJdbcImpl instance;
 	
-	private static final String INSERT_CATEGORIE = "INSERT INTO Categories(libelle) VALUES(?);";
+	private static final String INSERT_CATEGORIE = "INSERT INTO categories(libelle) VALUES(?);";
 	private static final String SELECT_CATEGORIE_BY_ID = "SELECT * FROM Categories WHERE no_Categorie=?;";
 	private static final String SELECT_ALL_CATEGORIES = "SELECT * FROM Categories;";
 	private static final String UPDATE_CATEGORIE= "UPDATE Categories SET libelle=? WHERE no_Categorie=?;";
@@ -44,14 +44,14 @@ public class CategorieDAOJdbcImpl implements CategorieDAO {
 
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement pstmt = cnx.prepareStatement(INSERT_CATEGORIE, PreparedStatement.RETURN_GENERATED_KEYS);
-			pstmt.setInt(1, c.getNoCategorie());
-			pstmt.setString(2, c.getLibelle());
+			pstmt.setString(1, c.getLibelle());
 			pstmt.executeUpdate();
 			ResultSet rs = pstmt.getGeneratedKeys();
 			if (rs.next()) {
 				c.setNoCategorie(rs.getInt(1));
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new BusinessException();
 		}
 		return c;

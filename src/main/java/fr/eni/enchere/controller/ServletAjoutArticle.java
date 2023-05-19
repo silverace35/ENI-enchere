@@ -1,33 +1,47 @@
 package fr.eni.enchere.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
 import fr.eni.enchere.bll.ArticleManager;
 import fr.eni.enchere.bll.CategorieManager;
+import fr.eni.enchere.bll.ImageManager;
 import fr.eni.enchere.bll.RetraitManager;
 import fr.eni.enchere.bll.UtilisateurManager;
 import fr.eni.enchere.bo.ArticleVendu;
+import fr.eni.enchere.bo.Image;
 import fr.eni.enchere.bo.Utilisateur;
+import fr.eni.enchere.test.Utils;
 
 /**
  * Servlet implementation class ServletTestAjoutArticle
  */
 @WebServlet("/AjoutArticle")
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+				maxFileSize = 1024 * 1024 * 10, // 10MB
+				maxRequestSize = 1024 * 1024 * 50) // 50MB
 public class ServletAjoutArticle extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+    
+	public static final String SAVE_DIRECTORY = "uploads";
+	
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -45,25 +59,32 @@ public class ServletAjoutArticle extends HttpServlet {
 		Utilisateur utilisateur = null;
 		CategorieManager catMgr = new CategorieManager();
 				
-		try {
-			Integer noUtilisateur = (Integer)session.getAttribute("noUtilisateur");
-			utilisateur = utilisateurMgr.getUtilisateurByNoUtilisateur(noUtilisateur);
-			request.setAttribute("rue", utilisateur.getRue());
-			request.setAttribute("codePostal", utilisateur.getCodePostal());
-			request.setAttribute("ville", utilisateur.getVille());
-			} catch (Exception e) {
-			e.printStackTrace();
+		if (session.getAttribute("desactive") == null && session.getAttribute("noUtilisateur")!= null) {
+			try {
+				Integer noUtilisateur = (Integer)session.getAttribute("noUtilisateur");
+				utilisateur = utilisateurMgr.getUtilisateurByNoUtilisateur(noUtilisateur);
+				request.setAttribute("rue", utilisateur.getRue());
+				request.setAttribute("codePostal", utilisateur.getCodePostal());
+				request.setAttribute("ville", utilisateur.getVille());
+				} catch (Exception e) {
+				e.printStackTrace();
+			}
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/ajoutVente.jsp");
+			rd.forward(request, response);
+			response.getWriter().append("Served at: ").append(request.getContextPath());
+		} else {
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/Error403.jsp");
+			rd.forward(request, response);
 		}
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/ajoutVente.jsp");
-		rd.forward(request, response);
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		
+		
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
+		//request.setCharacterEncoding("UTF-8");
 		HttpSession session = request.getSession();
 		ArticleManager mgr = new ArticleManager();
 		UtilisateurManager utilisateurMgr = new UtilisateurManager();
@@ -71,7 +92,6 @@ public class ServletAjoutArticle extends HttpServlet {
 		
 		String nomArticle=request.getParameter("nomArticle");
 		String description=request.getParameter("description");
-		System.out.println(request.getParameter("dateDebutEncheres"));
 		LocalDateTime dateDebutEncheres=LocalDateTime.parse(request.getParameter("dateDebutEncheres"), DateTimeFormatter.ISO_DATE_TIME) ;
 		LocalDateTime dateFinEncheres=LocalDateTime.parse(request.getParameter("dateFinEncheres"), DateTimeFormatter.ISO_DATE_TIME);
 		Integer prixInitial=Integer.valueOf(request.getParameter("prixInitial"));
@@ -80,6 +100,14 @@ public class ServletAjoutArticle extends HttpServlet {
 		String codePostal=request.getParameter("codePostal");
 		String ville=request.getParameter("ville");
 		
+		// Gets absolute path to root directory of web app.
+        String appPath = request.getServletContext().getRealPath("");
+        // Gets image informations
+        
+        Part part = request.getPart("pictureFile");
+       
+       
+		
 		if(validerChamps(lstParam,nomArticle,description, dateDebutEncheres, dateFinEncheres, prixInitial, rue, codePostal, ville)) {
 			try {
 				Integer noUtilisateur = (Integer)session.getAttribute("noUtilisateur");
@@ -87,14 +115,27 @@ public class ServletAjoutArticle extends HttpServlet {
 				Utilisateur u = utilisateurMgr.getUtilisateurByNoUtilisateur(noUtilisateur);
 				boolean nouvelleAdresse = (rue.equals(u.getRue()))&&(codePostal.toString().equals(u.getCodePostal()))&&(ville.equals(u.getVille()));
 				RetraitManager retraitMgr = new RetraitManager();
+				
+				if (part.getSize()!=0) {
+					// Save image File and get fileName
+					String fileName = Utils.saveFile(SAVE_DIRECTORY,appPath, part);
+					// Save image in database
+					ImageManager iMgr = new ImageManager();
+					iMgr.insert(aV.getNoArticle(),fileName);
+				}
+				
 				if (!nouvelleAdresse) {
 					retraitMgr.insert(aV.getNoArticle(), rue, codePostal, ville);
 				} else {
 					retraitMgr.insert(aV.getNoArticle(), u.getRue(), u.getCodePostal(), u.getVille());
 				}
 				
-				response.sendRedirect("/ENI-enchere");
+				response.sendRedirect("/ENI-enchere/DetailVente/"+aV.getNoArticle());
+				//response.sendRedirect("/ENI-enchere");
 				} catch (Exception e) {
+					request.setAttribute("lstParam", lstParam);
+					RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/ajoutVente.jsp");
+					rd.forward(request, response);
 					// TODO Gestion des erreurs de saisie
 					e.printStackTrace();
 				}
@@ -124,10 +165,12 @@ public class ServletAjoutArticle extends HttpServlet {
 		return lstParam.size()==0;
 	}
 	public void valider(String text, ErrorCodes errorCode, List<ErrorCodes> lstParam) {
-		if (!text.matches(errorCode.getPattern())) {
+		Pattern pattern = Pattern.compile(errorCode.getPattern());
+		Matcher matcher = pattern.matcher(text);
+		if (!matcher.matches()) {
 			lstParam.add(errorCode);
 		}
 	}
-
+	
 }
 

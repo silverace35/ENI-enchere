@@ -29,7 +29,7 @@ public class ServletTestBOUtilisateur extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		Utilisateur u1 = new Utilisateur(1, "BobD", "Dupont", "Bob", "frfjnrf@deded.fr", "0120254650", "10 rue là-bas", "35000", "Rennes", "bboobbbb", 100, false);
+		Utilisateur u1 = new Utilisateur(1, "BobD", "Dupont", "Bob", "frfjnrf@deded.fr", "0120254650", "10 rue là-bas", "35000", "Rennes", "bboobbbb", 100, false, false);
 		u1.setCredit(u1.getCredit() +20) ;
 
 		System.out.println(u1);

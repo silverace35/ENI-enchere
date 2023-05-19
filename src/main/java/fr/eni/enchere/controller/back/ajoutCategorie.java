@@ -16,14 +16,14 @@ import fr.eni.enchere.bo.Utilisateur;
 /**
  * Servlet implementation class suppresionCategorie
  */
-@WebServlet("/administration/suppressionCategorie/*")
-public class suppresionCategorie extends HttpServlet {
+@WebServlet("/administration/ajoutCategorie")
+public class ajoutCategorie extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public suppresionCategorie() {
+	public ajoutCategorie() {
 		super();
 	}
 
@@ -31,39 +31,7 @@ public class suppresionCategorie extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if (request.getSession().getAttribute("noUtilisateur") != null) {
-			Integer idAdmin = (Integer)request.getSession().getAttribute("noUtilisateur");
-			Utilisateur u = null;
-			UtilisateurManager uMgr = new UtilisateurManager();
-			CategorieManager cMgr = new CategorieManager();
-			
-			u = uMgr.getUtilisateurByNoUtilisateur(idAdmin);
-			
-			if (u != null) {
-				if (u.getAdministrateur()) {
-					boolean erreur = false;
-					
-					String id = request.getPathInfo();
-					if (id != null) {
-						id = id.replace("/", "").trim();
-					}
-					try {
-						Integer.valueOf(id);
-					} catch (Exception e) {
-						erreur = true;
-						e.printStackTrace();
-					}
-					
-					if (!erreur) {
-						cMgr.deleteCategorie(Integer.valueOf(id));
-						response.sendRedirect(request.getContextPath()+"/administration/categorie");
-					} else {
-						RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/Error403.jsp");
-						rd.forward(request, response);
-					}
-				}
-			}
-		}
+		
 	}
 
 	/**
@@ -72,8 +40,36 @@ public class suppresionCategorie extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		if (request.getSession().getAttribute("noUtilisateur") != null) {
+			System.out.println("adminCategorieAjout");
+			Integer idAdmin = (Integer) request.getSession().getAttribute("noUtilisateur");
+			Utilisateur u = null;
+			UtilisateurManager uMgr = new UtilisateurManager();
+			CategorieManager cMgr = new CategorieManager();
+			
+			String libelle = request.getParameter("libelle");
+
+			u = uMgr.getUtilisateurByNoUtilisateur(idAdmin);
+
+			if (u != null) {
+				if (u.getAdministrateur()) {
+						try {
+							if (!"".equals(libelle) && libelle!=null) {
+								cMgr.insert(libelle);
+							}
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						response.sendRedirect(request.getContextPath() + "/administration/categorie");
+				} else {
+					RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/Error403.jsp");
+					rd.forward(request, response);
+				}
+			} else {
+				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/Error403.jsp");
+				rd.forward(request, response);
+			}
+		}
 	}
 
 }

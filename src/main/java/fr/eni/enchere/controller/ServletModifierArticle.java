@@ -1,33 +1,42 @@
 package fr.eni.enchere.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
 import fr.eni.enchere.bll.ArticleManager;
+import fr.eni.enchere.bll.ImageManager;
 import fr.eni.enchere.bll.RetraitManager;
 import fr.eni.enchere.bll.UtilisateurManager;
 import fr.eni.enchere.bo.ArticleVendu;
+import fr.eni.enchere.bo.Image;
 import fr.eni.enchere.bo.Retrait;
 import fr.eni.enchere.bo.Utilisateur;
+import fr.eni.enchere.test.Utils;
 
 /**
  * Servlet implementation class ServletTestAjoutArticle
  */
 @WebServlet("/ModifierVente/*")
+@MultipartConfig
 public class ServletModifierArticle extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+	public static final String SAVE_DIRECTORY = "uploads";   
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -40,6 +49,7 @@ public class ServletModifierArticle extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//request.setCharacterEncoding("UTF-8");
 		HttpSession session = request.getSession();
 		UtilisateurManager uMgr = new UtilisateurManager();
 		Utilisateur u = null;
@@ -47,7 +57,8 @@ public class ServletModifierArticle extends HttpServlet {
 		ArticleVendu aV = null;
 		RetraitManager rMgr = new RetraitManager();
 		Retrait r = null;
-		
+		ImageManager iMgr = new ImageManager();
+		Image i = null;
 		boolean erreur = false;
 		
 		String id = request.getPathInfo();
@@ -55,9 +66,7 @@ public class ServletModifierArticle extends HttpServlet {
 			id = id.replace("/", "").trim();
 		}
 		try {
-			System.out.println("|"+id+"|");
 			Integer.valueOf(id);
-			System.out.println("Cast |"+Integer.valueOf(id)+"|");
 			session.setAttribute("noArticle",Integer.valueOf(id));
 			
 		} catch (Exception e) {
@@ -73,11 +82,15 @@ public class ServletModifierArticle extends HttpServlet {
 			request.setAttribute("prixInitial", aV.getPrixInitial());
 			request.setAttribute("dateDebutEncheres", aV.getDateDebutEncheres());
 			request.setAttribute("dateFinEncheres", aV.getDateFinEncheres());
-			System.out.println(aV.getDateDebutEncheres());
 			r = rMgr.getRetraitByNoRetrait(Integer.valueOf(id));
 				request.setAttribute("rue", r.getRue());
 				request.setAttribute("codePostal", r.getCodePostal());
 				request.setAttribute("ville", r.getVille());
+			i=iMgr.getImageBynoArticle(Integer.valueOf(id));
+			//request.setAttribute("image", i);
+			//${pageContext.request.contextPath}/uploads/${image.picture}
+			request.setAttribute("imageLocation", request.getContextPath()+"/uploads/"+i.getPicture());
+			System.out.println(request.getContextPath()+"/uploads/"+i.getPicture());
 			} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -91,35 +104,50 @@ public class ServletModifierArticle extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
+		//request.setCharacterEncoding("UTF-8");
 		HttpSession session = request.getSession();
 		ArticleManager aMgr = new ArticleManager();
 		UtilisateurManager uMgr = new UtilisateurManager();
 		List<ErrorCodes> lstParam = new ArrayList<>();
 		RetraitManager rMgr = new RetraitManager();
 		
-		String nomArticle=request.getParameter("nomArticle");
-		String description=request.getParameter("description");
-		System.out.println(request.getParameter("dateDebutEncheres"));
+		String nomArticle=(String)request.getParameter("nomArticle");
+		String description=(String)request.getParameter("description");
 		LocalDateTime dateDebutEncheres=LocalDateTime.parse(request.getParameter("dateDebutEncheres"), DateTimeFormatter.ISO_DATE_TIME) ;
 		LocalDateTime dateFinEncheres=LocalDateTime.parse(request.getParameter("dateFinEncheres"), DateTimeFormatter.ISO_DATE_TIME);
 		Integer prixInitial=Integer.valueOf(request.getParameter("prixInitial"));
 		Integer noCategorie=Integer.valueOf( request.getParameter("categorie"));
-		String rue=request.getParameter("rue");
-		String codePostal=request.getParameter("codePostal");
-		String ville=request.getParameter("ville");
+		String rue=(String)request.getParameter("rue");
+		String codePostal=(String)request.getParameter("codePostal");
+		String ville=(String)request.getParameter("ville");
+		
+		
 		
 		if(validerChamps(lstParam,nomArticle,description, dateDebutEncheres, dateFinEncheres, prixInitial, rue, codePostal, ville)) {
 			try {
 				Integer noUtilisateur = (Integer)session.getAttribute("noUtilisateur");
-				System.out.println("noUtilisateur : "+noUtilisateur);
 				Integer noArticle=(Integer)session.getAttribute("noArticle");
-				System.out.println("noArticle : "+noArticle);
-				System.out.println("noArticle après validerChamps() "+noArticle);
 				ArticleVendu aV = new ArticleVendu(noArticle, nomArticle, description, dateDebutEncheres, dateFinEncheres, prixInitial, null, noUtilisateur, noCategorie, false, false, "");
 				aMgr.update(aV);
 				rMgr.update(new Retrait(noArticle, rue, codePostal, ville));
+				ImageManager iMgr = new ImageManager();
+				Image i = iMgr.getImageBynoArticle(aV.getNoArticle());
+				String appPath = request.getServletContext().getRealPath("");
+				//File f = new File(request.getContextPath()+"/uploads/"+i.getPicture());
+				File f = new File(appPath+"/uploads/"+i.getPicture());
+				/*f.getAbsolutePath())*/
 				
+				System.err.println(request.getContextPath()+"/uploads/"+i.getPicture());
+				if (f.delete()) {
+				  System.out.println("J'ai bien delete l'image");
+				}
+				
+				// Gets absolute path to root directory of web app.
+		        // Gets image informations
+		        Part part = request.getPart("pictureFile");
+		        // Save image File and get fileName
+		        String fileName = Utils.saveFile(SAVE_DIRECTORY, appPath, part);
+				iMgr.update(new Image(aV.getNoArticle(),fileName));
 				response.sendRedirect("/ENI-enchere/DetailVente/"+noArticle);
 				
 				} catch (Exception e) {
@@ -156,9 +184,15 @@ public class ServletModifierArticle extends HttpServlet {
 		return lstParam.size()==0;
 	}
 	public void valider(String text, ErrorCodes errorCode, List<ErrorCodes> lstParam) {
-		if (!text.matches(errorCode.getPattern())) {
+//		if (!text.matches(errorCode.getPattern())) {
+//			lstParam.add(errorCode);
+//		}
+		Pattern pattern = Pattern.compile(errorCode.getPattern());
+		Matcher matcher = pattern.matcher(text);
+		if (!matcher.matches()) {
 			lstParam.add(errorCode);
 		}
+		
 	}
 
 }

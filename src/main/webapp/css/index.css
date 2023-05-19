@@ -76,16 +76,21 @@ form {
 	position: relative;
 }
 
+.achats-container {
+	
+	position: relative;
+}
+
 .achats-display, .ventes-display {
 	border-radius: 10px; 
-	width: 100%;
+	width: 500px;
 	padding: 5px;
 	display: none;
 	flex-direction: row;
 	position: absolute;
 	top: 120px;
 	left: 50%;
-	transform: translateX(-50%);
+	transform: translateX(-80%);
 	background-color: white;
 }
 
@@ -110,23 +115,15 @@ img:not(.enchere-img) {
 	}
 }
 
-/* tablette */
-@media screen and (max-width: 900px) {
-
-	form {
-		width: 90%;
-	}
-}
-
 /* mobile */
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 900px) {
 	nav ul {
 		flex-direction: column;
 	}
 	
 	form {
 		flex-direction : column;
-		min-height: 30vh;
+		min-height: 50vh;
 		justify-content: space-around;
 		padding: 20px;
 	}
@@ -144,6 +141,79 @@ img:not(.enchere-img) {
 	.search-container {
 		width: 100%;
 		flex-direction: row;
+		align-items: center;
+	}
+	
+	.search-container label {
+		width: 50%;
+	}
+	
+	.select-container {
+		justify-content: start;
+	}
+	
+	.select-container label {
+		width: 40%;
+	}
+	
+	.radio-container {
+		display: flex;
+    	width: 100%;
+    	justify-content: start;
+	}
+	
+	.radio-container label {
+		width: 30%;
+	}
+	
+	.radio-container .achats-container {
+		width: 30%;
+	}
+	
+	button.form-btn {
+		border-radius: 30px;
+		justify-content: center;
+	}
+	
+	.achats-display, .ventes-display {
+		top: 244px;
+		transform: translateX(-42%);
+	}
+}
+
+@media screen and (max-width: 700px) {
+	
+	form {
+		width: 100% !important;
+	}
+	
+	.radio-container {
+		display: block;
+	}
+	
+	.achats-display, .ventes-display {
+	    width: 200px;
+	    flex-direction: column;
+	    transform: translateX(40%);
+	}
+}
+
+@media screen and (max-width: 400px) {
+
+	h1 a {
+		font-size: 1.2rem ;
+	}
+	
+	h2 {
+		font-size: 2.3rem;
+	}
+	
+	.enchere {
+		min-width: 240px !important;
+	}
+	
+	.achats-display, .ventes-display {
+	    transform: translateX(0%);
 	}
 }
 
@@ -151,7 +221,7 @@ img:not(.enchere-img) {
 
 .list-encheres {
 	display: flex;
-	justify-content: start;
+	justify-content: center;
 	flex-wrap: wrap;
 	padding-top: 100px;
 }
@@ -174,6 +244,10 @@ img:not(.enchere-img) {
 	box-shadow: 0px 3px 28px -14px rgba(0,0,0,0.87);
 -webkit-box-shadow: 0px 3px 28px -14px rgba(0,0,0,0.87);
 -moz-box-shadow: 0px 3px 28px -14px rgba(0,0,0,0.87);
+}
+
+.enchere:hover {
+		transform: scale(1.03);
 }
 
 .img {
@@ -239,6 +313,12 @@ img:not(.enchere-img) {
 	color: var(--white);
 }
 
+.btn-container div div {
+	display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .statut {
 	user-select: none;
 	position: absolute;
@@ -270,7 +350,19 @@ img:not(.enchere-img) {
 	background: var(--black);
 }
 
+@media screen and (max-height: 600px) {
+	
+	.achats-display, .ventes-display {
+	    top: 155px !important;
+	}
+}
 
+@media screen and (max-height: 800px) and (max-width: 650px) {
+	
+	.achats-display, .ventes-display {
+	    top: 190px !important;
+	}
+}
 
 
 

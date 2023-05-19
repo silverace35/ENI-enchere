@@ -34,7 +34,7 @@ public class ServletInfosProfil extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		boolean erreur = false;
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/profilUtilisateur.jsp");
+		
 		HttpSession session = request.getSession();
 		UtilisateurManager mgr = new UtilisateurManager();
 		Utilisateur utilisateur = null;
@@ -50,11 +50,13 @@ public class ServletInfosProfil extends HttpServlet {
 		}
 
 		if (erreur) {
-			response.sendRedirect("/ENI-enchere");
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/Error404.jsp");
+			rd.forward(request, response);
 		} else {
 			utilisateur = mgr.getUtilisateurByNoUtilisateur(Integer.valueOf(id));
 			if (utilisateur != null) {
 				request.setAttribute("utilisateur", utilisateur);
+				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/profilUtilisateur.jsp");
 				rd.forward(request, response);
 			} else {
 				response.sendRedirect("/ENI-enchere");

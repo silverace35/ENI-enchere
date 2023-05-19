@@ -82,6 +82,7 @@ public class ServletModifierProfil extends HttpServlet {
 			String prenom = request.getParameter("prenom");
 			String email = request.getParameter("email");
 			String tel = request.getParameter("tel");
+			
 			String rue = request.getParameter("rue");
 			String codePostal = request.getParameter("codePostal");
 			String ville = request.getParameter("ville");
@@ -90,13 +91,14 @@ public class ServletModifierProfil extends HttpServlet {
 			
 			int credit = utilisateur.getCredit();
 			boolean administrateur = utilisateur.getAdministrateur();
+			boolean desactive = utilisateur.getDesactive();
 			
 			request.setAttribute("utilisateur", utilisateur);
 			
 			List<ErrorCodes> lstParam = new ArrayList<>();
 			
 			if (validerChamps(lstParam, pseudo, nom, prenom, email, tel, rue, codePostal, ville, pwdUser, confPwdUser)) {
-				utilisateur = new Utilisateur(noUtilisateur, pseudo, nom, prenom, email, tel, rue, codePostal, ville, confPwdUser, credit, administrateur);
+				utilisateur = new Utilisateur(noUtilisateur, pseudo, nom, prenom, email, tel, rue, codePostal, ville, confPwdUser, credit, administrateur,desactive);
 				System.out.println(utilisateur.toString());
 				try {
 					mgr.updateUtilisateur(utilisateur);

@@ -1,6 +1,8 @@
 package fr.eni.enchere.controller.back;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,23 +11,26 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import fr.eni.enchere.bll.CategorieManager;
+import fr.eni.enchere.bll.ArticleManager;
+import fr.eni.enchere.bll.EnchereManager;
 import fr.eni.enchere.bll.UtilisateurManager;
+import fr.eni.enchere.bo.ArticleVendu;
 import fr.eni.enchere.bo.Utilisateur;
 
 /**
- * Servlet implementation class suppresionCategorie
+ * Servlet implementation class suppressionUtilisateur
  */
-@WebServlet("/administration/suppressionCategorie/*")
-public class suppresionCategorie extends HttpServlet {
+@WebServlet("/desactivationUtilisateur/*")
+public class desactivationUtilisateur extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public suppresionCategorie() {
-		super();
-	}
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public desactivationUtilisateur() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -35,7 +40,9 @@ public class suppresionCategorie extends HttpServlet {
 			Integer idAdmin = (Integer)request.getSession().getAttribute("noUtilisateur");
 			Utilisateur u = null;
 			UtilisateurManager uMgr = new UtilisateurManager();
-			CategorieManager cMgr = new CategorieManager();
+			ArticleManager aMgr = new ArticleManager();
+			EnchereManager eMgr = new EnchereManager();
+			List<ArticleVendu> listArticle = new ArrayList<>();
 			
 			u = uMgr.getUtilisateurByNoUtilisateur(idAdmin);
 			
@@ -55,8 +62,21 @@ public class suppresionCategorie extends HttpServlet {
 					}
 					
 					if (!erreur) {
-						cMgr.deleteCategorie(Integer.valueOf(id));
-						response.sendRedirect(request.getContextPath()+"/administration/categorie");
+						aMgr.deleteByUserId(Integer.valueOf(id));
+						listArticle = aMgr.getArticlesEnCoursEncherie(Integer.valueOf(id));
+						
+						eMgr.deleteByUserId(Integer.valueOf(id));
+						
+						if (!listArticle.isEmpty()) {
+							Integer maxEnchere = null;
+							for (ArticleVendu articleVendu : listArticle) {
+								maxEnchere = eMgr.getMaxEnchereForArticleId(articleVendu.getNoArticle());
+								aMgr.updatePrixDeVente(maxEnchere, articleVendu.getNoArticle());
+							}
+						}
+						
+						uMgr.desactiveUtilisateur(Integer.valueOf(id));
+						response.sendRedirect(request.getContextPath()+"/administration");
 					} else {
 						RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/Error403.jsp");
 						rd.forward(request, response);
@@ -64,15 +84,14 @@ public class suppresionCategorie extends HttpServlet {
 				}
 			}
 		}
+		
+		
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		// TODO Auto-generated method stub
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
 
