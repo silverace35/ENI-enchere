@@ -192,4 +192,24 @@ public class ArticleManager implements Serializable{
 			e.printStackTrace();
 		}
 	}
+	
+	public void updateOkVendeur(Boolean okVendeur, Integer noArticle) {
+		try {
+			if (okVendeur != null) {
+				this.articleVenduDAO.updateOkVendeur(okVendeur, noArticle);
+			}
+		}  catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void updateOkAcheteur(Boolean okAcheteur, Integer noArticle) {
+		try {
+			if (okAcheteur != null) {
+				this.articleVenduDAO.updateOkAcheteur(okAcheteur, noArticle);
+			}
+		}  catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

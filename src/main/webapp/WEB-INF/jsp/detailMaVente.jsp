@@ -37,7 +37,7 @@
 		<h2 style="color: black" class="">Enchère en cours</h2>
 		<%} %>
 		<%if (av.getArticleStatus() == ArticleStatus.ET) { %>
-		<h2 style="color: black" class="">Enchère terminée <%=u!=null?" par "+ u.getNom()+ " " +u.getPrenom():"" %></h2>
+		<h2 style="color: black" class="">Enchère terminée <%=u!=null?" gagné par "+ u.getNom()+ " " +u.getPrenom():"" %></h2>
 		<%} %>
 		<div class="vente">
 			<div class="img vente-img">		
@@ -93,6 +93,18 @@
 		<%
 		}
 		%>
+		<% if (av.getArticleStatus() == ArticleStatus.ET && (int)av.getNoUtilisateur() ==  (Integer)session.getAttribute("noUtilisateur") && session.getAttribute("desactive") == null && !av.isRetraitOkVendeur() && !encheres.isEmpty()) {%>
+			</br>
+			<a class="main-link" href="/ENI-enchere/okVendeur/<%=av.getNoArticle()%>">Valider le retrait</a>
+		<%} %>
+		
+		<% if (av.isRetraitOkAcheteur() && av.isRetraitOkVendeur() && !encheres.isEmpty()){%>
+			<p>L'acheteur et vous avez validé le retrait !</p>
+		<%} else if (av.isRetraitOkAcheteur() && !av.isRetraitOkVendeur() && !encheres.isEmpty()) {%>
+			<p>L'acheteur à validé le retrait !</p>
+		<%} else if (!av.isRetraitOkAcheteur() && av.isRetraitOkVendeur() && !encheres.isEmpty()) {%>
+			<p>Vous avez validé le retrait !</p>
+		<%}%>
 		<div class="history">
 			<%
 			if (u != null) {

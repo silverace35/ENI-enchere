@@ -92,6 +92,8 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO{
 			+ " retrait_ok_acheteur=? WHERE no_article=?;";
 	private static final String CHECK_ARTICLE_UTIL= "SELECT * FROM articles_vendus WHERE no_article=? and no_utilisateur=?;";
 	private static final String UPDATE_PRIX_DE_VENTE= "UPDATE articles_vendus SET prix_vente=? WHERE no_article=?";
+	private static final String UPDATE_OK_VENDEUR= "UPDATE articles_vendus SET retrait_ok_vendeur=? WHERE no_article=?";
+	private static final String UPDATE_OK_ACHETEUR= "UPDATE articles_vendus SET retrait_ok_acheteur=? WHERE no_article=?";
 	
 	public static ArticleVenduDAOJdbcImpl getInstance() {
 		if (instance == null) {
@@ -643,4 +645,37 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO{
 		}
 	}
 
+	@Override
+	public void updateOkVendeur(boolean okVendeur, Integer noArticle) throws BusinessException {
+		try(Connection cnx = ConnectionProvider.getConnection())
+		{
+			PreparedStatement pstmt = cnx.prepareStatement(UPDATE_OK_VENDEUR);
+			pstmt.setBoolean(1, okVendeur);
+			pstmt.setInt(2, noArticle);
+			pstmt.executeUpdate();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			throw businessException;
+		}
+	}
+	
+	@Override
+	public void updateOkAcheteur(boolean okAcheteur, Integer noArticle) throws BusinessException {
+		try(Connection cnx = ConnectionProvider.getConnection())
+		{
+			PreparedStatement pstmt = cnx.prepareStatement(UPDATE_OK_ACHETEUR);
+			pstmt.setBoolean(1, okAcheteur);
+			pstmt.setInt(2, noArticle);
+			pstmt.executeUpdate();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			throw businessException;
+		}
+	}
 }

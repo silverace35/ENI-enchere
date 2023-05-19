@@ -1,6 +1,8 @@
 package fr.eni.enchere.controller.back;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,7 +11,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fr.eni.enchere.bll.ArticleManager;
+import fr.eni.enchere.bll.EnchereManager;
 import fr.eni.enchere.bll.UtilisateurManager;
+import fr.eni.enchere.bo.ArticleVendu;
 import fr.eni.enchere.bo.Utilisateur;
 
 /**
@@ -35,6 +40,9 @@ public class suppressionUtilisateur extends HttpServlet {
 			Integer idAdmin = (Integer)request.getSession().getAttribute("noUtilisateur");
 			Utilisateur u = null;
 			UtilisateurManager uMgr = new UtilisateurManager();
+			ArticleManager aMgr = new ArticleManager();
+			List<ArticleVendu> listArticle = new ArrayList<>();
+			EnchereManager eMgr = new EnchereManager();
 			
 			u = uMgr.getUtilisateurByNoUtilisateur(idAdmin);
 			
@@ -54,6 +62,19 @@ public class suppressionUtilisateur extends HttpServlet {
 					}
 					
 					if (!erreur) {
+						aMgr.deleteByUserId(Integer.valueOf(id));
+						listArticle = aMgr.getArticlesEnCoursEncherie(Integer.valueOf(id));
+						
+						eMgr.deleteByUserId(Integer.valueOf(id));
+						
+						if (!listArticle.isEmpty()) {
+							Integer maxEnchere = null;
+							for (ArticleVendu articleVendu : listArticle) {
+								maxEnchere = eMgr.getMaxEnchereForArticleId(articleVendu.getNoArticle());
+								aMgr.updatePrixDeVente(maxEnchere, articleVendu.getNoArticle());
+							}
+						}
+						
 						uMgr.deleteUtilisateur(Integer.valueOf(id));
 						response.sendRedirect(request.getContextPath()+"/administration");
 					} else {

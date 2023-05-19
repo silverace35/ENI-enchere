@@ -79,6 +79,19 @@
 				</div>
 			</form>
 		<%} %>
+		
+		<% if (av.getArticleStatus() == ArticleStatus.ET && !encheres.isEmpty() && (int)encheres.get(0).getNoUtilisateur() ==  (Integer)session.getAttribute("noUtilisateur") && session.getAttribute("desactive") == null && !av.isRetraitOkAcheteur()) {%>
+			</br>
+			<a class="main-link" href="/ENI-enchere/okAcheteur/<%=av.getNoArticle()%>">Valider le retrait</a>
+		<%} %>
+		
+		<% if (av.isRetraitOkAcheteur() && av.isRetraitOkVendeur() && !encheres.isEmpty()){%>
+			<p>Le vendeur et vous avez validé le retrait !</p>
+		<%} else if (av.isRetraitOkAcheteur() && !av.isRetraitOkVendeur() && !encheres.isEmpty()) {%>
+			<p>Vous avez validé le retrait !</p>
+		<%} else if (!av.isRetraitOkAcheteur() && av.isRetraitOkVendeur() && !encheres.isEmpty()) {%>
+			<p>Le vendeur à validé le retrait !</p>
+		<%}%>
 
 		<div class="history">
 			<h3>Historique des offres :</h3>

@@ -22,4 +22,6 @@ public interface ArticleVenduDAO {
 	boolean checkArticleUtilisateur(int noArticle, int noUtilisateur) throws BusinessException;
 	void deleteByUserId(int noUtilisateur) throws BusinessException;
 	void updatePrixDeVente(Integer prixDeVente, Integer noArticle) throws BusinessException;
+	void updateOkVendeur(boolean okVendeur, Integer noArticle) throws BusinessException;
+	void updateOkAcheteur(boolean okAcheteur, Integer noArticle) throws BusinessException;
 }
