@@ -115,11 +115,14 @@ public class ServletAjoutArticle extends HttpServlet {
 				Utilisateur u = utilisateurMgr.getUtilisateurByNoUtilisateur(noUtilisateur);
 				boolean nouvelleAdresse = (rue.equals(u.getRue()))&&(codePostal.toString().equals(u.getCodePostal()))&&(ville.equals(u.getVille()));
 				RetraitManager retraitMgr = new RetraitManager();
-				// Save image File and get fileName
-				String fileName = Utils.saveFile(SAVE_DIRECTORY,appPath, part);
-				// Save image in database
-				ImageManager iMgr = new ImageManager();
-				iMgr.insert(aV.getNoArticle(),fileName);
+				
+				if (part.getSize()!=0) {
+					// Save image File and get fileName
+					String fileName = Utils.saveFile(SAVE_DIRECTORY,appPath, part);
+					// Save image in database
+					ImageManager iMgr = new ImageManager();
+					iMgr.insert(aV.getNoArticle(),fileName);
+				}
 				
 				if (!nouvelleAdresse) {
 					retraitMgr.insert(aV.getNoArticle(), rue, codePostal, ville);
