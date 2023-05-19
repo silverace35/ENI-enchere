@@ -1,5 +1,6 @@
 package fr.eni.enchere.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -120,12 +121,7 @@ public class ServletModifierArticle extends HttpServlet {
 		String codePostal=(String)request.getParameter("codePostal");
 		String ville=(String)request.getParameter("ville");
 		
-		// Gets absolute path to root directory of web app.
-        String appPath = request.getServletContext().getRealPath("");
-        // Gets image informations
-        Part part = request.getPart("pictureFile");
-        // Save image File and get fileName
-        String fileName = Utils.saveFile(SAVE_DIRECTORY, appPath, part);
+		
 		
 		if(validerChamps(lstParam,nomArticle,description, dateDebutEncheres, dateFinEncheres, prixInitial, rue, codePostal, ville)) {
 			try {
@@ -135,6 +131,22 @@ public class ServletModifierArticle extends HttpServlet {
 				aMgr.update(aV);
 				rMgr.update(new Retrait(noArticle, rue, codePostal, ville));
 				ImageManager iMgr = new ImageManager();
+				Image i = iMgr.getImageBynoArticle(aV.getNoArticle());
+				String appPath = request.getServletContext().getRealPath("");
+				//File f = new File(request.getContextPath()+"/uploads/"+i.getPicture());
+				File f = new File(appPath+"/uploads/"+i.getPicture());
+				/*f.getAbsolutePath())*/
+				
+				System.err.println(request.getContextPath()+"/uploads/"+i.getPicture());
+				if (f.delete()) {
+				  System.out.println("J'ai bien delete l'image");
+				}
+				
+				// Gets absolute path to root directory of web app.
+		        // Gets image informations
+		        Part part = request.getPart("pictureFile");
+		        // Save image File and get fileName
+		        String fileName = Utils.saveFile(SAVE_DIRECTORY, appPath, part);
 				iMgr.update(new Image(aV.getNoArticle(),fileName));
 				response.sendRedirect("/ENI-enchere/DetailVente/"+noArticle);
 				
