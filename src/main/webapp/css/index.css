@@ -243,6 +243,10 @@ img:not(.enchere-img) {
 -moz-box-shadow: 0px 3px 28px -14px rgba(0,0,0,0.87);
 }
 
+.enchere:hover {
+		transform: scale(1.03);
+}
+
 .img {
 	height: 120px;
 	width: 120px;
