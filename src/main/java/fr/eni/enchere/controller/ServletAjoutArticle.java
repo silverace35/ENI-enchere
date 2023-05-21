@@ -28,7 +28,7 @@ import fr.eni.enchere.bll.UtilisateurManager;
 import fr.eni.enchere.bo.ArticleVendu;
 import fr.eni.enchere.bo.Image;
 import fr.eni.enchere.bo.Utilisateur;
-import fr.eni.enchere.test.Utils;
+import fr.eni.enchere.utils.Utils;
 
 /**
  * Servlet implementation class ServletTestAjoutArticle

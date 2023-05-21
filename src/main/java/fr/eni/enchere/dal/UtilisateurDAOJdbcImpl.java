@@ -11,7 +11,7 @@ import fr.eni.enchere.bo.ArticleVendu;
 import fr.eni.enchere.bo.Utilisateur;
 import fr.eni.enchere.controller.ErrorCodes;
 import fr.eni.enchere.dal.exceptions.BusinessException;
-import fr.eni.enchere.test.Utils;
+import fr.eni.enchere.utils.Utils;
 
 public class UtilisateurDAOJdbcImpl implements DAOUtilisateur{
 

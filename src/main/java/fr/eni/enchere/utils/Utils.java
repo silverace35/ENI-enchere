@@ -1,4 +1,4 @@
-package fr.eni.enchere.test;
+package fr.eni.enchere.utils;
 
 import java.io.File;
 import java.io.IOException;
