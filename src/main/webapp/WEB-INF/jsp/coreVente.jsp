@@ -52,8 +52,7 @@
 			<div class="vente-form" >
 				<div class="vente-field">
 					<div class="img">
-<!--  -->				<img id="uploadPreview" />
-							<img src="<%=imgLoc%>" alt=""/>
+<!--  -->				<img id="uploadPreview" src="<%=imgLoc%>" alt=""/>
 					</div>
 
 <!--  -->			<input type="file" id="pictureFile" name="pictureFile" accept="image/png, image/jpeg" onchange="PreviewImage();"/>

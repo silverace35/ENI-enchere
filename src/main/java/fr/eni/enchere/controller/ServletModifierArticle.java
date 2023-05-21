@@ -27,7 +27,7 @@ import fr.eni.enchere.bo.ArticleVendu;
 import fr.eni.enchere.bo.Image;
 import fr.eni.enchere.bo.Retrait;
 import fr.eni.enchere.bo.Utilisateur;
-import fr.eni.enchere.test.Utils;
+import fr.eni.enchere.utils.Utils;
 
 /**
  * Servlet implementation class ServletTestAjoutArticle
@@ -89,8 +89,10 @@ public class ServletModifierArticle extends HttpServlet {
 			i=iMgr.getImageBynoArticle(Integer.valueOf(id));
 			//request.setAttribute("image", i);
 			//${pageContext.request.contextPath}/uploads/${image.picture}
-			request.setAttribute("imageLocation", request.getContextPath()+"/uploads/"+i.getPicture());
-			System.out.println(request.getContextPath()+"/uploads/"+i.getPicture());
+			if (i!=null) {
+				request.setAttribute("imageLocation", request.getContextPath()+"/uploads/"+i.getPicture());
+				System.out.println(request.getContextPath()+"/uploads/"+i.getPicture());
+			}
 			} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -131,23 +133,31 @@ public class ServletModifierArticle extends HttpServlet {
 				aMgr.update(aV);
 				rMgr.update(new Retrait(noArticle, rue, codePostal, ville));
 				ImageManager iMgr = new ImageManager();
-				Image i = iMgr.getImageBynoArticle(aV.getNoArticle());
 				String appPath = request.getServletContext().getRealPath("");
-				//File f = new File(request.getContextPath()+"/uploads/"+i.getPicture());
-				File f = new File(appPath+"/uploads/"+i.getPicture());
-				/*f.getAbsolutePath())*/
-				
-				System.err.println(request.getContextPath()+"/uploads/"+i.getPicture());
-				if (f.delete()) {
-				  System.out.println("J'ai bien delete l'image");
+				Part part = request.getPart("pictureFile");
+				System.out.println("getsubmittedfn : " +part.getSubmittedFileName());
+				System.out.println("gername : " +part.getName());
+				System.out.println("getsize : " +part.getSize());
+				// Save image File and get fileName
+				if (part.getSize()!=0) {
+					String fileName = Utils.saveFile(SAVE_DIRECTORY, appPath, part);
+					
+					Image i = iMgr.getImageBynoArticle(aV.getNoArticle());
+					if (i!=null) {
+						File f = new File(appPath+"/uploads/"+i.getPicture());
+						if (f.delete()) {
+							System.out.println("J'ai bien delete l'image");
+						}
+						System.err.println(request.getContextPath()+"/uploads/"+i.getPicture());
+						iMgr.update(new Image(aV.getNoArticle(),fileName));
+						
+					} else {
+						iMgr.insert(aV.getNoArticle(),fileName);
+						
+					}
+					
 				}
-				
-				// Gets absolute path to root directory of web app.
-		        // Gets image informations
-		        Part part = request.getPart("pictureFile");
-		        // Save image File and get fileName
-		        String fileName = Utils.saveFile(SAVE_DIRECTORY, appPath, part);
-				iMgr.update(new Image(aV.getNoArticle(),fileName));
+
 				response.sendRedirect("/ENI-enchere/DetailVente/"+noArticle);
 				
 				} catch (Exception e) {
