@@ -1,10 +1,6 @@
 package fr.eni.enchere.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -17,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import fr.eni.enchere.bll.UtilisateurManager;
 import fr.eni.enchere.bo.Utilisateur;
+import fr.eni.enchere.utils.Logger;
 
 /**
  * Servlet implementation class ServletConnexion
@@ -24,6 +21,8 @@ import fr.eni.enchere.bo.Utilisateur;
 @WebServlet("/ServletConnexion")
 public class ServletConnexion extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private final String LOCATION = "ServletConnexion";
+
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -37,6 +36,7 @@ public class ServletConnexion extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		// Si l'utilisateur est déjà connecté, renvoi vers l'index. Sinon déléguation vers le formulaire de connexion
 		if(request.getSession().getAttribute("noUtilisateur") != null) {			
 			response.sendRedirect("/ENI-enchere");
 		} else {
@@ -49,8 +49,10 @@ public class ServletConnexion extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
 		UtilisateurManager mgr = new UtilisateurManager();
 		Utilisateur u = null;
+		String appPath = request.getServletContext().getRealPath("");
 		try {
 			// identifiant peut soit etre le pseudo soit le mail
 			String idUser = request.getParameter("identifiant");
@@ -60,31 +62,41 @@ public class ServletConnexion extends HttpServlet {
 	        if (idUser != null && pwdUser != null) {
 	        	u = mgr.validerPwd(idUser, pwdUser);
 	        	if (u!=null) {
+	        		
+	        		// Set cookie utilisateur
 	        		if("on".equals(souvenir)) {
 	        			Cookie userCookie = new Cookie("cookieLogin", u.getNoUtilisateur().toString());
 	        			userCookie.setMaxAge(60*60*24*365); //cookie d'une durée de 1 an
 	        			response.addCookie(userCookie);
 	        		}
-	        		request.getSession().setAttribute("noUtilisateur", u.getNoUtilisateur()); 
+	        		session.setAttribute("noUtilisateur", u.getNoUtilisateur()); 
 	        		if(u.getAdministrateur()) {
-	        			request.getSession().setAttribute("admin", true);
+	        			session.setAttribute("admin", true);
 	        		}
 	        		if(u.getDesactive()) {
-	        			request.getSession().setAttribute("desactive", true);
+	        			session.setAttribute("desactive", true);
 	        		}
 	        		//SI VALID : httpSession.setAttribute("IdUser", idUser);
+	        		Logger.log(appPath, LOCATION, u.getNoUtilisateur(), "connected" , null, "Admin : "
+	        				+(Boolean)session.getAttribute("admin"), "Desactivé : "+(Boolean)session.getAttribute("desactive"));
 	        		response.sendRedirect("/ENI-enchere");
 	        	} else {
+	        		Logger.log(appPath, LOCATION, null, "Identifiant ou mot de passe invalide" , null);
 	        		throw new Exception("Identifiant ou mot de passe invalide");
 	        	}
 	        	
 	        } else {
 	        	// TODO : gestion erreur 
-	        	throw new Exception("Identifiant ou mot de passe invalide");
+	        	Logger.log(appPath, LOCATION, null, "Identifiant ou mot de passe non renseigné" , null);
+	        	throw new Exception("Identifiant ou mot de passe non renseigné");
 	        }
 		} catch (Exception e) {
 			request.setAttribute(ErrorCodes.IDORPASSWORD.name(), ErrorCodes.IDORPASSWORD.getMessage());
     		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/connexion.jsp");
+    		
+    		// Enregistrement du passage dans la servlet
+    		Logger.log(appPath, LOCATION, (Integer)session.getAttribute("noUtilisateur"), "Failed to connect" , null);
+    		
 			rd.forward(request, response);
 			e.printStackTrace();
 		}

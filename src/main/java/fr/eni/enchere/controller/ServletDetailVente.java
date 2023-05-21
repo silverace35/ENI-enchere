@@ -26,6 +26,7 @@ import fr.eni.enchere.bo.Enchere;
 import fr.eni.enchere.bo.Image;
 import fr.eni.enchere.bo.Retrait;
 import fr.eni.enchere.bo.Utilisateur;
+import fr.eni.enchere.utils.Logger;
 
 /**
  * Servlet implementation class ServletDetailVente
@@ -33,7 +34,8 @@ import fr.eni.enchere.bo.Utilisateur;
 @WebServlet("/DetailVente/*")
 public class ServletDetailVente extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	private final String LOCATION = "ServletDetailVente";
+	
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -47,10 +49,10 @@ public class ServletDetailVente extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+		String appPath = request.getServletContext().getRealPath("");
 		boolean erreur = false;
 		HttpSession session = request.getSession();
-
+		
 		ArticleManager aMgr = new ArticleManager();
 		UtilisateurManager uMgr = new UtilisateurManager();
 		CategorieManager cMgr = new CategorieManager();
@@ -65,14 +67,14 @@ public class ServletDetailVente extends HttpServlet {
 		Retrait r = null;
 		Image i = null;
 		
-		if (request.getSession().getAttribute("noUtilisateur") != null) {
+		if (session.getAttribute("noUtilisateur") != null) {
 			String id = request.getPathInfo();
 			if (id != null) {
 				id = id.replace("/", "").trim();
 			}
 			try {
-				System.out.println(id);
 				Integer.valueOf(id);
+
 			} catch (Exception e) {
 				erreur = true;
 				e.printStackTrace();
@@ -83,11 +85,9 @@ public class ServletDetailVente extends HttpServlet {
 			} else {
 				av = aMgr.getByNoArticle(Integer.valueOf(id));
 				r = rMgr.getRetraitByNoRetrait(av.getNoArticle());
-//				System.out.println(r.toString());
 				c = cMgr.getCategorieByNoCategorie(av.getNoCategorie());
 				encheres.addAll(eMgr.selectAllEncheresByNoArticle(av.getNoArticle()));
 				i = iMgr.getImageBynoArticle(av.getNoArticle());
-				System.out.println(encheres.toString());
 				if (!encheres.isEmpty()) {
 					u = uMgr.getUtilisateurByNoUtilisateur(encheres.get(0).getNoUtilisateur());
 				}
@@ -100,9 +100,10 @@ public class ServletDetailVente extends HttpServlet {
 					if (i !=null) {
 						request.setAttribute("imageLocation", request.getContextPath()+"/uploads/"+i.getPicture());
 					}
+					Logger.log(appPath, LOCATION, (Integer)session.getAttribute("noUtilisateur"), "Accessed" , av.getNoArticle());
 					
 					//Si l'utilisateur consulte une de ses ventes
-					if ((Integer)request.getSession().getAttribute("noUtilisateur") == (int)av.getNoUtilisateur()) {
+					if ((Integer)session.getAttribute("noUtilisateur") == (int)av.getNoUtilisateur()) {
 						RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/detailMaVente.jsp");
 						rd.forward(request, response);
 					} else {
@@ -110,11 +111,14 @@ public class ServletDetailVente extends HttpServlet {
 						rd.forward(request, response);
 					}
 				} else {
+					Logger.log(appPath, LOCATION, (Integer)session.getAttribute("noUtilisateur"), "404 attempted to access" , Integer.valueOf(id));
+					
 					RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/Error404.jsp");
 					rd.forward(request, response);
 				}
 			}
 		} else {
+		
 			response.sendRedirect("/ENI-enchere");
 		}
 	}
@@ -126,6 +130,7 @@ public class ServletDetailVente extends HttpServlet {
 	@SuppressWarnings("unused")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		String appPath = request.getServletContext().getRealPath("");
 		HttpSession session = request.getSession();
 		String erreurMessage = "Saisie invalide";
 
@@ -147,7 +152,6 @@ public class ServletDetailVente extends HttpServlet {
 
 		if (session.getAttribute("desactive") != null || session.getAttribute("noUtilisateur")== null) {
 			response.sendRedirect("/ENI-enchere");
-			System.out.println("utilisateur est null");
 		} else {
 
 			try {

@@ -10,7 +10,14 @@ import java.util.UUID;
 import javax.servlet.http.Part;
 
 public class Utils {
-	 public static String sha256(String mdp) throws NoSuchAlgorithmException {
+	
+	
+	 /** Méthode retournant un mot de passe passé au hachage SHA256 avec un SALT 
+	 * @param mdp
+	 * @return
+	 * @throws NoSuchAlgorithmException
+	 */
+	public static String sha256(String mdp) throws NoSuchAlgorithmException {
         // salt statique, connu uniquement du serveur, pour davantage de sécurité. à mettre plutôt en variable d'instance normalement
         final String ENI_SALT = "Z_K_T";
         String entree = ENI_SALT + mdp;

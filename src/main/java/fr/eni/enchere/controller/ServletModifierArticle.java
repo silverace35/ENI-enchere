@@ -92,6 +92,7 @@ public class ServletModifierArticle extends HttpServlet {
 			if (i!=null) {
 				request.setAttribute("imageLocation", request.getContextPath()+"/uploads/"+i.getPicture());
 				System.out.println(request.getContextPath()+"/uploads/"+i.getPicture());
+				
 			}
 			} catch (Exception e) {
 			e.printStackTrace();

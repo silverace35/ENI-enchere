@@ -20,6 +20,7 @@ import fr.eni.enchere.bo.ArticleVendu;
 import fr.eni.enchere.bo.Categorie;
 import fr.eni.enchere.bo.Image;
 import fr.eni.enchere.bo.Utilisateur;
+import fr.eni.enchere.utils.Logger;
 
 /**
  * Servlet implementation class ServletIndex
@@ -27,6 +28,7 @@ import fr.eni.enchere.bo.Utilisateur;
 @WebServlet("")
 public class ServletIndex extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private final String LOCATION = "ServletIndex";
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -40,21 +42,29 @@ public class ServletIndex extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/index.jsp");
 		ArticleManager articleManager = new ArticleManager();
 		UtilisateurManager utilisateurMgr = new UtilisateurManager();
 		List<ArticleVendu> listArticle = new ArrayList<ArticleVendu>();
 		ImageManager iMgr = new ImageManager();
 		List<Image> lstImages = new ArrayList<>();
+		
+		// Récupération des images à afficher sur la page index
 		lstImages = iMgr.selectAll();
-		System.out.println(lstImages.toString());
 		request.setAttribute("lstImages",lstImages);
-	
+        
+		// Vérification s'il y a une session
+		Integer noUtilisateur = null;
 		if (request.getSession() != null) {
-			Integer noUtilisateur = (Integer)session.getAttribute("noUtilisateur");
+			 noUtilisateur = (Integer)session.getAttribute("noUtilisateur");
+			 
+			 //Vérification s'il y a un utilisateur enregistré dans la session
 			if (noUtilisateur != null) {
+				
+				//Récupération des articles sur lesquels l'utilisateur n'a pas encore enchéri
 				listArticle.addAll(articleManager.getArticlesEnCoursPasEncherie(noUtilisateur));
 				try {
+					
+					//Récupération de l'utilisateur et envoie de ses coordonnées en session pour utilisation future
 					Utilisateur	u = utilisateurMgr.getUtilisateurByNoUtilisateur(noUtilisateur);
 					session.setAttribute("rue", u.getRue());
 					session.setAttribute("codePostal", u.getCodePostal());
@@ -63,12 +73,23 @@ public class ServletIndex extends HttpServlet {
 					e.printStackTrace();
 				}
 			} else {
+				
+				//Récupération des encheres ouvertes 
 				listArticle.addAll(articleManager.getArticlesEnCours());
 			}
 		} else {
 			listArticle.addAll(articleManager.getArticlesEnCours());
 		}
+		
+		// Enregistrement du passage dans la servlet
+		String appPath = request.getServletContext().getRealPath("");
+		Logger.log(appPath, LOCATION,noUtilisateur, "Accessed the index" , null);
+		
+		// Envoi de la liste d'articles en attribut pour la jsp
+		session.setAttribute("appPath", appPath);
 		request.setAttribute("listArticle", listArticle);
+		
+		// Récupération de la liste des catégories en BDD et envoi en attribut
 		CategorieManager catMgr = new CategorieManager();
 		try {
 			List<Categorie> listCategories = catMgr.selectAllCategories();
@@ -77,6 +98,8 @@ public class ServletIndex extends HttpServlet {
 			e.printStackTrace();
 		}
 		
+		// Délégation vers la jsp
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/index.jsp");
 		rd.forward(request, response);
 	}
 
@@ -84,12 +107,11 @@ public class ServletIndex extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/index.jsp");
+		request.setCharacterEncoding("UTF-8");
+		
 		List<ArticleVendu> listArticle = new ArrayList<ArticleVendu>();
 		ArticleManager articleManager = new ArticleManager();
 		Integer id = (Integer)request.getSession().getAttribute("noUtilisateur");
-		
-		request.setCharacterEncoding("UTF-8");
 		String radio = request.getParameter("radio");
 		String barreRecherche = request.getParameter("barreRecherche");
 		Integer categorie = Integer.parseInt(request.getParameter("categorie"));
@@ -99,14 +121,19 @@ public class ServletIndex extends HttpServlet {
 		String venteCours = request.getParameter("vente-cours");
 		String venteDebutees = request.getParameter("vente-debutees");
 		String venteTerminees = request.getParameter("vente-terminees");
-		
 		List<ArticleVendu> toRemove = new ArrayList<ArticleVendu>();
 		ImageManager iMgr = new ImageManager();
 		List<Image> lstImages = new ArrayList<>();
+		
+		// Enregistrement du passage dans la servlet
+		String appPath = request.getServletContext().getRealPath("");
+		Logger.log(appPath, LOCATION, id, "Accessed the index" , null);
+		
+		// Récupération des images à afficher sur la page index
 		lstImages = iMgr.selectAll();
-		System.out.println(lstImages.toString());
 		request.setAttribute("lstImages",lstImages);
 		
+		// Récupération de la liste des articles selon que ce sont des ventes ou des enchères et selon les checkboxes sélectionnées.
 		if ("achat".equals(radio)) {
 			if ("on".equals(enchereOuverte)) {
 				listArticle.addAll(articleManager.getArticlesEnCoursPasEncherie(id));
@@ -119,8 +146,6 @@ public class ServletIndex extends HttpServlet {
 			}
 		} else if("vente".equals(radio)){
 			if ("on".equals(venteCours)) {
-				System.out.println(listArticle);
-				System.out.println(id);
 				listArticle.addAll(articleManager.getVentesEnCours(id));
 			}
 			if ("on".equals(venteDebutees)) {
@@ -130,12 +155,10 @@ public class ServletIndex extends HttpServlet {
 				listArticle.addAll(articleManager.getVentesTerminer(id));
 			}
 		} else {
-			System.out.println("c'est dans le else");
 			listArticle.addAll(articleManager.getArticlesEnCours());
 		}
 		
-		
-		
+		// Retrait de la liste des articles affichés les articles qui ne font pas partie du tri 
 		if (categorie != 0) {
 			toRemove = new ArrayList<ArticleVendu>();
 			for (ArticleVendu articleVendu : listArticle) {
@@ -146,6 +169,7 @@ public class ServletIndex extends HttpServlet {
 			listArticle.removeAll(toRemove);
 		}
 		
+		// Retrait de la liste des articles affichés les articles qui ne correspondent pas au mot clé
 		if (!barreRecherche.equals("") || !barreRecherche.isEmpty() || !barreRecherche.isBlank()) {
 			toRemove = new ArrayList<ArticleVendu>();
 			for (ArticleVendu articleVendu : listArticle) {
@@ -156,7 +180,9 @@ public class ServletIndex extends HttpServlet {
 			listArticle.removeAll(toRemove);
 		}
 		
+		// Délégation vers la jsp
 		request.setAttribute("listArticle", listArticle);
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/index.jsp");
 		rd.forward(request, response);
 	}
 

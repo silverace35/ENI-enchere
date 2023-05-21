@@ -9,12 +9,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import fr.eni.enchere.bo.Utilisateur;
+import fr.eni.enchere.utils.Logger;
+
 /**
  * Servlet implementation class ServletDeconnexion
  */
 @WebServlet("/ServletDeconnexion")
 public class ServletDeconnexion extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private final String LOCATION = "ServletDeconnexion";
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -38,6 +42,8 @@ public class ServletDeconnexion extends HttpServlet {
 	            response.addCookie(cookie);
 			}
 		}
+		//String appPath = request.getServletContext().getRealPath("");
+		Logger.log((String)session.getAttribute("appPath"), LOCATION, ((Integer)session.getAttribute("noUtilisateur")), "Disconnected" , null);
 		session.invalidate();
 		
 		response.sendRedirect("/ENI-enchere");

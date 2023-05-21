@@ -2,11 +2,14 @@ package fr.eni.enchere.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,7 +29,6 @@ import fr.eni.enchere.bll.ImageManager;
 import fr.eni.enchere.bll.RetraitManager;
 import fr.eni.enchere.bll.UtilisateurManager;
 import fr.eni.enchere.bo.ArticleVendu;
-import fr.eni.enchere.bo.Image;
 import fr.eni.enchere.bo.Utilisateur;
 import fr.eni.enchere.utils.Utils;
 
@@ -129,7 +131,12 @@ public class ServletAjoutArticle extends HttpServlet {
 				} else {
 					retraitMgr.insert(aV.getNoArticle(), u.getRue(), u.getCodePostal(), u.getVille());
 				}
+//				
 				
+				String msg = LocalDateTime.now().toString() + " | Controller : " + "ServletAjoutArticle" + 
+						" | Utilisateur id : " + u.getNoUtilisateur() + " | Article id : "+aV.getNoArticle()+"\n"; 
+				System.out.println(msg);
+				Files.write(Paths.get(appPath,"log.txt"), msg.getBytes(StandardCharsets.UTF_8), StandardOpenOption.APPEND);
 				response.sendRedirect("/ENI-enchere/DetailVente/"+aV.getNoArticle());
 				//response.sendRedirect("/ENI-enchere");
 				} catch (Exception e) {
