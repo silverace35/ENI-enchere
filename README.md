@@ -3,9 +3,12 @@
 
 Install :
 git clone dans le workspace
-creer nouveau dynamic web project avec le nom ENI-enchere
+Créer un nouveau dynamic web project avec le nom ENI-enchere.
 
 Installer les 2 libs mysql / jstl (megapack)
-Jouer la requete create / seed dans le dossier SQL dans src/main/
+Jouer les requetes create / seed dans le dossier SQL dans src/main/
+Copier les images du pack uploads.zip dans le dossier :
+<chemin complet du workspace java EE>\.metadata\.plugins\org.eclipse.wst.server.core\tmp<1>\wtpwebapps\ENI-enchere\uploads
 
-Lié un tomcat 9 et lancer la bdd
+Lier un tomcat 9 et lancer la bdd
+
